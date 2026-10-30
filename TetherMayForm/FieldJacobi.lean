@@ -13,7 +13,7 @@ Fields are finite Fourier sums `a(x) = Σ_k â_k e^{ik·x}` (`Fld`), reusing `kC
   (`jacF_eq_zero`), so the Arnold / Lie–Poisson bracket on linear functionals is classical.
 * `pr` — the `L²` pairing `(2π)⁻³∫ a·b`, extended complex-bilinearly (`Σ_k â_k·b̂_{−k}`).
 * `piF u` — field-level `Π_u x = x − (⟨u,x⟩/⟨u,u⟩) u`; `tetF` — `T(a,b) = −(κw)⟨Π_u a,Π_u b⟩ u`.
-* `DivFree a` — `k·â_k = 0` for all `k`. This is where divergence-freeness enters.
+* `DivergenceFree a` — `k·â_k = 0` for all `k`. This is where divergence-freeness enters.
 
 Results:
 1. `jacT_eq_mixedSum`: for `⟨u,u⟩ ≠ 0`, the tethered Jacobiator equals the mixed cyclic sum.
@@ -114,8 +114,9 @@ def mixedF (κ w : ℂ) (u a b c : Fld) : Fld := br (tetF κ w u a b) c + tetF �
 def mixedSumF (κ w : ℂ) (u a b c : Fld) : Fld :=
   mixedF κ w u a b c + mixedF κ w u b c a + mixedF κ w u c a b
 
-/-- Divergence-free: `k · û_k = 0` for every mode. -/
-def DivFree (a : Fld) : Prop := ∀ k, kC k ⬝ᵥ a k = 0
+/-- `DivergenceFree` (the May 28, 2026 skeleton's predicate, `Skeleton/PaperOverview.lean`):
+`k · û_k = 0` for every mode. -/
+def DivergenceFree (a : Fld) : Prop := ∀ k, kC k ⬝ᵥ a k = 0
 
 theorem piF_zero (u : Fld) : piF u 0 = 0 := by simp [piF, pr_zero_right]
 theorem tetF_zero_left (κ w : ℂ) (u c : Fld) : tetF κ w u 0 c = 0 := by
@@ -179,8 +180,8 @@ theorem jacF_eq_zero (a b c : Fld) : jacF a b c = 0 := by
 /-- Fields pointing along `e_x`. -/
 def XOnly (a : Fld) : Prop := ∀ k, a k 1 = 0 ∧ a k 2 = 0
 
-theorem br_eq_zero_of_xOnly_divFree {a b : Fld} (ha : XOnly a) (hda : DivFree a)
-    (hb : XOnly b) (hdb : DivFree b) : br a b = 0 := by
+theorem br_eq_zero_of_xOnly_divFree {a b : Fld} (ha : XOnly a) (hda : DivergenceFree a)
+    (hb : XOnly b) (hdb : DivergenceFree b) : br a b = 0 := by
   unfold br Finsupp.sum
   apply Finset.sum_eq_zero; intro p _
   apply Finset.sum_eq_zero; intro q _
@@ -195,22 +196,22 @@ theorem br_eq_zero_of_xOnly_divFree {a b : Fld} (ha : XOnly a) (hda : DivFree a)
 theorem xOnly_smul {a : Fld} (h : XOnly a) (r : ℂ) : XOnly (r • a) := by
   intro k; simp [(h k).1, (h k).2]
 
-theorem divFree_smul {a : Fld} (h : DivFree a) (r : ℂ) : DivFree (r • a) := by
+theorem divFree_smul {a : Fld} (h : DivergenceFree a) (r : ℂ) : DivergenceFree (r • a) := by
   intro k; simp [dotProduct_smul, h k]
 
 /-- **Cancellation on the divergence-free parallel shear class.** If `u`, `a`, `b`, `c` are all
 divergence-free and point along `e_x` (i.e. are shear flows `f(y,z) e_x`, such as
 `(sin y,0,0)`), every mixed term vanishes. -/
-theorem mixedF_eq_zero_of_shear {u a b c : Fld} (κ w : ℂ) (hu : XOnly u) (hdu : DivFree u)
-    (ha : XOnly a) (hda : DivFree a) (hb : XOnly b) (hdb : DivFree b)
-    (hc : XOnly c) (hdc : DivFree c) : mixedF κ w u a b c = 0 := by
+theorem mixedF_eq_zero_of_shear {u a b c : Fld} (κ w : ℂ) (hu : XOnly u) (hdu : DivergenceFree u)
+    (ha : XOnly a) (hda : DivergenceFree a) (hb : XOnly b) (hdb : DivergenceFree b)
+    (hc : XOnly c) (hdc : DivergenceFree c) : mixedF κ w u a b c = 0 := by
   unfold mixedF
   rw [br_eq_zero_of_xOnly_divFree ha hda hb hdb, tetF_zero_left, add_zero]
   exact br_eq_zero_of_xOnly_divFree (xOnly_smul hu _) (divFree_smul hdu _) hc hdc
 
-theorem mixedSumF_eq_zero_of_shear {u a b c : Fld} (κ w : ℂ) (hu : XOnly u) (hdu : DivFree u)
-    (ha : XOnly a) (hda : DivFree a) (hb : XOnly b) (hdb : DivFree b)
-    (hc : XOnly c) (hdc : DivFree c) : mixedSumF κ w u a b c = 0 := by
+theorem mixedSumF_eq_zero_of_shear {u a b c : Fld} (κ w : ℂ) (hu : XOnly u) (hdu : DivergenceFree u)
+    (ha : XOnly a) (hda : DivergenceFree a) (hb : XOnly b) (hdb : DivergenceFree b)
+    (hc : XOnly c) (hdc : DivergenceFree c) : mixedSumF κ w u a b c = 0 := by
   unfold mixedSumF
   rw [mixedF_eq_zero_of_shear κ w hu hdu ha hda hb hdb hc hdc,
     mixedF_eq_zero_of_shear κ w hu hdu hb hdb hc hdc ha hda,
@@ -289,15 +290,15 @@ theorem piF_of_pr_zero {u x : Fld} (h : pr u x = 0) : piF u x = x := by simp [pi
 
 /-! ## Divergence facts -/
 
-theorem divFree_uY : DivFree uY := by
+theorem divFree_uY : DivergenceFree uY := by
   intro k; simp [uY, Finsupp.single_apply, kC, dotProduct, Fin.sum_univ_three, ky]
   split_ifs with h1 h2 <;> subst_vars <;> simp
 
-theorem divFree_aZ : DivFree aZ := by
+theorem divFree_aZ : DivergenceFree aZ := by
   intro k; simp [aZ, Finsupp.single_apply, kC, dotProduct, Fin.sum_univ_three, kx]
   split_ifs with h1 h2 <;> subst_vars <;> simp
 
-theorem divFree_eX : DivFree eX := by
+theorem divFree_eX : DivergenceFree eX := by
   intro k; simp [eX, Finsupp.single_apply, kC, dotProduct, Fin.sum_univ_three]
   split_ifs with h <;> subst_vars <;> simp
 
@@ -311,7 +312,7 @@ theorem xOnly_eX : XOnly eX := by
   intro k; simp [eX, Finsupp.single_apply]; split_ifs <;> simp
 
 /-- `(sin x,0,0)` is **not** divergence-free (`div = cos x`). -/
-theorem not_divFree_uX : ¬ DivFree uX := by
+theorem not_divFree_uX : ¬ DivergenceFree uX := by
   intro h; have := h kx
   simp [uX, Finsupp.single_apply, kC, dotProduct, Fin.sum_univ_three, kx, ne_kx] at this
 
@@ -319,8 +320,8 @@ theorem not_divFree_uX : ¬ DivFree uX := by
 
 /-- **(1) Divergence-free shear, own class: mixed terms cancel.** For `u = (sin y,0,0)` and
 any divergence-free `e_x`-directed `a, b, c` (shear flows `f(y,z) e_x`). -/
-theorem shearY_mixed_cancel (κ w : ℂ) {a b c : Fld} (ha : XOnly a) (hda : DivFree a)
-    (hb : XOnly b) (hdb : DivFree b) (hc : XOnly c) (hdc : DivFree c) :
+theorem shearY_mixed_cancel (κ w : ℂ) {a b c : Fld} (ha : XOnly a) (hda : DivergenceFree a)
+    (hb : XOnly b) (hdb : DivergenceFree b) (hc : XOnly c) (hdc : DivergenceFree c) :
     mixedSumF κ w uY a b c = 0 :=
   mixedSumF_eq_zero_of_shear κ w xOnly_uY divFree_uY ha hda hb hdb hc hdc
 
@@ -404,8 +405,8 @@ theorem shearY_jacobi_fails_transverse {κ w : ℂ} (h : κ * w ≠ 0) : jacT κ
   rw [jacT_eq_mixedSum (by rw [pr_uY_uY]; norm_num)]; exact shearY_transverse_ne_zero h
 
 /-- At `u = (sin y,0,0)`, Jacobi **holds** on the divergence-free shear class. -/
-theorem shearY_jacobi_holds {κ w : ℂ} {a b c : Fld} (ha : XOnly a) (hda : DivFree a)
-    (hb : XOnly b) (hdb : DivFree b) (hc : XOnly c) (hdc : DivFree c) :
+theorem shearY_jacobi_holds {κ w : ℂ} {a b c : Fld} (ha : XOnly a) (hda : DivergenceFree a)
+    (hb : XOnly b) (hdb : DivergenceFree b) (hc : XOnly c) (hdc : DivergenceFree c) :
     jacT κ w uY a b c = 0 := by
   rw [jacT_eq_mixedSum (by rw [pr_uY_uY]; norm_num)]
   exact shearY_mixed_cancel κ w ha hda hb hdb hc hdc
