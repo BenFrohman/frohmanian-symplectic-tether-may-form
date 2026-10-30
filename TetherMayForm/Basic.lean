@@ -384,7 +384,7 @@ theorem uniqueness_of_minimal_metric_tether_iff [FiniteDimensional ℝ H]
 
 /-- **Frohmanian Symplectic Tether Theorem** — the May 30 export name. Existence and
 uniqueness of the minimal metric tether under C1–C3 (abstract model). -/
-theorem frohmanian_symplectic_tether_theorem [FiniteDimensional ℝ H]
+theorem frohmanian_symplectic_tether_theorem_calibrated [FiniteDimensional ℝ H]
     (hdim : 3 ≤ Module.finrank ℝ H) {κ w : ℝ} (hκ : 0 ≤ κ) (hw : 0 ≤ w) (u : H)
     (hu : u ≠ 0) :
     IsAdmissibleCorrection u (ProducesControllableNegativeFeedback κ w u) 𝔗_F[κ, w, u] ∧

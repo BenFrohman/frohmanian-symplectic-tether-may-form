@@ -56,7 +56,7 @@ structure ProducesControllableNegativeFeedback (κ w : ℝ) (u : H)
 - `feedback_fixes_coefficient`: C3 ⇒ `c = κ*w` (the former `hC3fix`, now a lemma).
 - `uniqueness_of_minimal_metric_tether_iff` (unconditional):
   `3 ≤ finrank ℝ H → 0 ≤ κ → 0 ≤ w → u ≠ 0 → (IsAdmissibleCorrection u (ProducesControllableNegativeFeedback κ w u) B ↔ B = 𝔗_F[κ, w, u])`.
-- `frohmanian_symplectic_tether_theorem`: existence ∧ uniqueness, same hypotheses.
+- `frohmanian_symplectic_tether_theorem_calibrated`: existence ∧ uniqueness, one-direction C3 (kept for comparison). The main theorem now uses Route A — see below.
 - `uniqueness_of_minimal_metric_tether`: general form for any C3 with `hC3fix`.
 
 ## κ
@@ -85,8 +85,54 @@ Run `lake build`, then `lake env lean scripts/Axioms.lean`. The output is saved 
 
 **Caveats.** Layer 2 is a real-variable theorem about any function obeying the
 differential inequality; deriving that inequality from Navier–Stokes is *not* formalized,
-and no Navier–Stokes regularity is claimed. The "9-term Jacobi" check is modelled only as
-"the correction adds no antisymmetric part on the reduced space"; the cyclic expansion is
-not formalized. κ is fixed by matching to a supplied stretching coefficient S; S = C_CZ(3)
+and no Navier–Stokes regularity is claimed. The 9-term Jacobi expansion is now formalized in an algebraic
+model (`Jacobi.lean`, below). κ is fixed by matching to a supplied stretching coefficient S; S = C_CZ(3)
 is not derived. The May 21 text calls the tether's coefficient κ = C_CZ(3); the slide/
 build_context use ε = κ/4 for absorption.
+
+## Main theorem — κ derived by Route A matching (`TetherMayForm/Main.lean`)
+C3 (Route A, May 20 2026), `RouteAFeedback S w u ω B`: `B(F,F) ≤ 0` for all F; ω ⟂ u, ‖ω‖ = 1
+(the maximizer direction of |ω|²); the leading quadratic coefficient at the maximum,
+`leadingCoefficient S w ω B = S·w + B(ω,ω)`, is zero (the feedback cancels the stretching);
+and B has no antisymmetric part on uᗮ. **There is no calibration constant.** κ is
+*derived*: `routeA_determines_kappa : w ≠ 0 → RouteAFeedback S w u ω 𝔗_F[κ,w,u] → κ = S`.
+
+```lean
+theorem frohmanian_symplectic_tether_theorem [FiniteDimensional ℝ H]
+    (hdim : 3 ≤ Module.finrank ℝ H) {S w : ℝ} (hS : 0 ≤ S) (hw : 0 < w) (u ω : H)
+    (hu : u ≠ 0) (hω : ⟪u, ω⟫ = 0) (hn : ‖ω‖ = 1) (B : LinearMap.BilinForm ℝ H) :
+    IsAdmissibleCorrection u (RouteAFeedback S w u ω) B ↔
+      ∃ κ, κ = S ∧ B = 𝔗_F[κ, w, u]
+```
+Layer 1 → Layer 2: `routeA_layer2_bound` — with κ = S from matching, ε = κ/4 and
+κ'' = κ/2 − C_abs > 0, any y ≥ 0 with y' ≤ C y² − κ'' y³ stays ≤ max(y(0), C/κ'').
+
+## 9-term Jacobi on the reduced orbit (`TetherMayForm/Jacobi.lean`)
+Model: {a,b}_{𝔗_F} = P(a,b) + T(a,b), with P a classical bracket (additive in the first slot,
+satisfies Jacobi) and T(a,b) = 𝔗_F[κ,w,u](a,b)·u. Proved:
+- `jacobiator_nine_terms`: Jacobiator = 3 classical + 3 mixed + 3 tether–tether terms.
+- `jacobi_classical_cancel`: the 3 classical terms cancel.
+- `jacobi_term7/8/9`: each tether–tether term is 0 (because Π_u u = 0).
+- `jacobiator_eq_mixed`, `jacobi_iff_mixed_cancel`: Jacobi holds on any set R (e.g. uᗮ)
+  **iff** the 3 mixed terms cancel there. This is the exact condition.
+- `jacobiator_eq_zero_of_central`: sufficient condition — u central for P (P(u,·) = 0),
+  P homogeneous in the first slot, and Π_u(P(a,b)) = 0.
+
+**Plainly:** the Jacobi identity is *not* proved unconditionally. The tether is symmetric,
+so {·,·}_{𝔗_F} is a metriplectic bracket, not a Poisson bracket; Jacobi holds only when
+the mixed terms cancel. Its Poisson part is unchanged on uᗮ (`RouteAFeedback.poisson_unchanged`).
+
+## Scope and open items
+- The model step "leading coefficient at the maximum = S·w + B(ω,ω)" is assumed, not derived
+  from Navier–Stokes. S = C_CZ(3) is not derived. No Navier–Stokes regularity is claimed.
+- Layer 2's differential inequality is a hypothesis.
+- ∫|ω|² is collapsed to a scalar w. C1 uses linear isometries fixing u, not the full coadjoint action.
+- Jacobi: only the algebraic vector-valued model is covered. Brackets on functionals
+  (functional derivatives) are not formalized. Full vanishing is conditional, as stated above.
+- "Antisymmetric" (vFinal wording) vs. the symmetric written formula is still open.
+
+## Build
+Mathlib is pinned in `lake-manifest.json` (Lean `v4.30.0-rc1`). After a fresh clone:
+`lake exe cache get && lake build && lake env lean scripts/Axioms.lean`.
+75 theorems, 0 sorry, axioms only propext / Classical.choice / Quot.sound (`axioms_output.txt`).
+Author: Benjamin Stanley Frohman <frohmanbenjamin@gmail.com>, ORCID 0009-0006-7068-3718.

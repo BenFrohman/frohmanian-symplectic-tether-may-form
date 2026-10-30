@@ -24,3 +24,16 @@
 - **2026-06** — build_context Layer-2 rules (screenshot). → `Layer2.lean`.
 - **2026-10-29** — Benjamin: symmetric and antisymmetric parts are orthogonal / invisible to
   each other (metriplectic). → `Metriplectic.lean`.
+
+## Server-dated sources cited for the Route A build (America/Chicago, CDT)
+- May 2 2026, 7:58 PM — NV_recovery2.pdf
+- May 14 2026 — Frohmanian_Tether_Theorem.pdf; Leg 1 formality PDF
+- May 15–16 2026 — Triple conjecture PDFs
+- May 18 2026 — Strategic Roadmap docs
+- May 20 2026, 12:16 AM — Drive PDF `1hof-GCX1M1hjKM3hw20jYRvevM6hu035`: (A5) feedback at maxima; quartic weight forced by uniqueness
+- May 20 2026, 8:10 PM — v2.2 Master .tex (κ > 4C″)
+- May 21 2026 — AI audit by Grok (not a human referee)
+- May 24 2026 — Full_Living document
+- May 27 2026 — vFinal.tex
+- May 30–31 2026 — Tether.lean
+- Oct 29 2026 — `Main.lean` (κ derived by Route A matching) and `Jacobi.lean` (9-term expansion)
