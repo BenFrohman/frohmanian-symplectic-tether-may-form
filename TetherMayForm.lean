@@ -17,3 +17,4 @@ import TetherMayForm.CurlNS
 import TetherMayForm.BiotSavart
 import TetherMayForm.ChevalleyEilenberg
 import TetherMayForm.JacobiWitness
+import TetherMayForm.FieldJacobi

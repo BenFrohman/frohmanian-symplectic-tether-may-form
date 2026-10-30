@@ -47,7 +47,7 @@ cocycles. A \emph{symmetric} correction is not a CE cochain at all. That is why 
 metriplectic and not Hamiltonian (Prop.~\ref{prop:ce}).
 \item \textbf{$T^3$ shear.} The shear $(\sin y,0,0)$ is divergence free, so it is admissible. The
 variant $(\sin x,0,0)$ is not (its divergence is $1$ at the origin). This is the
-counterexample that shows the divergence-free constraint is essential (Prop.~\ref{prop:shear}).
+counterexample that shows the divergence-free constraint is essential (Prop.~\ref{prop:shear}); at field level it is essential but not sufficient for Jacobi (Theorem~\ref{thm:fieldjacobi}).
 \end{itemize}
 Whether real fluids carry the resulting term is \emph{not} decided here (Section~\ref{sec:open}).
 
@@ -138,6 +138,43 @@ symmetric correction such as $\T$ is never a CE 2-cochain.
 $\mathrm{div}(\sin y,0,0)\equiv0$, whereas $\mathrm{div}(\sin x,0,0)=\cos x$, which equals $1$ at the origin.
 \end{proposition}
 \LeanRef{shear_divFree, shearBad_div, shearBad_not_divFree}
+
+\subsection{Field-level Jacobi test for the two shears}\label{sec:fieldjacobi}
+The algebra above is finite-dimensional, so divergence-freeness never enters it. To let it enter,
+we work on trigonometric-polynomial vector fields on $T^3$, written as finite Fourier sums
+$a=\sum_k\hat a_k e^{ik\cdot x}$ (\lean{Fld}). On these fields we use:
+\begin{itemize}
+\item the Lie bracket $[a,b]=(a\cdot\nabla)b-(b\cdot\nabla)a$, mode by mode
+$[v e^{ip\cdot x},w e^{iq\cdot x}]=i\bigl((v\cdot q)w-(w\cdot p)v\bigr)e^{i(p+q)\cdot x}$ (\lean{br});
+\item the $L^2$ pairing $\langle a,b\rangle=(2\pi)^{-3}\int a\cdot b$ (\lean{pr});
+\item the projection $\Pi_ux=x-\frac{\langle u,x\rangle}{\langle u,u\rangle}u$ (\lean{piF});
+\item the tether $T(a,b)=-(\kappa w)\langle\Pi_ua,\Pi_ub\rangle\,u$ (\lean{tetF});
+\item the tethered bracket $[a,b]+T(a,b)$ (\lean{brT});
+\item divergence-free, meaning $k\cdot\hat a_k=0$ for every mode $k$ (\lean{DivFree}).
+\end{itemize}
+Scalars are complex. The real fields used below have conjugate-symmetric coefficients.
+\begin{theorem}[Field-level Jacobi]\label{thm:fieldjacobi}
+\begin{enumerate}
+\item[(a)] The field bracket satisfies Jacobi. So the Arnold (Lie--Poisson) bracket on linear
+functionals is classical.
+\item[(b)] If $\langle u,u\rangle\neq0$, the Jacobiator of the tethered bracket equals the cyclic sum
+of the mixed terms $[T(a,b),c]+T([a,b],c)$.
+\item[(c)] Divergence-free fields along $e_x$ (parallel shears $f(y,z)e_x$) commute pairwise. Hence at
+$u=(\sin y,0,0)$ the mixed terms cancel, and Jacobi holds, for every triple in that class.
+\item[(d)] At $u=(\sin x,0,0)$, which is not divergence-free, take the divergence-free triple
+$a=b=c=(1,0,0)$. The $e^{ix}$, $x$-component coefficient of the mixed sum is $\tfrac32\kappa w$. So
+Jacobi fails whenever $\kappa w\ne0$.
+\item[(e)] At $u=(\sin y,0,0)$ with the divergence-free triple $a=b=c=(0,0,\sin x)$, the
+$e^{i(x+y)}$, $z$-component coefficient is $\tfrac{3i}{8}\kappa w\neq0$. So Jacobi fails here too.
+\end{enumerate}
+\end{theorem}
+\LeanRef{jacF_eq_zero, jacT_eq_mixedSum, br_eq_zero_of_xOnly_divFree, shearY_mixed_cancel, shearY_jacobi_holds, not_divFree_uX, shearX_mixed_coeff, shearX_jacobi_fails, shearY_transverse_coeff, shearY_jacobi_fails_transverse}
+\noindent\emph{Scope.} Divergence-freeness is what makes the two shears differ inside the
+$e_x$-directed class. It does not give cancellation on general divergence-free triples, as (e)
+shows, so the tethered bracket is not Poisson even at the divergence-free shear. The witnesses use
+$a=b=c$, where the Jacobiator is $3\{\{a,a\},a\}$. That is nonzero only because $T$ is symmetric
+(metriplectic). The link from these Fourier coefficients to the \texttt{fderiv}-based fields of
+\texttt{Torus.lean} is not formalized for the bracket.
 
 \section{Result 2: the tethered system}\label{sec:model}
 \subsection{Insertion through the projection}
