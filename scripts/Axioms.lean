@@ -96,3 +96,14 @@ open Frohman.Tether
 #print axioms tether_pointwise_kappaDD
 #print axioms nsOnly_not_sufficient
 #print axioms tether_pointwise_frohmanianTether
+#print axioms quarticTether_eq
+#print axioms tetherFeedback_of_quartic
+#print axioms quarticWeight_of_def
+#print axioms tether_pointwise_quartic
+#print axioms secondDeriv_nonpos_of_isLocalMax
+#print axioms inner_secondDeriv_le_of_isMaxOn
+#print axioms inner_secondDeriv_nonpos_of_isMaxOn
+#print axioms viscous_nonpos_at_max
+#print axioms viscousAtMax_of_max
+#print axioms periodic_int_shift
+#print axioms periodic_exists_max

@@ -153,3 +153,9 @@ Mathlib is pinned in `lake-manifest.json` (Lean `v4.30.0-rc1`). After a fresh cl
 `lake exe cache get && lake build && lake env lean scripts/Axioms.lean`.
 96 theorems, 0 sorry, axioms only propext / Classical.choice / Quot.sound (`axioms_output.txt`).
 Author: Benjamin Stanley Frohman <frohmanbenjamin@gmail.com>, ORCID 0009-0006-7068-3718.
+
+## Final.lean (local): assumption status
+- `QuarticWeight`: **redefined**. The tethered-system weight is now part of the definition: `quarticTether κ u ω := 𝔗_F[κ, ‖ω‖², u] ω ω`. This follows the May `S_ε = ∫(½ω_ε² − (κ/2)ω_ε⁴ϕ_ε)`, "quartic term weighted by |ω|²". The May sources never derive this weight from C1–C3.
+- `ViscousAtMax`: **proved** (second-derivative test + `⟪v,v''⟫ ≤ −‖v'‖²` along each coordinate line at a max of ‖ω‖).
+- Maximizer of ‖ω(t,·)‖ on 𝕋³: **proved** for continuous periodic fields (`periodic_exists_max`).
+- Still cited hypotheses: `NSTetherEnstrophyInequality`, `BKMContinuation`, `LocalContinuation`, `EnergyIdentity`, `StretchingCZ` (pure L∞ form is stronger than known), `CrossControlled`, `TetherFeedbackOf`/`TetherRealizesFeedback`.
