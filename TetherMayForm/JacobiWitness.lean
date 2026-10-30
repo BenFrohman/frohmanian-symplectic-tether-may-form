@@ -70,7 +70,7 @@ theorem mixed_sum_ne_zero {κ w : ℝ} (h : κ * w ≠ 0) :
   intro h0
   have := congrArg (fun v : E3 => v 1) h0
   simp [e2, EuclideanSpace.single_apply] at this
-  exact h this
+  exact h (mul_eq_zero.2 this)
 
 /-- **The tethered bracket fails Jacobi** at an explicit triple (so it is not Poisson). -/
 theorem tethered_jacobiator_ne_zero {κ w : ℝ} (h : κ * w ≠ 0) :
