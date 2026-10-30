@@ -179,3 +179,19 @@ Author: Benjamin Stanley Frohman <frohmanbenjamin@gmail.com>, ORCID 0009-0006-70
   damping leading term but commutators of the same order `~ y²‖ω‖²_{Hˢ}` with no sign, so it
   does not close the loop either. Closing needs y bounded independently of the Hˢ norm.
 * Still: this is about the **tethered** system only; `nsOnly_not_sufficient` stands for true NS.
+
+## Enstrophy (L²) bound — TETHERED system (`TetherMayForm/EnstrophyL2.lean`)
+
+`E = ½‖ω‖₂²`, `Q = ‖ω‖₄⁴`, unit torus. Quartic tether `quarticTether κ u ω = 𝔗_F[κ, ‖ω‖², u] ω ω = −κ‖ω‖⁴`.
+
+Proved (0 sorry, standard axioms only):
+- `tethered_enstrophy_gronwall`: `E(t) ≤ E(0)·exp((C²/2κ) t)`.
+- `tethered_enstrophy_uniform`: `E(t) ≤ max(E(0), C²/(2κ²))`, uniform in time (uses `E' ≤ (C²/κ)E − 2κE²`).
+- `tethered_L2_vorticity_bounded`: `‖ω‖₂` bounded uniformly — this discharges the **L² (`Z0`) part** of
+  `HigherNormControl` *for the tethered system, given the cited inputs below*.
+
+Named cited inputs (stated, not derived in Lean): `TetheredEnstrophyIdentity` (`E' = ∫ω·Sω − ν‖∇ω‖₂² − κ‖ω‖₄⁴`),
+`StrainL2Bound` (Hölder + L² Biot–Savart `‖∇u‖₂ = ‖ω‖₂`, Parseval; Majda–Bertozzi), `L4L2Holder`.
+
+**Plain Navier–Stokes:** the `−κ‖ω‖₄⁴` term is absent, nothing absorbs `∫ω·Sω`, and this argument does not close.
+**Circularity:** the `Hˢ` (`Zb`) part of `HigherNormControl` is untouched; regularity is still conditional on it.

@@ -107,3 +107,6 @@ open Frohman.Tether
 #print axioms viscousAtMax_of_max
 #print axioms periodic_int_shift
 #print axioms periodic_exists_max
+#print axioms Frohman.Tether.EnstrophyL2.tethered_enstrophy_gronwall
+#print axioms Frohman.Tether.EnstrophyL2.tethered_enstrophy_uniform
+#print axioms Frohman.Tether.EnstrophyL2.tethered_L2_vorticity_bounded

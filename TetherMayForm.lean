@@ -10,3 +10,4 @@ import TetherMayForm.Enstrophy
 import TetherMayForm.Torus
 import TetherMayForm.Final
 import TetherMayForm.LogLoss
+import TetherMayForm.EnstrophyL2
