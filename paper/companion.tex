@@ -261,8 +261,16 @@ tether-specific one. These are cited as the provenance of the plan, not as a pro
 \section{Open question, stated plainly}\label{sec:open}
 \begin{enumerate}
 \item \textbf{Plain Navier--Stokes is unchanged.} For a velocity field that solves plain NS, nothing above adds a
-damping term. Leray projection of the velocity-level cubic source does not produce the vorticity-level tether
-(author's October notes \texttt{CubicSourceGap.tex}, \texttt{STATUS-2026-10-10.md}). Results here concern
+damping term. The author's October notes say so in these words:
+``Because $B(F,H)=0$ by Proposition~[prop:degen], the tether does not add a damping term to the PDE (eq:vort) itself''
+(\texttt{NS\_Millennium\_Proof/main.tex}, section ``Scaling Analysis and Open Analytic Questions);
+``A degeneracy $B(F,H)\equiv 0$ on a kinetic-energy Hamiltonian leaves the energy field classical and does not insert
+$-\kappa M^2$ into the strain'' and ``Equation (eq:missing) is not an identity of the unmodified vorticity equation''
+(\texttt{certs/CubicSourceGap.tex}, 7 Oct.\ 2026);
+``Derivation of the rate from the unmodified vorticity equation remains open'' (\texttt{STATUS-2026-10-10.md}).
+(Bracketed labels inside quotations are the cited files' own equation references.) The mechanism is therefore the \emph{degeneracy} $\Pi_uu=0$, not a
+statement that the Leray projection annihilates a velocity-level cubic source; those notes make no such claim. Here the
+cubic term is inserted by hand at vorticity level through $P$, which is why the results concern
 \eqref{eq:tv} only. The Lean predicates \lean{IsTrueNS} and \lean{IsTetheredNS} coincide only at $\kappa=0$
 (\lean{tetheredNS_zero_iff}), and at $\kappa=0$ no feedback is realized (\lean{not_tetherRealizesFeedback_zero}).
 \item \textbf{The Clay Millennium problem remains open.} Nothing in this paper or repository claims otherwise.
