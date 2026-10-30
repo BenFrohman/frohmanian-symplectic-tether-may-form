@@ -6,3 +6,4 @@ import TetherMayForm.Main
 import TetherMayForm.Jacobi
 import TetherMayForm.TetheredLyapunov
 import TetherMayForm.GlobalRegularity
+import TetherMayForm.Enstrophy
