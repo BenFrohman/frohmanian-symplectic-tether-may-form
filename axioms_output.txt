@@ -75,3 +75,7 @@
 'Frohman.Tether.jacobi_iff_mixed_cancel' depends on axioms: [propext, Classical.choice, Quot.sound]
 'Frohman.Tether.mixedTerm_eq_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
 'Frohman.Tether.jacobiator_eq_zero_of_central' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Frohman.Tether.comparison_majorant_global_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Frohman.Tether.lemma_3_1_uniform_bound_and_continuation' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Frohman.Tether.global_regularity' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Frohman.Tether.frohmanian_symplectic_tether_theorem_global' depends on axioms: [propext, Classical.choice, Quot.sound]

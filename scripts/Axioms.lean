@@ -75,3 +75,7 @@ open Frohman.Tether
 #print axioms jacobi_iff_mixed_cancel
 #print axioms mixedTerm_eq_zero
 #print axioms jacobiator_eq_zero_of_central
+#print axioms Frohman.Tether.comparison_majorant_global_bound
+#print axioms Frohman.Tether.lemma_3_1_uniform_bound_and_continuation
+#print axioms Frohman.Tether.global_regularity
+#print axioms Frohman.Tether.frohmanian_symplectic_tether_theorem_global

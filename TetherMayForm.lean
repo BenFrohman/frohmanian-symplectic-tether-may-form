@@ -4,3 +4,5 @@ import TetherMayForm.RouteA
 import TetherMayForm.Layer2
 import TetherMayForm.Main
 import TetherMayForm.Jacobi
+import TetherMayForm.TetheredLyapunov
+import TetherMayForm.GlobalRegularity
