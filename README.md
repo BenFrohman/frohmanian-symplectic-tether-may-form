@@ -159,3 +159,23 @@ Author: Benjamin Stanley Frohman <frohmanbenjamin@gmail.com>, ORCID 0009-0006-70
 - `ViscousAtMax`: **proved** (second-derivative test + `⟪v,v''⟫ ≤ −‖v'‖²` along each coordinate line at a max of ‖ω‖).
 - Maximizer of ‖ω(t,·)‖ on 𝕋³: **proved** for continuous periodic fields (`periodic_exists_max`).
 - Still cited hypotheses: `NSTetherEnstrophyInequality`, `BKMContinuation`, `LocalContinuation`, `EnergyIdentity`, `StretchingCZ` (pure L∞ form is stronger than known), `CrossControlled`, `TetherFeedbackOf`/`TetherRealizesFeedback`.
+
+## Status update — log-loss stretching (LOCAL, `LogLoss.lean`)
+
+* `StretchingCZ` (`ω·Sω ≤ C y³`) is **deprecated**: false as an L∞ estimate. Replaced by
+  `StretchingByStrain` (`ω·Sω ≤ ‖S‖∞ y²`) and `BKMLogInequality`
+  (`‖S‖∞ ≤ C(1 + ‖ω‖_{L²} + y·log(e + ‖ω‖_{Hˢ}))`, s > 3/2; Beale–Kato–Majda, CMP 94 (1984)
+  61–66; Brezis–Gallouët, Nonlinear Anal. 4 (1980) 677–681; Kozono–Taniuchi, CMP 214 (2000)
+  191–200).
+* Tethered system (quartic 𝔗_F feedback): `y' ≤ C(1+Z0) y + C log(e+Z) y² − κ'' y³`
+  (`tether_pointwise_logloss`). Cubic damping dominates (`logField_neg_above`), giving
+  `y ≤ max(y₀, B/κ'' + √(A/κ''))` with `A = C(1+Z0b)`, `B = C log(e+Zb)`
+  (`comparison_bound_logloss`), and `global_regularity_logloss`.
+* **Remaining hypothesis `HigherNormControl`**: an a priori bound on `‖ω‖_{Hˢ}` and `‖ω‖_{L²}`
+  up to the first possible singular time. This is **circular** (Hˢ ⊂ L∞ already bounds y).
+  The Hˢ energy estimate does not remove it: with `L = log(e+‖ω‖_{Hˢ})`, Kato–Ponce plus the
+  BKM log inequality give `L' ≤ C(1+Z0+yL)`, and the y-bound is only `y ≲ L`, so
+  `L' ≲ a + bL²` (Riccati, may blow up in finite time). The tether's Hˢ contribution has a
+  damping leading term but commutators of the same order `~ y²‖ω‖²_{Hˢ}` with no sign, so it
+  does not close the loop either. Closing needs y bounded independently of the Hˢ norm.
+* Still: this is about the **tethered** system only; `nsOnly_not_sufficient` stands for true NS.

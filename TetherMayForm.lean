@@ -9,3 +9,4 @@ import TetherMayForm.GlobalRegularity
 import TetherMayForm.Enstrophy
 import TetherMayForm.Torus
 import TetherMayForm.Final
+import TetherMayForm.LogLoss

@@ -44,7 +44,10 @@ structure MaxPointData where
   tetherTerm : ℝ   -- tether contribution 𝔗_F[κ,w,u](ω,ω) (0 in true NS)
   b : ℝ    -- cross-term amplitude, E = 2 y² b
 
-/-- Named Prop: Calderón–Zygmund-type stretching bound at the maximizer, `ω·Sω ≤ C y³`.
+/-- DEPRECATED (`StretchingCZ_strong`): too strong, FALSE as an L∞ estimate; superseded by
+`StretchingByStrain` + `BKMLogInequality` in `LogLoss.lean`. Kept only for the historical chain
+and for `nsOnly_not_sufficient`.
+Named Prop: Calderón–Zygmund-type stretching bound at the maximizer, `ω·Sω ≤ C y³`.
 Literature: `S = sym ∇u` is a CZ singular integral of `ω` (Biot–Savart), bounded on `Lᵖ`,
 1<p<∞ (Calderón–Zygmund, Acta Math. 88 (1952)), but NOT on `L∞`: the true bound has a log
 loss, `‖S‖∞ ≤ C(1 + ‖ω‖_BMO log(e + ‖ω‖_{Hˢ}))` (Kozono–Taniuchi, Comm. Math. Phys. 214 (2000)
