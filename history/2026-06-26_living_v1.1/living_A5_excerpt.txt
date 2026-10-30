@@ -1,0 +1,4 @@
+                            (ii) The induced Poisson bracket produces the tether bounding inequality d/dt ∥ω(t)∥_L^∞ ≤ C − ∥ω(t)∥_L^∞² (with κ = 1 fixed by exact leading-term matching to the stretching coefficient).
+production of negative quadratic feedback with coefficient fixed by matching.
+Uniqueness follows from the fact that any other bilinear antisymmetric correction differs by a closed 2-form on the reduced orbit and is therefore gauge-equivalent.
+It then forces a minimal metric correction — the tether — that exactly cancels the dangerous linear growth of the stretching term and replaces it with a negative quadratic feedback. This correction is derived by coefficient matching at the spatial maximum of |ω|² so that the full bracket reproduces the Navier–Stokes equations while the bound emerges as a theorem.
