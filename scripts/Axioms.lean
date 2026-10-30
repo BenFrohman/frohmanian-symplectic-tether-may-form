@@ -1,0 +1,30 @@
+import TetherMayForm
+open Frohman.Tether
+#print axioms piU_apply
+#print axioms projectionOrthogonalToU
+#print axioms piU_smul_self
+#print axioms piU_apply_eq_zero_iff
+#print axioms inner_piU_left
+#print axioms frohmanianTether_apply
+#print axioms frohmanianTether_symm
+#print axioms frohmanianTether_self_nonpos
+#print axioms degeneracy_verification
+#print axioms frohmanianTether_degenerate
+#print axioms frohmanianTether_energy_neutral
+#print axioms degeneracy_forces_projection
+#print axioms piU_comm_isometry
+#print axioms frohmanianTether_invariant
+#print axioms frohmanianTether_admissible
+#print axioms gauge_uniqueness_weak
+#print axioms uniqueness_of_minimal_metric_tether
+#print axioms degeneracy_verification_smul
+#print axioms tetheredBracket_kineticEnergy
+#print axioms frohmanian_symplectic_tether_theorem
+#print axioms diag_eq_of_norm_eq
+#print axioms exists_unit_orthogonal
+#print axioms inner_u_piU
+#print axioms admissible_eq_smul_frohmanianTether
+#print axioms piU_eq_self_of_inner_eq_zero
+#print axioms feedback_fixes_coefficient
+#print axioms frohmanianTether_feedback
+#print axioms uniqueness_of_minimal_metric_tether_iff
