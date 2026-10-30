@@ -73,3 +73,20 @@ structure ProducesControllableNegativeFeedback (κ w : ℝ) (u : H)
 Apache-2.0 (`LICENSE`), with `NOTICE`. Grok assisted; it is not an author.
 
 Run `lake build`, then `lake env lean scripts/Axioms.lean`. The output is saved in `axioms_output.txt`.
+
+## Oct 29 2026 additions
+* `TetherMayForm/Metriplectic.lean` — unique split B = B_sym + B_anti, alternating
+  antisymmetric part, trace-pairing orthogonality, C2 for the parts (needs two-sided
+  degeneracy `B u F = 0` too), metriplectic bracket `P + 𝔗_F` and energy conservation.
+* `TetherMayForm/RouteA.lean` — C3 in the May 20 Route A form; `uniqueness_routeA_iff`.
+  The old one-direction C3 is kept as the weaker variant (`RouteAFeedback.toControllable`).
+* `TetherMayForm/Layer2.lean` — Young absorption with ε = κ/4, equilibria, and the
+  comparison bound y ≤ max(y(0), C/κ'').
+
+**Caveats.** Layer 2 is a real-variable theorem about any function obeying the
+differential inequality; deriving that inequality from Navier–Stokes is *not* formalized,
+and no Navier–Stokes regularity is claimed. The "9-term Jacobi" check is modelled only as
+"the correction adds no antisymmetric part on the reduced space"; the cyclic expansion is
+not formalized. κ is fixed by matching to a supplied stretching coefficient S; S = C_CZ(3)
+is not derived. The May 21 text calls the tether's coefficient κ = C_CZ(3); the slide/
+build_context use ε = κ/4 for absorption.

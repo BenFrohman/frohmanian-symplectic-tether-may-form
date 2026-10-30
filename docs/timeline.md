@@ -15,3 +15,12 @@
 | Jun 26 2026 | Living FINAL Clay v1 / v1.1 docx last modified (source of the (A1)–(A5) and "negative quadratic feedback … fixed by matching" wording quoted here) | Drive | Yes — **but the A5 wording is only provably as old as Jun 26**; it matches the May 18 roadmap wording |
 | **Aug 26 2026, 10:37 PM CDT** | Old repo (ns_push `2e6a407`/`7397212`): uniqueness closed via **saturation** hypothesis `SaturatesTetherQuadratic`; κ = 3/2 introduced | git commit dates (-0500) | Yes |
 | **Oct 29 2026** | This reconstruction (`tether-may-form`), local only | git | Yes |
+
+## Additions (Oct 29 2026 build)
+- **2026-05-20** — "Route A" slide (screenshot, undated by server): C3 = negative feedback at
+  |ω| maxima + 5-step + 9-term Jacobi on the reduced orbit (D→C→A→B). → `RouteAFeedback`.
+- **2026-05-21** — PASS 2 §2.7 (C1)–(C3) wording, κ fixed by matching the stretching
+  coefficient (Full_Living md, Drive modified 2026-05-24). → `matches_stretching`.
+- **2026-06** — build_context Layer-2 rules (screenshot). → `Layer2.lean`.
+- **2026-10-29** — Benjamin: symmetric and antisymmetric parts are orthogonal / invisible to
+  each other (metriplectic). → `Metriplectic.lean`.
