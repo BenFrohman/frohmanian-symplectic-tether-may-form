@@ -123,6 +123,23 @@ so {·,·}_{𝔗_F} is a metriplectic bracket, not a Poisson bracket; Jacobi hol
 the mixed terms cancel. Its Poisson part is unchanged on uᗮ (`RouteAFeedback.poisson_unchanged`).
 
 ## Scope and open items
+- **Tethered vs. true Navier–Stokes.** `Torus.lean` defines velocity fields on 𝕋³ (1-periodic
+  on `EuclideanSpace ℝ (Fin 3)`), curl/vorticity, divergence, Laplacian, advection, the NS
+  equation via `fderiv`, `C^∞` smoothness on `[0,T)×𝕋³`, `y(t) = sup|ω(t,x)|`, and
+  `toNSTetherSolution` (`SmoothOn T` := classical solution on `[0,T)`; monotone, `SmoothOn 0`,
+  `y ≥ 0` proved). `IsTrueNS` (no forcing) and `IsTetheredNS` (forcing = a 𝔗_F feedback field,
+  a MODIFIED system) are kept separate. How 𝔗_F[κ,w,u] becomes a vector field on 𝕋³ is not
+  formalized (`TetherRealizesFeedback`, provably false for true NS).
+- **The 𝔗_F term.** `frohmanianTether_orth_self`: 𝔗_F[κ,w,u](ω,ω) = −κw‖ω‖² for ω ⟂ u.
+  Here `w` is the scalar weight of 𝔗_F, not the vorticity ω. The `−κy⁴` damping needs the
+  quartic weight `w = y²` (`QuarticWeight`), an explicit hypothesis: C1–C3 fix the shape
+  and κ = S, never `w`. With constant `w` only `−κwy²` follows.
+- **Named hypotheses (never `axiom`):** `BKMContinuation` (Beale–Kato–Majda, CMP 94 (1984)
+  61–66; stated in a weaker sup-bound form implied by BKM), `LocalContinuation` (Fujita–Kato,
+  ARMA 16 (1964); Kato, Math. Z. 187 (1984)), `EnergyIdentity`, `StretchingCZ` (stronger than
+  known: the L∞ CZ bound has a log loss, Kozono–Taniuchi CMP 214 (2000)), `ViscousAtMax`
+  (maximum principle), `CrossControlled` (model assumption), `TetherFeedbackOf` +
+  `QuarticWeight`, and `NSTetherEnstrophyInequality`.
 - The model step "leading coefficient at the maximum = S·w + B(ω,ω)" is assumed, not derived
   from Navier–Stokes. S = C_CZ(3) is not derived. No Navier–Stokes regularity is claimed.
 - Layer 2's differential inequality is a hypothesis.
@@ -134,5 +151,5 @@ the mixed terms cancel. Its Poisson part is unchanged on uᗮ (`RouteAFeedback.p
 ## Build
 Mathlib is pinned in `lake-manifest.json` (Lean `v4.30.0-rc1`). After a fresh clone:
 `lake exe cache get && lake build && lake env lean scripts/Axioms.lean`.
-75 theorems, 0 sorry, axioms only propext / Classical.choice / Quot.sound (`axioms_output.txt`).
+96 theorems, 0 sorry, axioms only propext / Classical.choice / Quot.sound (`axioms_output.txt`).
 Author: Benjamin Stanley Frohman <frohmanbenjamin@gmail.com>, ORCID 0009-0006-7068-3718.

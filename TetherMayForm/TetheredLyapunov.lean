@@ -13,7 +13,7 @@ named `Prop`s (no `sorry`, no axioms), so the remaining gap is fully visible.
 
 Abstraction: a candidate solution is recorded by `y t` (the controlled quantity, e.g.
 `‖ω(t)‖_∞`), its right derivative `y'`, and `SmoothOn T` ("the solution exists and is
-C^∞ on `[0,T]`"). Connecting this record to an actual 3D NS solution is *not* formalized.
+C^∞ on `[0,T]`"). `Torus.lean` connects this record to an actual velocity field on 𝕋³ (`toNSTetherSolution`).
 -/
 import TetherMayForm.Main
 
@@ -42,12 +42,21 @@ def NSTetherEnstrophyInequality (s : NSTetherSolution) (C κ'' : ℝ) : Prop :=
     (∀ x ∈ Set.Ico 0 T, HasDerivWithinAt s.y (s.y' x) (Set.Ici x) x) ∧
     (∀ x ∈ Set.Ico 0 T, s.y' x ≤ comparisonField C κ'' (s.y x))
 
-/-- Beale–Kato–Majda style continuation (classical, not in Mathlib): smooth on every
-`[0,T')`, `T' < T`, with `y` bounded on `[0,T)` ⇒ smooth on `[0,T]`. -/
+/-- Beale–Kato–Majda continuation (classical, not in Mathlib). Literature: J. T. Beale,
+T. Kato, A. Majda, *Remarks on the breakdown of smooth solutions for the 3-D Euler equations*,
+Comm. Math. Phys. 94 (1984) 61–66 (Euler; the NS case follows identically, cf. Majda–Bertozzi
+2002, Thm 3.6): a smooth solution on `[0,T)` with `∫₀ᵀ ‖ω(t)‖_∞ dt < ∞` extends beyond `T`.
+Here the hypothesis is `sup_{[0,T)} y < ∞`, which implies the BKM integral condition, so this
+Prop is a (weaker) CONSEQUENCE of BKM. Kept as an explicit hypothesis, never an `axiom`. -/
 def BKMContinuation (s : NSTetherSolution) : Prop :=
   ∀ T, 0 < T → (∀ T' < T, s.SmoothOn T') → (∃ M, ∀ t ∈ Set.Ico 0 T, s.y t ≤ M) → s.SmoothOn T
 
-/-- Local existence / continuation (classical, not in Mathlib). -/
+/-- Local existence / continuation (classical, not in Mathlib). Literature: H. Fujita,
+T. Kato, *On the Navier–Stokes initial value problem I*, Arch. Rational Mech. Anal. 16 (1964)
+269–315 (`H^{1/2}` data); T. Kato, *Strong Lᵖ-solutions of the Navier–Stokes equation in ℝᵐ*,
+Math. Z. 187 (1984) 471–480. Smooth periodic data at time `T` give a smooth solution on
+`[T, T+δ)` with `δ` depending on the data's norm; parabolic smoothing gives C^∞. Explicit
+hypothesis, never an `axiom`. -/
 def LocalContinuation (s : NSTetherSolution) : Prop :=
   ∀ T, s.SmoothOn T → ∃ δ > 0, s.SmoothOn (T + δ)
 
