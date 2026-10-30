@@ -195,3 +195,18 @@ Named cited inputs (stated, not derived in Lean): `TetheredEnstrophyIdentity` (`
 
 **Plain Navier–Stokes:** the `−κ‖ω‖₄⁴` term is absent, nothing absorbs `∫ω·Sω`, and this argument does not close.
 **Circularity:** the `Hˢ` (`Zb`) part of `HigherNormControl` is untouched; regularity is still conditional on it.
+
+## Next rung — Lᵖ, H¹ (palinstrophy) and the Hˢ part of `HigherNormControl` (`TetherMayForm/PalinstrophyH1.lean`, TETHERED system only)
+
+Proved in Lean (0 sorry, standard axioms): `tether_H1_density_eq/nonneg` (∇ω:∇(|ω|²ω) = |ω|²|∇ω|² + ½|∇|ω|²|² ≥ 0, any orientation),
+`lp_absorb`, `amgm_four`, `young_43`, `palin_deriv_le`, `tethered_palinstrophy_gronwall` (‖∇ω(t)‖₂² ≤ ‖∇ω(0)‖₂² e^{Kt}, K = 27A⁴/(16ν³), A = C·sup‖ω‖₂),
+`higherNormControl_tethered` (`HigherNormControl` follows from the L² bound, the H¹ bound and `H1ToHsBootstrap`).
+
+Cited / standard inputs (named Props): `TetheredH1Identity`, `NonlinH1Bound` (Hölder + Sobolev + Gagliardo–Nirenberg), `H1ToHsBootstrap`
+(classical for plain NS; for the cubic tether it is a standard energy estimate, *not* a literature citation for this modified system).
+
+Findings: (1) Lᵖ: for the unprojected vorticity-level tether, Hölder + CZ give a uniform bound for every finite p, threshold ~ C_p/κ with C_p ~ p, so p→∞ gives no L∞ bound (log loss). Not needed for the H¹ route.
+(2) H¹ closes from the uniform L² bound by linear Grönwall; viscosity does the work, the tether term only has to be ≤ 0. (3) Orientation: the tether's H¹ sign needs no alignment, and alignment does not give a sign to the stretching/commutator terms.
+
+**Model caveat (must be reconciled before any public claim):** these identities assume the tether enters the *vorticity* equation as −κP(|ω|²ω) (Leray-projected).
+That is not `curl` of the velocity-level forcing in `Torus.lean`. Plain Navier–Stokes (κ = 0): none of this carries over, because the uniform L² bound is the missing input.

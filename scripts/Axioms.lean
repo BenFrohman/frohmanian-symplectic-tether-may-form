@@ -110,3 +110,11 @@ open Frohman.Tether
 #print axioms Frohman.Tether.EnstrophyL2.tethered_enstrophy_gronwall
 #print axioms Frohman.Tether.EnstrophyL2.tethered_enstrophy_uniform
 #print axioms Frohman.Tether.EnstrophyL2.tethered_L2_vorticity_bounded
+#print axioms Frohman.Tether.PalinstrophyH1.tether_H1_density_eq
+#print axioms Frohman.Tether.PalinstrophyH1.tether_H1_density_nonneg
+#print axioms Frohman.Tether.PalinstrophyH1.lp_absorb
+#print axioms Frohman.Tether.PalinstrophyH1.amgm_four
+#print axioms Frohman.Tether.PalinstrophyH1.young_43
+#print axioms Frohman.Tether.PalinstrophyH1.palin_deriv_le
+#print axioms Frohman.Tether.PalinstrophyH1.tethered_palinstrophy_gronwall
+#print axioms Frohman.Tether.PalinstrophyH1.higherNormControl_tethered
