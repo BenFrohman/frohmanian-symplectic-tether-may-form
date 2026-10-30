@@ -92,14 +92,10 @@ open Frohman.Tether
 #print axioms frohmanianTether_orth_self
 #print axioms tetherFeedback_of_frohmanianTether
 #print axioms tetherTerm_of_frohmanianTether
-#print axioms tether_pointwise_inequality
-#print axioms tether_pointwise_kappaDD
 #print axioms nsOnly_not_sufficient
-#print axioms tether_pointwise_frohmanianTether
 #print axioms quarticTether_eq
 #print axioms tetherFeedback_of_quartic
 #print axioms quarticWeight_of_def
-#print axioms tether_pointwise_quartic
 #print axioms secondDeriv_nonpos_of_isLocalMax
 #print axioms inner_secondDeriv_le_of_isMaxOn
 #print axioms inner_secondDeriv_nonpos_of_isMaxOn

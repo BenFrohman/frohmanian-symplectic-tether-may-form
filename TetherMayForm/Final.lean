@@ -52,13 +52,6 @@ theorem quarticWeight_of_def {d : MaxPointData} {κ : ℝ} {u ω : H}
     TetherFeedbackOf d κ (‖ω‖ ^ 2) u ω ∧ QuarticWeight d (‖ω‖ ^ 2) :=
   ⟨⟨h.1, h.2.1, h.2.2⟩, by unfold QuarticWeight; rw [h.2.2]⟩
 
-/-- Pointwise tethered inequality with no `QuarticWeight` hypothesis. -/
-theorem tether_pointwise_quartic {d : MaxPointData} {C S Cabs : ℝ} {u ω : H} (hS0 : 0 < S)
-    (hy : 0 < d.y) (hE : EnergyIdentity d) (hS : StretchingCZ d C) (hV : ViscousAtMax d)
-    (hT : TetherFeedbackQuartic d S u ω) (hX : CrossControlled d S Cabs) :
-    d.y' ≤ C * d.y ^ 2 - (S / 2 - Cabs) * d.y ^ 3 :=
-  tether_pointwise_inequality hS0 hy hE hS hV (tetherFeedback_of_quartic hT) hX
-
 end Quartic
 
 section MaxPrinciple

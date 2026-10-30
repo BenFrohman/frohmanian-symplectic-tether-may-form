@@ -69,7 +69,7 @@ This is a **modified** fluid model, not ordinary Navier–Stokes. On the unit to
 | `BKMContinuation` | sup-bound form of BKM continuation | Beale–Kato–Majda (1984) |
 | `LocalContinuation` | local existence and continuation | Fujita–Kato, ARMA 16 (1964); Kato, Math. Z. 187 (1984) |
 
-**Earlier pointwise route (superseded, kept for the record):** `EnergyIdentity`, `CrossControlled` (model assumption, no source derives it), `TetherFeedbackOf` / `TetherRealizesFeedback` (`not_tetherRealizesFeedback_zero`: provably false for true NS), `NSTetherEnstrophyInequality`, and the deprecated `StretchingCZ` (ω·Sω ≤ Cy³, **false** as an L∞ estimate, replaced by the log-loss form above).
+**Earlier pointwise route (superseded, kept for the record):** `EnergyIdentity`, `CrossControlled` (model assumption, no source derives it), `TetherFeedbackOf` / `TetherRealizesFeedback` (`not_tetherRealizesFeedback_zero`: provably false for true NS), `NSTetherEnstrophyInequality`, and `StretchingCZ` (ω·Sω ≤ Cy³, **false** as an L∞ estimate, replaced by the log-loss form above). The theorems that assumed `StretchingCZ` (`tether_pointwise_inequality`, `tether_pointwise_kappaDD`, `tether_pointwise_frohmanianTether`, `tether_pointwise_quartic`) are in `historical/StretchingCZChain.lean` and are not built. `TetherFeedback` (tether contribution `−κy⁴` at the maximizer) holds only for the tethered (y³-damped) model; in unmodified Navier–Stokes that contribution is 0.
 
 **Plain Navier–Stokes:** with κ = 0 the −κ‖ω‖₄⁴ term is absent, nothing absorbs ∫ω·Sω, and the uniform L² bound fails. None of Result 2 carries over.
 

@@ -66,8 +66,11 @@ C¹ field this is `½ d/dt|ω|²` along the max (advection vanishes since `∇|�
 derivative), not formalized. -/
 def EnergyIdentity (d : MaxPointData) : Prop :=
   d.y * d.y' = d.St + d.V + d.tetherTerm + 2 * d.y ^ 2 * d.b
-/-- Consequence form used below: the 𝔗_F contribution equals `−κ y⁴`. It is DERIVED from
-`TetherFeedbackOf` + `QuarticWeight` in `tetherFeedback_of_frohmanianTether`. -/
+/-- The 𝔗_F contribution at the maximizer equals `−κ y⁴`. This holds only for the tethered
+(`y³`-damped) model, where the added term `𝔗_F` is present; in unmodified Navier–Stokes the
+tether contribution is `0` (`tetherTerm = 0`), so this hypothesis fails there for `κ y ≠ 0`.
+Derived for the tethered model from `TetherFeedbackOf` + `QuarticWeight` in
+`tetherFeedback_of_frohmanianTether`. -/
 def TetherFeedback (d : MaxPointData) (κ : ℝ) : Prop := d.tetherTerm = -κ * d.y ^ 4
 
 section Derived
@@ -103,25 +106,6 @@ theorem tetherTerm_of_frohmanianTether {d : MaxPointData} {κ w : ℝ} {u ω : H
 
 end Derived
 
-/-- **Pointwise derivation (tether-modified system).** -/
-theorem tether_pointwise_inequality {d : MaxPointData} {C κ Cabs : ℝ} (hκ : 0 < κ)
-    (hy : 0 < d.y) (hE : EnergyIdentity d) (hS : StretchingCZ d C) (hV : ViscousAtMax d)
-    (hT : TetherFeedback d κ) (hX : CrossControlled d κ Cabs) :
-    d.y' ≤ C * d.y ^ 2 - (κ / 2 - Cabs) * d.y ^ 3 := by
-  unfold EnergyIdentity StretchingCZ ViscousAtMax TetherFeedback CrossControlled at *
-  have hY := young_kappa_quarter (κ := κ) (a := d.y ^ 2) (b := d.b) hκ
-  have key : d.y * d.y' ≤ d.y * (C * d.y ^ 2 - (κ / 2 - Cabs) * d.y ^ 3) := by
-    have : 2 * d.y ^ 2 * d.b ≤ κ / 2 * (d.y ^ 2) ^ 2 + Cabs * d.y ^ 4 := by nlinarith
-    nlinarith
-  exact le_of_mul_le_mul_left key hy
-
-/-- Same, phrased with `kappaDD`, κ = S. -/
-theorem tether_pointwise_kappaDD {d : MaxPointData} {C S Cabs : ℝ} (hS0 : 0 < S)
-    (hy : 0 < d.y) (hE : EnergyIdentity d) (hS : StretchingCZ d C) (hV : ViscousAtMax d)
-    (hT : TetherFeedback d S) (hX : CrossControlled d S Cabs) :
-    d.y' ≤ C * d.y ^ 2 - (S / 2 - Cabs) * d.y ^ 3 :=
-  tether_pointwise_inequality hS0 hy hE hS hV hT hX
-
 /-- **True NS gap.** With `tetherTerm = 0` (no 𝔗_F term) all NS pointwise hypotheses hold for data with
 `y' = C y²`, which violates `y' ≤ C y² − κ'' y³` whenever κ'' > 0. So the cubic damping is
 NOT derivable from these NS inputs; it comes only from the added tether term. -/
@@ -131,14 +115,5 @@ theorem nsOnly_not_sufficient {C κ κ'' Cabs : ℝ} (hC : 0 ≤ C) (hκ : 0 < �
       ViscousAtMax d ∧ CrossControlled d κ Cabs ∧ ¬ d.y' ≤ C * d.y ^ 2 - κ'' * d.y ^ 3 := by
   refine ⟨⟨1, C, C, 0, 0, 0⟩, rfl, one_pos, ?_, ?_, ?_, ?_, ?_⟩ <;>
     simp [EnergyIdentity, StretchingCZ, ViscousAtMax, CrossControlled] <;> linarith
-
-/-- **Pointwise derivation from 𝔗_F (tether-modified system)**, κ = S (Route A), quartic
-weight `w = y²` explicit. -/
-theorem tether_pointwise_frohmanianTether {H : Type*} [NormedAddCommGroup H]
-    [InnerProductSpace ℝ H] {d : MaxPointData} {C S Cabs w : ℝ} {u ω : H} (hS0 : 0 < S)
-    (hy : 0 < d.y) (hE : EnergyIdentity d) (hS : StretchingCZ d C) (hV : ViscousAtMax d)
-    (hT : TetherFeedbackOf d S w u ω) (hw : QuarticWeight d w) (hX : CrossControlled d S Cabs) :
-    d.y' ≤ C * d.y ^ 2 - (S / 2 - Cabs) * d.y ^ 3 :=
-  tether_pointwise_inequality hS0 hy hE hS hV (tetherFeedback_of_frohmanianTether hT hw) hX
 
 end Frohman.Tether
