@@ -51,12 +51,14 @@ This is a **modified** fluid model, not ordinary Navier–Stokes. On the unit to
 - **Higher norm and global:** `higherNormControl_tethered` (`HigherNormControl` follows from the L² and H¹ bounds plus `H1ToHsBootstrap`), `tether_pointwise_logloss`, `comparison_bound_logloss`, `global_regularity_logloss` (global smoothness from the log-loss inequality), plus the older `global_regularity` / `routeA_layer2_bound` / `layer2_bound`.
 - **Supporting:** `viscous_nonpos_at_max` / `viscousAtMax_of_max` (maximum principle), `periodic_exists_max` (maximizer of |ω| on 𝕋³).
 
+**Also formalized:** `ChevalleyEilenberg.lean` — CE differentials `d1`/`d2`, `d2_d1` (d∘d = 0 via Jacobi), the antisymmetric correction `antiCorr` (always alternating; cocycle iff `d2 = 0`, automatic for coboundaries: `cocycle_of_coboundary`), `symPart_not_cochain` (the symmetric 𝔗_F part is not a CE cochain); the T³ shear `shear_divFree` for `(sin y,0,0)` and `shearBad_not_divFree` for `(sin x,0,0)`.
+
 **Remaining cited inputs (named `Prop` hypotheses, never `axiom`):**
 
 | Prop | Content | Citation |
 |---|---|---|
-| `CurlRightInverse` | Biot–Savart: curl⁻¹ inverts curl on admissible fields | Majda–Bertozzi, *Vorticity and Incompressible Flow* (2002), ch. 2 |
-| `CurlOfForcedNS` | curl of forced NS gives the forced vorticity equation | Majda–Bertozzi (2002), ch. 1 |
+| `CurlRightInverse` | Biot–Savart: curl⁻¹ inverts curl on admissible fields. **Partially discharged:** `BiotSavart.curlRightInverse_trig` proves it for `curlInvTrig` on finite sums of div-free Fourier modes (`AdmTrig`), with `curl_bsMode`, `div_bsMode`, coefficient-level `bsC_unique`/`gradL2_mode`. Still open: the general smooth periodic case (Fourier series convergence on 𝕋³ + Parseval) | Majda–Bertozzi, *Vorticity and Incompressible Flow* (2002), ch. 2 |
+| ~~`CurlOfForcedNS`~~ | **Discharged:** `CurlNS.curlOfForcedNS` (on `t ∈ (0,T)`; Schwarz symmetry + `curl_advection`) | Majda–Bertozzi (2002), ch. 1 |
 | `TetheredEnstrophyIdentity` | E′ = ∫ω·Sω − ν‖∇ω‖₂² − κ‖ω‖₄⁴ (supplied via `enstrophyIdentity_of_vorticityLevel` from the classical energy identity) | standard energy method; Majda–Bertozzi (2002) |
 | `StrainL2Bound` | Hölder + ‖∇u‖₂ = ‖ω‖₂ (Parseval) | Majda–Bertozzi (2002) |
 | `L4L2Holder` | (2E)² ≤ ‖ω‖₄⁴ on the unit torus | Hölder's inequality |

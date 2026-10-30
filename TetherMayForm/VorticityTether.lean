@@ -147,7 +147,7 @@ def IsTetheredNSQuartic (ν κ : ℝ) (P curlInv : VField → VField) (u : ℝ �
 vorticity equation with source `curl F`. -/
 def CurlOfForcedNS (ν : ℝ) : Prop :=
   ∀ (F : ℝ → VField) u p T, ClassicalSolutionOn ν F u p T →
-    ∀ t ∈ Ico 0 T, ∀ x, IsVorticityEq ν (fun s => curl (F s)) u t x
+    ∀ t ∈ Ioo 0 T, ∀ x, IsVorticityEq ν (fun s => curl (F s)) u t x
 
 /-- **Reconciliation theorem.** A velocity-level solution of the tethered NS with force
 `F = curl⁻¹(−κP(|ω|²ω))` solves the vorticity-level tethered system — the system the
@@ -157,7 +157,7 @@ theorem tetheredVorticity_of_velocity {ν κ : ℝ} {P curlInv : VField → VFie
     (hcurl : CurlOfForcedNS ν) (hinv : CurlRightInverse curlInv Adm)
     (hadm : ∀ t, Adm (fun y => -κ • P (cubic (vorticity u t)) y))
     (hsol : IsTetheredNSQuartic ν κ P curlInv u p T) :
-    ∀ t ∈ Ico 0 T, ∀ x, IsTetheredVorticityEq ν κ P u t x := by
+    ∀ t ∈ Ioo 0 T, ∀ x, IsTetheredVorticityEq ν κ P u t x := by
   intro t ht x
   have h := hcurl _ u p T hsol t ht x
   unfold IsTetheredVorticityEq
