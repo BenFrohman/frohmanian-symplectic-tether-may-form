@@ -295,6 +295,29 @@ all invoke ``BKM + parabolic regularity bootstrap'' as a \emph{cited classical b
 (in one case a \texttt{sorry}). None contains an independent proof of the $H^1\to H^2$ step, let alone the
 tether-specific one. These are cited as the provenance of the plan, not as a proof.
 
+\section{Riccati comparison: plain versus tethered, and its source}\label{sec:riccati}
+\emph{Provenance.} The comparison ODE $y'=Cy^2-\kappa''y^3$ was introduced by the author, B.~S.~Frohman. It appears in his ``PASS~2 --- Section~2.7 Canonicity Expansion + Riccati \& Jacobi Clarification (2026-05-21)'', which says: ``The cubic term arises naturally from the quartic absorption and yields a stronger uniform bound than the pure Riccati envelope.'' The earliest git timestamp for it is repository \texttt{NS\_Millennium\_Proof}, commit \texttt{236244d} (2026-06-19 16:29 CDT). Hashes and verbatim lines are listed in \texttt{paper/publication\_note\_riccati\_provenance.md}.
+
+\emph{Plain Riccati.} For $C,y_0>0$, $y(t)=y_0/(1-Cy_0t)$ solves $y'=Cy^2$, $y(0)=y_0$. It exceeds every bound before $T^*=1/(Cy_0)$.
+\LeanRef{ricSol_hasDerivAt, riccati_blowup}
+\emph{Tethered.} If $y'\le Cy^2-\kappa''y^3$ with $\kappa''>0$ and $y(0)\ge0$, then $y(t)\le\max(y(0),C/\kappa'')$ for all $t$.
+\LeanRef{tethered_ceiling, comparison_bound}
+Section~\ref{sec:model} uses the same mechanism at the enstrophy level, $E\le\max(E_0,C^2/(2\kappa^2))$ (\lean{tethered_enstrophy_uniform}).
+Both statements are scalar ODE facts about the tethered model. They say nothing about plain Navier--Stokes.
+
+\section{Metriplectic (Morrison) reading of the field-level test}\label{sec:metriplectic}
+Split the bracket as $\{\cdot,\cdot\}=[\cdot,\cdot]+T$. In a metriplectic system, Jacobi is required only of the antisymmetric part. The symmetric part must instead be symmetric, semidefinite and degenerate.
+\begin{enumerate}
+\item \emph{Antisymmetric part.} The Lie bracket satisfies Jacobi on all trigonometric-polynomial fields (\lean{jacF_eq_zero}).
+\item \emph{Symmetric part.} $T(a,b)=T(b,a)$ (\lean{pr_comm, tetF_symm}). Degeneracy: for $H=\tfrac12\langle u,u\rangle$ we have $dH=u$, and $\Pi_uu=0$, so $T(u,\cdot)=T(\cdot,u)=0$ (\lean{tetF_energy_left, tetF_energy_right}). The quadratic form is $d(a)=-\kappa w\langle\Pi_ua,\Pi_ua\rangle$.
+\item \emph{Shears.} At $u=(\sin y,0,0)$ with $a=(0,0,\sin x)$, $d=-\kappa w/2$. At $u=(\sin x,0,0)$ with $a=(1,0,0)$, $d=-\kappa w$. Both are real and $\le0$ when $\kappa w\ge0$, and both vanish in the energy direction $a=u$ (\lean{dissF_shearY, dissF_shearX, dissF_shear_nonpos, dissF_energy_uY, dissF_energy_uX}).
+\end{enumerate}
+The checks come out differently for the two shears. $(\sin y,0,0)$ is divergence free and passes all of them that were tested: symmetry, energy degeneracy, and the sign at the tested direction. $(\sin x,0,0)$ passes the same algebraic checks, but it is not divergence free (\lean{not_divFree_uX}), so it is not an admissible state.
+The nonzero mixed sums of Section~\ref{sec:model} ($\tfrac32\kappa w$ and $\tfrac{3i}{8}\kappa w$) mean the bracket is not Lie--Poisson. They do not contradict the metriplectic structure, because the metriplectic axioms do not ask the full bracket to satisfy Jacobi.
+Not formalized: semidefiniteness for \emph{all} real fields, and the second degeneracy (a Casimir or entropy $S$ with $[\cdot,dS]=0$). The only partial result is that parallel divergence-free shears commute (\lean{br_eq_zero_of_xOnly_divFree}).
+
+\emph{Where $4/3$ appears.} The coefficients in the bracket test are $\tfrac32$ and $\tfrac{3i}{8}$. The exponent $4/3$ does not appear there. It appears in the estimate chain, at the $H^1$ rung: the Gagliardo--Nirenberg/Sobolev bound $N\le A\,G^{1/4}L^{3/2}$ is followed by Young's inequality with exponents $(4,4/3)$ (Section~\ref{sec:model}; \lean{PalinstrophyH1}). Gagliardo--Nirenberg interpolation also appears in the author's May~2026 chain, as $M_\varepsilon\le C_{\rm GN}\|\omega_\varepsilon\|_{L^6}^{3/2}\|\omega_\varepsilon\|_{L^2}^{1/2}+\dots$ (Full Living Document).
+
 \section{Open question, stated plainly}\label{sec:open}
 \begin{enumerate}
 \item \textbf{Plain Navier--Stokes is unchanged.} For a velocity field that solves plain NS, nothing above adds a

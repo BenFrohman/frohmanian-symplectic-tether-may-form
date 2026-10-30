@@ -18,3 +18,5 @@ import TetherMayForm.BiotSavart
 import TetherMayForm.ChevalleyEilenberg
 import TetherMayForm.JacobiWitness
 import TetherMayForm.FieldJacobi
+import TetherMayForm.RiccatiComparison
+import TetherMayForm.FieldMetriplectic
