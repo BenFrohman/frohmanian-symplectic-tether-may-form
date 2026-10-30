@@ -107,3 +107,27 @@
 'Frohman.Tether.viscousAtMax_of_max' depends on axioms: [propext, Classical.choice, Quot.sound]
 'Frohman.Tether.periodic_int_shift' depends on axioms: [propext, Classical.choice, Quot.sound]
 'Frohman.Tether.periodic_exists_max' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Frohman.Tether.EnstrophyL2.tethered_enstrophy_gronwall' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Frohman.Tether.EnstrophyL2.tethered_enstrophy_uniform' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Frohman.Tether.EnstrophyL2.tethered_L2_vorticity_bounded' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Frohman.Tether.PalinstrophyH1.tether_H1_density_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Frohman.Tether.PalinstrophyH1.tether_H1_density_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Frohman.Tether.PalinstrophyH1.lp_absorb' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Frohman.Tether.PalinstrophyH1.amgm_four' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Frohman.Tether.PalinstrophyH1.young_43' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Frohman.Tether.PalinstrophyH1.palin_deriv_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Frohman.Tether.PalinstrophyH1.tethered_palinstrophy_gronwall' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Frohman.Tether.PalinstrophyH1.higherNormControl_tethered' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Frohman.Tether.VorticityTether.inner_leray_of_divFree' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Frohman.Tether.VorticityTether.tether_L2_term' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Frohman.Tether.VorticityTether.tether_H1_term' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Frohman.Tether.VorticityTether.quarticTether_density' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Frohman.Tether.VorticityTether.enstrophyIdentity_of_vorticityLevel' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Frohman.Tether.VorticityTether.tetheredVorticity_zero_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Frohman.Tether.VorticityTether.tetheredVorticity_of_velocity' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

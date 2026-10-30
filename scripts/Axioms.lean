@@ -118,3 +118,17 @@ open Frohman.Tether
 #print axioms Frohman.Tether.PalinstrophyH1.palin_deriv_le
 #print axioms Frohman.Tether.PalinstrophyH1.tethered_palinstrophy_gronwall
 #print axioms Frohman.Tether.PalinstrophyH1.higherNormControl_tethered
+open Frohman.Tether.VorticityTether in
+#print axioms inner_leray_of_divFree
+open Frohman.Tether.VorticityTether in
+#print axioms tether_L2_term
+open Frohman.Tether.VorticityTether in
+#print axioms tether_H1_term
+open Frohman.Tether.VorticityTether in
+#print axioms quarticTether_density
+open Frohman.Tether.VorticityTether in
+#print axioms enstrophyIdentity_of_vorticityLevel
+open Frohman.Tether.VorticityTether in
+#print axioms tetheredVorticity_zero_iff
+open Frohman.Tether.VorticityTether in
+#print axioms tetheredVorticity_of_velocity

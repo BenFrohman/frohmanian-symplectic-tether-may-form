@@ -208,5 +208,9 @@ Cited / standard inputs (named Props): `TetheredH1Identity`, `NonlinH1Bound` (H�
 Findings: (1) Lᵖ: for the unprojected vorticity-level tether, Hölder + CZ give a uniform bound for every finite p, threshold ~ C_p/κ with C_p ~ p, so p→∞ gives no L∞ bound (log loss). Not needed for the H¹ route.
 (2) H¹ closes from the uniform L² bound by linear Grönwall; viscosity does the work, the tether term only has to be ≤ 0. (3) Orientation: the tether's H¹ sign needs no alignment, and alignment does not give a sign to the stretching/commutator terms.
 
-**Model caveat (must be reconciled before any public claim):** these identities assume the tether enters the *vorticity* equation as −κP(|ω|²ω) (Leray-projected).
-That is not `curl` of the velocity-level forcing in `Torus.lean`. Plain Navier–Stokes (κ = 0): none of this carries over, because the uniform L² bound is the missing input.
+**Model (reconciled, `VorticityTether.lean`):** the tethered system is ONE system, defined at both levels:
+* vorticity level `IsTetheredVorticityEq`: ∂ₜω + (u·∇)ω = (ω·∇)u + νΔω − κP(|ω|²ω), u = Biot–Savart(ω), P = Leray projection;
+* velocity level `IsTetheredNSQuartic` = `Torus.IsTetheredNS` with force F = curl⁻¹(−κP(|ω|²ω)) (nonlocal), so curl F = −κP(|ω|²ω) (`curl_lerayTetherForce`).
+`tetheredVorticity_of_velocity` proves velocity-level ⇒ vorticity-level, from two named classical Props: `CurlRightInverse` (Biot–Savart) and `CurlOfForcedNS` (curl of forced NS).
+Proved abstractly (P self-adjoint, Pω = ω): ⟪ω, P g⟫ = ⟪ω, g⟫, so ∫ω·P(|ω|²ω) = ‖ω‖₄⁴ (`tether_L2_term`, `enstrophyIdentity_of_vorticityLevel` feeds `EnstrophyL2`); with P commuting with −Δ, the H¹ tether term is ∫∇ω:∇(|ω|²ω) ≥ 0 (`tether_H1_term`). Pointwise density −κω·(|ω|²ω) = `quarticTether κ u ω` = 𝔗_F[κ, ‖ω‖², u](ω,ω).
+This is a MODIFIED Navier–Stokes system (NS plus a nonlocal cubic force). Plain NS is κ = 0 (`tetheredVorticity_zero_iff`); none of the L²/H¹ bounds carry over to it. The older pointwise `TetherRealizesFeedback` route is separate.

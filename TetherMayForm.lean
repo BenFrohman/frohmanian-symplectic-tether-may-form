@@ -12,3 +12,4 @@ import TetherMayForm.Final
 import TetherMayForm.LogLoss
 import TetherMayForm.EnstrophyL2
 import TetherMayForm.PalinstrophyH1
+import TetherMayForm.VorticityTether
