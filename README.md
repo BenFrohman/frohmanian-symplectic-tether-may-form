@@ -61,7 +61,7 @@ This is a **modified** fluid model, not ordinary Navier–Stokes. On the unit to
 | ~~`CurlOfForcedNS`~~ | **Discharged:** `CurlNS.curlOfForcedNS` (on `t ∈ (0,T)`; Schwarz symmetry + `curl_advection`) | Majda–Bertozzi (2002), ch. 1 |
 | `TetheredEnstrophyIdentity` | E′ = ∫ω·Sω − ν‖∇ω‖₂² − κ‖ω‖₄⁴ (supplied via `enstrophyIdentity_of_vorticityLevel` from the classical energy identity) | standard energy method; Majda–Bertozzi (2002) |
 | `StrainL2Bound` | Hölder + ‖∇u‖₂ = ‖ω‖₂ (Parseval) | Majda–Bertozzi (2002) |
-| `L4L2Holder` | (2E)² ≤ ‖ω‖₄⁴ on the unit torus | Hölder's inequality |
+| `L4L2Holder` | (2E)² ≤ ‖ω‖₄⁴ on the unit torus | **Proved**: `l4l2Holder_torus` (normalized measure on [0,1]³) |
 | `TetheredH1Identity` | palinstrophy energy identity for the damped system | standard energy method |
 | `NonlinH1Bound` | Hölder + Sobolev + Gagliardo–Nirenberg bound on the stretching term | Gagliardo (1959), Nirenberg (1959) |
 | `H1ToHsBootstrap` | H¹ bound ⇒ Hˢ bound, s = 2 > 3/2 | classical for plain NS (Temam, *NS Equations and Nonlinear Functional Analysis*); for the cubic damping this is a standard energy estimate, **not** a published result for this system |

@@ -31,4 +31,20 @@ theorem l4l2Holder_of_prob {Ω : Type*} [MeasurableSpace Ω] {μ : Measure Ω}
   have := sq_integral_le (hg x)
   simpa [← mul_assoc] using this
 
+/-- Normalized measure on `T³`, realized on its fundamental domain `[0,1]³ ⊂ ℝ³` (unit volume). -/
+noncomputable def torusMeasure : Measure (Fin 3 → ℝ) :=
+  volume.restrict (Set.Icc (0 : Fin 3 → ℝ) 1)
+
+instance : IsProbabilityMeasure torusMeasure := by
+  constructor
+  simp [torusMeasure, Real.volume_Icc_pi]
+
+/-- **`L4L2Holder` on the unit torus.** With `g x = |ω(x)|²` square-integrable on `[0,1]³`,
+`E = ½∫|ω|²`, `Q = ∫|ω|⁴` satisfy `‖ω‖₂⁴ ≤ ‖ω‖₄⁴`. -/
+theorem l4l2Holder_torus (g : ℝ → (Fin 3 → ℝ) → ℝ) (T : ℝ)
+    (hg : ∀ x, MemLp (g x) 2 torusMeasure) :
+    EnstrophyL2.L4L2Holder (fun x => (1 / 2) * ∫ s, g x s ∂torusMeasure)
+      (fun x => ∫ s, g x s ^ 2 ∂torusMeasure) T :=
+  l4l2Holder_of_prob g T hg
+
 end Frohman.Tether.CitedProps

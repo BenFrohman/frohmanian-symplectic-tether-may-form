@@ -148,3 +148,5 @@ open Frohman.Tether.Shear in
 #print axioms shear_divFree
 open Frohman.Tether.Shear in
 #print axioms shearBad_not_divFree
+open Frohman.Tether.CitedProps in
+#print axioms l4l2Holder_torus
