@@ -1,0 +1,283 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm,mathrsfs,hyperref,geometry,booktabs}
+\geometry{margin=1in}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{hypothesis}{Cited Proposition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newcommand{\T}{\mathfrak{T}_F}
+\newcommand{\ip}[2]{\langle #1,#2\rangle}
+\newcommand{\lean}[1]{\texttt{\detokenize{#1}}}
+\newcommand{\LeanRef}[1]{\par\noindent\emph{Lean:} \lean{#1}.\par}
+\title{The Frohmanian Symplectic Tether $\T$:\\ Written Proofs Companion to the Lean~4 Formalization}
+\author{Benjamin Stanley Frohman\\ \small ORCID \href{https://orcid.org/0009-0006-7068-3718}{0009-0006-7068-3718}}
+\date{October 29, 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+This is a sibling paper to the Lean~4 repository \texttt{frohmanian-symplectic-tether-may-form}.
+Each result is given a written proof and cross-referenced to the Lean declaration that
+kernel-checks it. Result~1 is geometric: under three admissibility conditions, the symmetric
+correction $\T[\kappa,w,u](F,G)=-(\kappa w)\ip{\Pi_uF}{\Pi_uG}$ is unique up to scale, and
+Route~A fixes the scale. Result~2 is about a \emph{modified} system, the tethered vorticity equation
+$\partial_t\omega+(u\cdot\nabla)\omega=(\omega\cdot\nabla)u+\nu\Delta\omega-\kappa P(|\omega|^2\omega)$.
+For that system we prove the $L^2$ bound, the $H^1$ estimate, the log-loss comparison and global
+smoothness, \emph{conditional on cited propositions that are listed explicitly}.
+\textbf{None of this resolves the Clay Millennium problem.} Plain Navier--Stokes is unchanged
+(Section~\ref{sec:open}).
+\end{abstract}
+
+\section{Physical motivation}\label{sec:motivation}
+The starting picture is physical. The vortex-stretching term $(\omega\cdot\nabla)u$ behaves as if
+a hidden geometric constraint, an ``invisible object'', were shaping three-dimensional vorticity. The
+programme has two steps. (i) \emph{Derive} what such an object can be from symmetry and
+energy considerations alone, in Hamiltonian/Lie--Poisson language. (ii) \emph{Insert} the derived
+object into the dynamics, at vorticity level, through the Leray projection $P$.
+
+Two pictures from the author's June~22, 2026 compilation guide the derivation. Both are formalized:
+\begin{itemize}
+\item \textbf{Chevalley--Eilenberg 2-cocycle.} Antisymmetric corrections to a Lie--Poisson bracket are
+CE 2-cochains. Jacobi requires them to be cocycles, and $d\circ d=0$ makes coboundaries automatic
+cocycles. A \emph{symmetric} correction is not a CE cochain at all. That is why the tether is
+metriplectic and not Hamiltonian (Prop.~\ref{prop:ce}).
+\item \textbf{$T^3$ shear.} The shear $(\sin y,0,0)$ is divergence free, so it is admissible. The
+variant $(\sin x,0,0)$ is not (its divergence is $1$ at the origin). This is the
+counterexample that shows the divergence-free constraint is essential (Prop.~\ref{prop:shear}).
+\end{itemize}
+Whether real fluids carry the resulting term is \emph{not} decided here (Section~\ref{sec:open}).
+
+\section{Result 1: geometric uniqueness of $\T$}\label{sec:geom}
+Throughout, $H$ is a real inner-product space with $\dim H\ge 3$, $u\in H$, $u\neq0$, and
+$\Pi_u x = x-\frac{\ip{u}{x}}{\|u\|^2}u$.
+\begin{definition}
+$\T[\kappa,w,u](F,G):=-(\kappa w)\ip{\Pi_uF}{\Pi_uG}$. \LeanRef{Frohman.Tether.frohmanianTether; frohmanianTether_apply}
+\end{definition}
+
+\begin{lemma}[Basic properties]
+(a) $\T$ is symmetric. (b) $\T(F,F)\le0$ whenever $\kappa w\ge0$. (c) It is degenerate with respect to the
+kinetic-energy gradient: $\T(F,u)=0$ for all $F$. (d) It is invariant under every isometry
+commuting with $\Pi_u$.
+\end{lemma}
+\begin{proof}
+(a) is symmetry of the inner product. (b) gives $-\kappa w\|\Pi_uF\|^2$. (c) holds because $\Pi_uu=0$.
+(d) If $A$ is an isometry with $A\Pi_u=\Pi_uA$, then $\ip{\Pi_uAF}{\Pi_uAG}=\ip{A\Pi_uF}{A\Pi_uG}=\ip{\Pi_uF}{\Pi_uG}$.
+\end{proof}
+\LeanRef{frohmanianTether_symm, frohmanianTether_self_nonpos, degeneracy_verification, frohmanianTether_invariant, piU_comm_isometry}
+
+\begin{theorem}[Uniqueness up to scale]\label{thm:unique}
+Let $B$ be a symmetric bilinear form that is (C1) invariant under the coadjoint isometries fixing
+$u$ and (C2) degenerate with respect to $u$. Then $B=\T[c,1,u]$ for some $c\in\mathbb R$.
+If, in addition, (C3) fixes the coefficient ($C3(\T[c,1,u])\Rightarrow c=\kappa w$), then $B=\T[\kappa,w,u]$.
+\end{theorem}
+\begin{proof}
+(C2) and symmetry give $B(x,y)=B(\Pi_ux,\Pi_uy)$ (\lean{degeneracy_forces_projection}).
+So $B$ is determined by its restriction to $u^\perp$, which has dimension $\ge2$. Fix a unit $e_0\perp u$
+(\lean{exists_unit_orthogonal}). For every unit $e\perp u$, (C1) supplies an isometry fixing $u$
+that sends $e_0\mapsto e$, so $B(e,e)=B(e_0,e_0)$ (\lean{diag_eq_of_norm_eq}). By homogeneity,
+$B(x,x)=B(e_0,e_0)\|\Pi_ux\|^2$. Polarization recovers $B(x,y)=B(e_0,e_0)\ip{\Pi_ux}{\Pi_uy}$,
+that is, $B=\T[c,1,u]$ with $c=-B(e_0,e_0)$. The calibrated statement then follows from (C3).
+\end{proof}
+\LeanRef{admissible_eq_smul_frohmanianTether, uniqueness_of_minimal_metric_tether, uniqueness_of_minimal_metric_tether_iff}
+
+\begin{theorem}[Route A determines $\kappa$]\label{thm:routeA}
+Let $\omega\perp u$, $\|\omega\|=1$, $w\neq0$. Suppose $\T[\kappa,w,u]$ matches the stretching
+coefficient $S$ in the sense $\T[\kappa,w,u](\omega,\omega)+S w=0$. Then $\kappa=S$.
+Consequently, in $\dim\ge3$ with $S\ge0$, $w>0$, a correction is admissible for Route~A iff
+$B=\T[\kappa,w,u]$ with $\kappa=S$.
+\end{theorem}
+\begin{proof}
+Since $\omega\perp u$, $\Pi_u\omega=\omega$, so $\T(\omega,\omega)=-\kappa w\|\omega\|^2=-\kappa w$. The matching gives
+$(S-\kappa)w=0$, and $w\ne0$ yields $\kappa=S$. The equivalence combines this with Theorem~\ref{thm:unique}.
+\end{proof}
+\LeanRef{routeA_determines_kappa, frohmanian_symplectic_tether_theorem, uniqueness_routeA_iff, frohmanianTether_routeA}
+
+\begin{theorem}[Nine-term Jacobi]\label{thm:jacobi}
+For a classical (Jacobi) bracket $P$ and the tethered bracket $P+\T$, the Jacobiator expands into
+nine terms. The three purely classical ones cancel by Jacobi of $P$, and the three purely tether
+terms vanish. So the Jacobiator equals the cyclic sum of the mixed terms, and Jacobi holds on a set
+$R$ iff that cyclic sum vanishes on $R$. It vanishes when $u$ is central for $P$, $P$ is
+homogeneous in its first slot, and $\Pi_u P(a,b)=0$.
+\end{theorem}
+\begin{proof}
+Bilinear expansion gives the nine terms (\lean{jacobiator_nine_terms}). Terms 7--9 are
+$\T$-in-$\T$ and vanish because the tether vector field is $\Pi_u$-valued and annihilated in the
+second application (\lean{tetherVec_tetherVec}, \lean{jacobi_term7}--\lean{jacobi_term9}).
+The classical triple cancels (\lean{jacobi_classical_cancel}). Under the sufficient hypotheses each
+mixed term contains $\Pi_uP(\cdot,\cdot)=0$ or $P(u,\cdot)=0$.
+\end{proof}
+\LeanRef{jacobiator_eq_mixed, jacobi_iff_mixed_cancel, mixedTerm_eq_zero, jacobiator_eq_zero_of_central}
+
+\begin{theorem}[Metriplectic split]
+Every bilinear form splits uniquely into symmetric and antisymmetric parts. $\T$ is purely symmetric,
+and the metriplectic bracket $P+\T$ with $P$ antisymmetric conserves kinetic energy:
+$\{E,E\}=0$ and $\T(F,\nabla E)=0$.
+\end{theorem}
+\begin{proof}
+$B=\tfrac12(B+B^\top)+\tfrac12(B-B^\top)$. Uniqueness holds because a form that is both symmetric
+and antisymmetric is zero. Energy conservation follows from $P(F,F)=0$ and degeneracy.
+\end{proof}
+\LeanRef{split_unique, symPart_frohmanianTether, antiPart_frohmanianTether, metriplecticBracket_split, metriplectic_energy_conserved}
+
+\begin{proposition}[Chevalley--Eilenberg]\label{prop:ce}
+(a) $d_2\circ d_1=0$ on 1-cochains of any Lie algebra. (b) Coboundaries are cocycles.
+(c) If $2$ is invertible and the symmetric part of $\beta$ is alternating, it is zero. So a nonzero
+symmetric correction such as $\T$ is never a CE 2-cochain.
+\end{proposition}
+\begin{proof}
+(a) $d_2(d_1f)(x,y,z)$ is $-f$ applied to the Jacobi sum $[x,[y,z]]+[y,[z,x]]+[z,[x,y]]=0$.
+(b) follows from (a). (c) $s(x,y)=s(y,x)$ and $s(x,y)=-s(y,x)$ give $2s=0$.
+\end{proof}
+\LeanRef{d2_d1, cocycle_of_coboundary, antiCorr_cocycle_iff, symPart_not_cochain}
+
+\begin{proposition}[$T^3$ shear]\label{prop:shear}
+$\mathrm{div}(\sin y,0,0)\equiv0$, whereas $\mathrm{div}(\sin x,0,0)=\cos x$, which equals $1$ at the origin.
+\end{proposition}
+\LeanRef{shear_divFree, shearBad_div, shearBad_not_divFree}
+
+\section{Result 2: the tethered system}\label{sec:model}
+\subsection{Insertion through the projection}
+The inserted system is
+\begin{equation}\label{eq:tv}
+\partial_t\omega+(u\cdot\nabla)\omega=(\omega\cdot\nabla)u+\nu\Delta\omega-\kappa P(|\omega|^2\omega).
+\end{equation}
+At velocity level it is the forced NS equation with force $F=\mathrm{curl}^{-1}(-\kappa P(|\omega|^2\omega))$.
+\textbf{This is a modified Navier--Stokes system, not plain Navier--Stokes.}
+The quartic weight is built in, not ansatzed:
+$\T[\kappa,\|\omega\|^2,u](\omega,\omega)=-\kappa\|\omega\|^4$ for $\omega\perp u$ (\lean{quarticTether_eq}).
+
+\begin{theorem}[Curl of forced NS]
+If $(u,p)$ is a classical smooth solution of $\partial_tu+(u\cdot\nabla)u=-\nabla p+\nu\Delta u+F$ with
+$\mathrm{div}\,u=0$, then $\omega=\mathrm{curl}\,u$ satisfies
+$\partial_t\omega+(u\cdot\nabla)\omega=(\omega\cdot\nabla)u+\nu\Delta\omega+\mathrm{curl}\,F$.
+\end{theorem}
+\begin{proof}
+Take the curl. Mixed partials commute on smooth fields, so $\mathrm{curl}\,\nabla p=0$ and
+$\mathrm{curl}\,\Delta=\Delta\,\mathrm{curl}$, and $\partial_t$ commutes with $\mathrm{curl}$. The identity
+$\mathrm{curl}((u\cdot\nabla)u)=(u\cdot\nabla)\omega-(\omega\cdot\nabla)u$ for $\mathrm{div}\,u=0$ is checked componentwise.
+\end{proof}
+\LeanRef{curlOfForcedNS, curl_grad, curl_laplacian, curl_advection, hasDerivAt_pd_time}
+
+\begin{theorem}[Biot--Savart on trigonometric polynomials]
+For each nonzero wavevector $k$ and amplitude $a\perp k$, the mode $b=\frac{ik\times a}{|k|^2}e^{ik\cdot x}$
+satisfies $\mathrm{curl}\,b=a\,e^{ik\cdot x}$ and $\mathrm{div}\,b=0$, and it is the unique such divergence-free
+mode. Summing gives a right inverse of curl on mean-zero divergence-free trigonometric polynomials.
+\end{theorem}
+\begin{proof}
+$\mathrm{curl}\,b=\frac{ik\times(ik\times a)}{|k|^2}e^{ik\cdot x}=\frac{-(k\cdot a)k+|k|^2a}{|k|^2}e^{ik\cdot x}=a\,e^{ik\cdot x}$, and $\mathrm{div}\,b\propto k\cdot(k\times a)=0$. Curl is linear over finite sums.
+\end{proof}
+\LeanRef{curlC_bsC, divC_bsC, bsC_unique, curl_bsMode, div_bsMode, curl_bsSum, curlRightInverse_trig}
+
+\begin{corollary}[Velocity form $\Rightarrow$ vorticity form]
+If $\mathrm{curl}^{-1}$ is a right inverse of curl on the admissible class containing
+$-\kappa P(|\omega|^2\omega)$, then every velocity solution of the tethered NS solves \eqref{eq:tv}.
+\end{corollary}
+\LeanRef{tetheredVorticity_of_velocity, curl_lerayTetherForce}
+
+\subsection{$L^2$ (enstrophy) bound}
+\begin{lemma}
+If $P$ is a symmetric idempotent and $P\omega=\omega$, then $\ip{\omega}{-\kappa Pg}=-\kappa\ip{\omega}{g}$.
+With $g=|\omega|^2\omega$ this equals $-\kappa\|\omega\|_4^4$.
+\end{lemma}
+\LeanRef{inner_leray_of_divFree, tether_L2_term, inner_cubic}
+\begin{theorem}\label{thm:L2}
+Let $E=\tfrac12\|\omega\|_2^2$ and $Q=\|\omega\|_4^4$. Assume $E'=S-\nu D-\kappa Q$ (Cited Prop.~\ref{cp:EI}),
+$S\le C\sqrt{2E}\sqrt Q$ (Cited Prop.~\ref{cp:CZ}), and $(2E)^2\le Q$ (Cited Prop.~\ref{cp:Holder}). Then for $\kappa>0$,
+$E(t)\le\max(E_0,\,C^2/(2\kappa^2))$ on $[0,T]$.
+\end{theorem}
+\begin{proof}
+Young with $\lambda=\kappa/2$: $S\le\frac\kappa2 Q+\frac{C^2\cdot 2E}{2\kappa}$. Dropping $-\nu D\le0$ and using $Q\ge(2E)^2$ gives the logistic inequality
+$E'\le\frac{C^2}{\kappa}E-2\kappa E^2$ (\lean{enstrophy_deriv_logistic}), so $E'<0$ whenever $E>C^2/(2\kappa^2)$.
+A barrier argument (\lean{image_le_of_deriv_right_lt_deriv_boundary'}) with a level $M'$ slightly above the maximum,
+followed by letting $M'\downarrow\max$, gives the bound.
+\end{proof}
+\LeanRef{young_lam, stretch_absorb, enstrophy_deriv_le, enstrophy_deriv_logistic, tethered_enstrophy_uniform, tethered_L2_vorticity_bounded}
+
+\subsection{$H^1$ (palinstrophy) estimate}
+\begin{lemma}[Tether is sign-definite at $H^1$]
+For $\omega\in\mathbb R^3$ and $D=\nabla\omega$,
+$\sum_{ij}D_{ij}\,\partial_j(|\omega|^2\omega_i)=|\omega|^2|D|^2+\tfrac12\sum_j(2\sum_k\omega_kD_{kj})^2\ge0$,
+with no alignment assumption.
+\end{lemma}
+\LeanRef{tether_H1_density_eq, tether_H1_density_nonneg, tether_H1_term}
+\begin{theorem}\label{thm:H1}
+Let $G=\|\nabla\omega\|_2^2$, $L=\|\Delta\omega\|_2$. Assume $G'=2(-\nu L^2-\kappa J+N)$ with $J\ge0$
+(Cited Prop.~\ref{cp:H1I}) and $N\le A\,G^{1/4}L^{3/2}$ (Cited Prop.~\ref{cp:NL}). Then
+$G(t)\le G(0)\exp\!\big(\tfrac{27A^4}{16\nu^3}t\big)$.
+\end{theorem}
+\begin{proof}
+Drop $-\kappa J\le0$. Young with exponents $(4,4/3)$: $A G^{1/4}L^{3/2}\le\nu L^2+\frac{27A^4}{32\nu^3}G$
+(\lean{young_43}, \lean{amgm_four}). So $G'\le\frac{27A^4}{16\nu^3}G$, and Gr\"onwall
+(\lean{le_gronwallBound_of_liminf_deriv_right_le}) finishes.
+\end{proof}
+\LeanRef{palin_deriv_le, tethered_palinstrophy_gronwall, higherNormControl_tethered}
+
+\subsection{Log-loss comparison and global smoothness}
+At a spatial maximum of $|\omega|$, with $y=\|\omega\|_\infty$, the maximum principle gives a nonpositive
+viscous term (proved: \lean{viscousAtMax_of_max}, \lean{periodic_exists_max}). The tether gives $-\kappa y^3$
+(proved from $\T$: \lean{tetherFeedback_of_quartic}). With Cited Props.~\ref{cp:SbS}, \ref{cp:BKMlog},
+\ref{cp:cross} this gives
+$y'\le C(1+Z_0)\,y+C\log(e+Z)\,y^2-(\kappa/2-C_{abs})y^3$ (\lean{tether_pointwise_logloss}).
+The cubic dominates, so $y$ stays below the largest root of the comparison field (\lean{comparison_bound_logloss}).
+\begin{theorem}[Global smoothness of the tethered system, conditional]
+Assume the tethered log inequality (Cited Prop.~\ref{cp:NSlog}), higher-norm control, BKM continuation
+(Cited Prop.~\ref{cp:BKM}) and local continuation (Cited Prop.~\ref{cp:LC}). Then the solution is smooth on $[0,T]$ for every $T$.
+Higher-norm control is itself discharged by Theorems~\ref{thm:L2} and \ref{thm:H1} together with Cited Prop.~\ref{cp:boot}.
+\end{theorem}
+\begin{proof}
+Let $\sigma=\sup\{T:\text{smooth on }[0,T]\}$, assuming this set is bounded. On $[0,\sigma)$ the comparison bound gives a uniform
+$\sup y$. BKM continuation then gives smoothness on $[0,\sigma]$, and local continuation extends it past $\sigma$, a contradiction.
+\end{proof}
+\LeanRef{global_regularity_logloss, global_regularity, lemma_3_1_uniform_bound_and_continuation, frohmanian_symplectic_tether_theorem_global}
+
+\subsection{Remaining cited propositions (explicit hypotheses, never axioms)}
+Each item below is a \texttt{Prop} hypothesis in Lean. No \texttt{axiom} or \texttt{sorry} is used.
+\begin{hypothesis}[\lean{TetheredEnstrophyIdentity}]\label{cp:EI} Integrated enstrophy identity for \eqref{eq:tv}. It follows from multiplying by $\omega$, integrating by parts on $T^3$, and the lemma above.\end{hypothesis}
+\begin{hypothesis}[\lean{StrainL2Bound}]\label{cp:CZ} $\int\omega\cdot S\omega\le C\|\omega\|_2\|\omega\|_4^2$: Calder\'on--Zygmund / Biot--Savart, classical.\end{hypothesis}
+\begin{hypothesis}[\lean{L4L2Holder}]\label{cp:Holder} $\|\omega\|_2^4\le\|\omega\|_4^4$ on the unit-volume torus (H\"older).\end{hypothesis}
+\begin{hypothesis}[\lean{TetheredH1Identity}]\label{cp:H1I} The $H^1$ energy identity (Majda--Bertozzi~\cite{MB} \S3.2 for the NS part).\end{hypothesis}
+\begin{hypothesis}[\lean{NonlinH1Bound}]\label{cp:NL} Sobolev/Gagliardo--Nirenberg bound of the nonlinear term~\cite{Temam,CF}.\end{hypothesis}
+\begin{hypothesis}[\lean{H1ToHsBootstrap}]\label{cp:boot} $H^1$ bounds on $[0,T)$ imply $H^s$ bounds for all $s$. For plain NS this is classical parabolic regularity~\cite{Temam,CF,MB}. \textbf{The tether-specific step (controlling $\kappa P(|\omega|^2\omega)$ in $H^s$, which is plausible since $H^2\subset L^\infty$ in 3D) is not in the literature and remains to be proved.}\end{hypothesis}
+\begin{hypothesis}[\lean{EnergyIdentity}, \lean{StretchingByStrain}]\label{cp:SbS} Pointwise evolution at the maximum, and stretching $\le\|S\|_\infty y^2$.\end{hypothesis}
+\begin{hypothesis}[\lean{BKMLogInequality}]\label{cp:BKMlog} $\|S\|_\infty\le C(1+\|\omega\|_2+\|\omega\|_\infty\log(e+\|\omega\|_{H^s}))$~\cite{BKM}; see also Brezis--Gallou\"et and Kozono--Taniuchi~\cite{KT}.\end{hypothesis}
+\begin{hypothesis}[\lean{CrossControlled}]\label{cp:cross} The cross term at the maximum is absorbed with constant $C_{abs}$.\end{hypothesis}
+\begin{hypothesis}[\lean{NSTetherLogInequality}, \lean{NSTetherEnstrophyInequality}]\label{cp:NSlog} The integrated (time-continuous) form of the pointwise inequality along the solution.\end{hypothesis}
+\begin{hypothesis}[\lean{BKMContinuation}]\label{cp:BKM} Beale--Kato--Majda~\cite{BKM}: bounded $\|\omega\|_\infty$ on $[0,T)$ implies continuation. Stated for plain NS; its extension to \eqref{eq:tv} is assumed.\end{hypothesis}
+\begin{hypothesis}[\lean{LocalContinuation}]\label{cp:LC} Local existence for smooth periodic data (Fujita--Kato~\cite{FK}, Kato~\cite{Kato}).\end{hypothesis}
+\begin{hypothesis}[\lean{CurlRightInverse} beyond trigonometric polynomials]\label{cp:BS} Proved on trigonometric polynomials. The extension to the smooth admissible class requires a density/continuity argument not yet formalized.\end{hypothesis}
+
+\paragraph{Search of the author's own prior work for $H^1\to H^2$.}
+The author's earlier repositories were searched. \texttt{NS\_Millennium\_Proof} (\texttt{Blueprint.md}, June~19, 2026, and
+\texttt{Modules/AnalyticEstimates.lean}, Aug.~26, 2026), \texttt{fefferman-clay-navier-stokes}
+(\texttt{HighSetDepletionAndBKM.lean}, Oct.~25, 2026) and \texttt{Clay-} (\texttt{latex/section10\_gaps.tex}, Oct.~7, 2026)
+all invoke ``BKM + parabolic regularity bootstrap'' as a \emph{cited classical black box}
+(in one case a \texttt{sorry}). None contains an independent proof of the $H^1\to H^2$ step, let alone the
+tether-specific one. These are cited as the provenance of the plan, not as a proof.
+
+\section{Open question, stated plainly}\label{sec:open}
+\begin{enumerate}
+\item \textbf{Plain Navier--Stokes is unchanged.} For a velocity field that solves plain NS, nothing above adds a
+damping term. Leray projection of the velocity-level cubic source does not produce the vorticity-level tether
+(author's October notes \texttt{CubicSourceGap.tex}, \texttt{STATUS-2026-10-10.md}). Results here concern
+\eqref{eq:tv} only. The Lean predicates \lean{IsTrueNS} and \lean{IsTetheredNS} coincide only at $\kappa=0$
+(\lean{tetheredNS_zero_iff}), and at $\kappa=0$ no feedback is realized (\lean{not_tetherRealizesFeedback_zero}).
+\item \textbf{The Clay Millennium problem remains open.} Nothing in this paper or repository claims otherwise.
+\item \textbf{Do real fluids carry this term?} Answering this would need either a derivation of
+$-\kappa P(|\omega|^2\omega)$ from plain NS (none is known) or experimental/numerical evidence. Result~1 says
+that \emph{if} such a symmetric, invariant, energy-degenerate correction exists, it must be $\T$.
+\end{enumerate}
+
+\begin{thebibliography}{9}
+\bibitem{BKM} J.~T.~Beale, T.~Kato, A.~Majda, Remarks on the breakdown of smooth solutions for the 3-D Euler equations, \emph{Comm. Math. Phys.} 94 (1984) 61--66.
+\bibitem{Temam} R.~Temam, \emph{Navier--Stokes Equations and Nonlinear Functional Analysis}, 2nd ed., SIAM, 1995.
+\bibitem{CF} P.~Constantin, C.~Foias, \emph{Navier--Stokes Equations}, Univ.\ Chicago Press, 1988.
+\bibitem{MB} A.~J.~Majda, A.~L.~Bertozzi, \emph{Vorticity and Incompressible Flow}, Cambridge, 2002.
+\bibitem{KT} H.~Kozono, Y.~Taniuchi, Limiting case of the Sobolev inequality in BMO, \emph{Comm. Math. Phys.} 214 (2000) 191--200.
+\bibitem{FK} H.~Fujita, T.~Kato, On the Navier--Stokes initial value problem I, \emph{Arch. Rational Mech. Anal.} 16 (1964) 269--315.
+\bibitem{Kato} T.~Kato, Strong $L^p$-solutions of the Navier--Stokes equation in $\mathbb R^m$, \emph{Math. Z.} 187 (1984) 471--480.
+\end{thebibliography}
+\end{document}
