@@ -20,3 +20,4 @@ import TetherMayForm.JacobiWitness
 import TetherMayForm.FieldJacobi
 import TetherMayForm.RiccatiComparison
 import TetherMayForm.FieldMetriplectic
+import TetherMayForm.CitedProps

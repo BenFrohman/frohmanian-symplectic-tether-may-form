@@ -85,5 +85,65 @@ theorem dissF_shear_nonpos {κ w : ℝ} (h : 0 ≤ κ * w) :
   rw [e]
   refine ⟨?_, ?_, ?_, ?_⟩ <;> simp <;> linarith
 
+/-! ## Sign condition for all real fields -/
+
+/-- A field is real iff its Fourier coefficients are conjugate-symmetric. -/
+def IsRealF (a : Fld) : Prop := ∀ p i, a (-p) i = starRingEnd ℂ (a p i)
+
+theorem IsRealF.neg' {a : Fld} (h : IsRealF a) (p i) : a p i = starRingEnd ℂ (a (-p) i) := by
+  rw [h p i, Complex.conj_conj]
+
+theorem pr_eq_sum (a b : Fld) :
+    pr a b = ∑ p ∈ a.support, ∑ i, a p i * b (-p) i := by
+  simp [pr, Finsupp.sum, dotProduct]
+
+theorem mem_support_neg {a : Fld} (h : IsRealF a) {p} (hp : p ∈ a.support) : -p ∈ a.support := by
+  rw [Finsupp.mem_support_iff] at *
+  intro h0; apply hp; funext i
+  have := congrFun h0 i; rw [h p i] at this; simpa using this
+
+/-- For real fields the pairing is real. -/
+theorem conj_pr {a b : Fld} (ha : IsRealF a) (hb : IsRealF b) :
+    starRingEnd ℂ (pr a b) = pr a b := by
+  rw [pr_eq_sum, map_sum]
+  simp only [map_sum, map_mul]
+  refine Finset.sum_nbij' (fun p => -p) (fun p => -p) (fun p hp => mem_support_neg ha hp)
+    (fun p hp => mem_support_neg ha hp) (fun p _ => neg_neg p) (fun p _ => neg_neg p) ?_
+  intro p _
+  refine Finset.sum_congr rfl fun i _ => ?_
+  rw [← ha p i, ← hb.neg' p i, neg_neg, mul_comm]
+
+theorem pr_self_eq {a : Fld} (ha : IsRealF a) :
+    pr a a = ((∑ p ∈ a.support, ∑ i, Complex.normSq (a p i) : ℝ) : ℂ) := by
+  rw [pr_eq_sum]; push_cast
+  refine Finset.sum_congr rfl fun p _ => Finset.sum_congr rfl fun i _ => ?_
+  rw [ha p i, Complex.mul_conj]
+
+theorem pr_self_re_nonneg {a : Fld} (ha : IsRealF a) : 0 ≤ (pr a a).re ∧ (pr a a).im = 0 := by
+  rw [pr_self_eq ha]; simp only [Complex.ofReal_re, Complex.ofReal_im, and_true]
+  exact Finset.sum_nonneg fun p _ => Finset.sum_nonneg fun i _ => Complex.normSq_nonneg _
+
+theorem isRealF_sub_smul {a u : Fld} (ha : IsRealF a) (hu : IsRealF u) {r : ℂ}
+    (hr : starRingEnd ℂ r = r) : IsRealF (a - r • u) := by
+  intro p i
+  simp only [Finsupp.coe_sub, Finsupp.coe_smul, Pi.sub_apply, Pi.smul_apply, smul_eq_mul,
+    map_sub, map_mul, hr, ha p i, hu p i]
+
+theorem isRealF_piF {u a : Fld} (hu : IsRealF u) (ha : IsRealF a) : IsRealF (piF u a) := by
+  unfold piF
+  refine isRealF_sub_smul ha hu ?_
+  rw [map_div₀, conj_pr hu ha, conj_pr hu hu]
+
+/-- **Sign condition, all real fields.** For every real `u`, `a` and real `κ w` with `κw ≥ 0`,
+`d(a) = −κw⟨Π_u a,Π_u a⟩` is real and `≤ 0`. -/
+theorem dissF_nonpos {u a : Fld} (hu : IsRealF u) (ha : IsRealF a) {κ w : ℝ} (h : 0 ≤ κ * w) :
+    (dissF κ w u a).re ≤ 0 ∧ (dissF κ w u a).im = 0 := by
+  obtain ⟨h1, h2⟩ := pr_self_re_nonneg (isRealF_piF hu ha)
+  have e : ((κ : ℂ) * w) = ((κ * w : ℝ) : ℂ) := by push_cast; ring
+  unfold dissF; rw [e]
+  constructor
+  · simp [Complex.mul_re, h2]; nlinarith
+  · simp [Complex.mul_im, h2]
+
 end
 end Frohman.Tether.FieldMetriplectic
