@@ -105,7 +105,7 @@ theorem degeneracy_verification_smul (κ w : ℝ) (u F : H) (c : ℝ) :
     𝔗_F[κ, w, u] F (c • u) = 0 := by
   rw [frohmanianTether_apply, piU_smul_self, inner_zero_right, mul_zero]
 
-/-- **Degeneracy Verification Lemma** (requested by the May 21 referee report).
+/-- **Degeneracy Verification Lemma** (requested in a May 21 2026 AI-assisted review; not a human referee).
 `B(F, c·u) = 0` for every `F` and every `c`; in particular `B(F, H) = 0`, so the frohmanianTether
 leaves the Hamiltonian untouched and the reversible part stays exactly Euler.
 

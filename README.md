@@ -1,9 +1,11 @@
 # tether-may-form: the Frohmanian Symplectic Tether 𝔗_F and a cubically damped Navier–Stokes model
 
 **Author:** Benjamin Stanley Frohman (ORCID 0009-0006-7068-3718), <frohmanbenjamin@gmail.com>. Prepared with assistance from Grok, which is not a co-author.
-**Status:** private, not published. Lean `v4.30.0-rc1`, Mathlib `v4.30.0-rc1`.
+**Status:** research code; not peer reviewed. Lean `v4.30.0-rc1`, Mathlib `v4.30.0-rc1`.
 
 This repo has **two separate results**. Keep them apart.
+
+**Status summary.** *Proved* (kernel-checked, standard axioms only; full per-theorem list in `AXIOMS.md`): the tether algebra of Result 1 (degeneracy, uniqueness, Route A κ = S, metriplectic split, 9-term Jacobi expansion) and the L²/H¹ estimates of Result 2 for the damped model. *Conditional on*: the named `Prop` inputs in the Result 2 table below (`CurlRightInverse` in the general case, `TetheredEnstrophyIdentity`, `StrainL2Bound`, `TetheredH1Identity`, `NonlinH1Bound`, `H1ToHsBootstrap`, `StretchingByStrain`, `BKMLogInequality`, `BKMContinuation`, `LocalContinuation`); global regularity is proved **only for the modified damped system and only given these inputs**. *Open*: regularity of unmodified Navier–Stokes, and the items listed under "Open in Result 1". Nothing here has been peer reviewed.
 
 | | Result 1: the original tether | Result 2: the damped model |
 |---|---|---|
@@ -75,20 +77,19 @@ This is a **modified** fluid model, not ordinary Navier–Stokes. On the unit to
 
 ---
 
-## Dated sources (server dates, America/Chicago)
-| Source | Date | Location |
-|---|---|---|
-| `main3_May03.tex` | May 2 2026, 7:28 PM CDT (Drive) | `/workspace/drive/main3_May03.tex` |
-| vFinal PDF | created May 21 2026, 9:37 AM CDT | https://drive.google.com/file/d/1wYNidezKnlLpegfoPGRSu5VSPBHPI8zS |
-| Grok AI audit labelled "referee report" (not a human referee) | May 21 2026 | `/workspace/drive/referee_0521.txt` |
-| May 21 email to ai_eng@spacex.com, 3 photos | May 21 2026, 4:58 PM CDT | Gmail |
-| Living document, axioms (A1)–(A5) | docx last modified Jun 26 2026 | `/workspace/drive/living.txt` |
-| `Tether.lean` (May 31; `projectionOrthogonalToU` was `sorry`) | May 31 2026, 1:32 AM CDT | https://drive.google.com/file/d/1vLWAfj2fA73OfdGvcDj1dx5PkiBwpoUS |
+## Dated sources (America/Chicago)
+Dates come from the author's own drafts and file metadata; the drafts themselves are not included in this repository.
+| Source | Date |
+|---|---|
+| `main3` draft (𝔗_F posed as a conjecture) | May 2 2026 |
+| vFinal draft (projected kernel Π_u, degeneracy) | May 21 2026 |
+| Living document, axioms (A1)–(A5) | last modified Jun 26 2026 |
+| First `Tether.lean` (`projectionOrthogonalToU` was `sorry`) | May 31 2026 |
 
-κ: κ = 1 was the May teaching placeholder; 3/2 came in Aug 26 2026. Here κ is free (Route A sets κ = S). History: `docs/timeline.md`, `docs/provenance_appendix.md`, `history/`.
+κ: κ = 1 was the May teaching placeholder; 3/2 came in Aug 26 2026. Here κ is free (Route A sets κ = S). History: `docs/timeline.md`.
 
 ## Build and count
-`lake exe cache get && lake build && lake env lean scripts/Axioms.lean` (output in `axioms_output.txt`).
+`lake exe cache get && lake build && lake env lean AxiomReport.lean` (full per-theorem output in `AXIOMS.md`; `scripts/Axioms.lean` prints the headline theorems).
 
 **Count method:** top-level declarations beginning with `theorem` or `lemma` in `TetherMayForm/*.lean`:
 `grep -cE "^(private |protected )?(theorem|lemma) " TetherMayForm/*.lean`.

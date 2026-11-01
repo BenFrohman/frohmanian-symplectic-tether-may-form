@@ -5,20 +5,19 @@
 **Excluded:** I did not use any material by Félix Robles.
 
 ## 1. Method
-- I searched 64 bare mirrors of the author's GitHub repositories, full history (`git log --all -G`, `git grep`), plus this repo's `history/` folder.
+- I searched 64 bare mirrors of the author's GitHub repositories, full history (`git log --all -G`, `git grep`) and the author's dated drafts (not included in this repository).
 - For each source the note gives the commit hash and the commit date (box timezone CDT, UTC−05:00). It also gives the SHA-256 of the file blob at that commit (`git show H:path | sha256sum`) and the matching lines, quoted verbatim.
 - Reproduce with: `git --git-dir=<repo> show <hash>:<path> | sha256sum`.
 
 ## 2. Sources, earliest first
 
 ### 2a. Earliest *self-dated* content (2026-05-18 and 2026-05-21)
-These texts carry their own May 2026 dates. Their copies in this repo were committed on 2026-10-29. Git therefore proves the content existed only from the 2026-06-19 mirror onward (§2b). The May dates come from the documents themselves.
+These texts carry their own May 2026 dates. Copies were committed to this repo's private history on 2026-10-29 and are not included in the public tree; the commit and sha256 columns refer to that history. Git therefore proves the content existed only from the 2026-06-19 mirror onward (§2b). The May dates come from the documents themselves.
 
 | Date in text | File (repo: tether-may-form) | commit | sha256 | verbatim |
 |---|---|---|---|---|
-| 2026-05-18 | history/2026-05-18_roadmap/roadmap_excerpt.txt:12 | 03a314d3eb0c6cb7aa532c5b90422322e28c74dc | 945d1b201f0e980dcf2479a1e244997294fc38461488d789d6637b00991b9c58 | "The global regularity of the system is governed by the following Riccati inequality, which provides a uniform, first-principles bound on vorticity: $$\|\omega(t)\|_{L^\infty} \le \sqrt{C}\tanh(\sqrt{C}t+\phi_0)$$" |
-| 2026-05-21 | history/2026-05-21_PASS2_C3/Full_Living_PASS2_excerpt.md:1,55,57 | 7fe28288ce844cf6d533f382c8d0d7f34a6be12a | bef2b37c517067b6157203f515e1a2838c69f26ac56e23a3c2e9116634499236 | "## PASS 2 — Section 2.7 Canonicity Expansion + Riccati & Jacobi Clarification (2026-05-21)" · "y' = C y^2 - \kappa'' y^3" · "The cubic term arises naturally from the quartic absorption and yields a stronger uniform bound than the pure Riccati envelope." |
-| 2026-05-21 | history/2026-05-21_vFinal_audit_email/grok_audit_0521.txt:121 | f2fd3ed070d69e9e8ea52351b1fd2a42663c1d1f | f12e7014f36ea472f74897a1cb03ac7cb5d3e92b881fdc72b796fa4dc83a52df | "The comparison principle then gives M(t) ≤ max(M(0), y_*) uniformly." |
+| 2026-05-18 | author's roadmap draft (not included), l.12 | 03a314d3eb0c6cb7aa532c5b90422322e28c74dc | 945d1b201f0e980dcf2479a1e244997294fc38461488d789d6637b00991b9c58 | "The global regularity of the system is governed by the following Riccati inequality, which provides a uniform, first-principles bound on vorticity: $$\|\omega(t)\|_{L^\infty} \le \sqrt{C}\tanh(\sqrt{C}t+\phi_0)$$" |
+| 2026-05-21 | author's Full Living Document PASS 2 draft (not included), ll.1,55,57 | 7fe28288ce844cf6d533f382c8d0d7f34a6be12a | bef2b37c517067b6157203f515e1a2838c69f26ac56e23a3c2e9116634499236 | "## PASS 2 — Section 2.7 Canonicity Expansion + Riccati & Jacobi Clarification (2026-05-21)" · "y' = C y^2 - \kappa'' y^3" · "The cubic term arises naturally from the quartic absorption and yields a stronger uniform bound than the pure Riccati envelope." |
 
 ### 2b. Earliest *git-timestamped* source: 2026-06-19 16:29:21 CDT
 Repo **NS_Millennium_Proof**, commit `236244dc70379e2b26205da1d7867c0efe9ed1fd` ("Initial commit of Frohmanian Symplectic Tether NS Millennium Proof"), author Benjamin Stanley Frohman. The same tree appears in Test-Practice-Repo at `c4fc018`.

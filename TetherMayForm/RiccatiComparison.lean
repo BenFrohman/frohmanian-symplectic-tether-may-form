@@ -5,7 +5,7 @@ Author: Benjamin Stanley Frohman (prepared with assistance from Grok; not a co-a
 
 # Riccati comparison: plain blow-up vs. tethered ceiling (the author's comparison ODE)
 
-The author's comparison ODE (Full Living Document, PASS 2, 2026-05-21, `history/2026-05-21_PASS2_C3/`)
+The author's comparison ODE (Full Living Document, PASS 2, 2026-05-21)
 is `y' = C y² − κ'' y³`, with bound `y ≤ max(y(0), C/κ'')` (`Layer2.comparison_bound`).
 Dropping the tether (`κ'' = 0`) leaves `y' = C y²`, whose solution
 `y(t) = y₀/(1 − C y₀ t)` is unbounded before `T* = 1/(C y₀)` (`riccati_blowup`).
