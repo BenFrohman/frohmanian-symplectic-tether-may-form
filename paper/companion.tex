@@ -17,7 +17,7 @@
 \newcommand{\LeanRef}[1]{\par\noindent\emph{Lean:} \lean{#1}.\par}
 \title{The Frohmanian Symplectic Tether $\T$:\\ Written Proofs Companion to the Lean~4 Formalization}
 \author{Benjamin Stanley Frohman\\ \small ORCID \href{https://orcid.org/0009-0006-7068-3718}{0009-0006-7068-3718}}
-\date{October 29, 2026}
+\date{October 29, 2026; revised November 1, 2026. Not peer reviewed.}
 \begin{document}
 \maketitle
 \begin{abstract}
@@ -31,6 +31,11 @@ For that system we prove the $L^2$ bound, the $H^1$ estimate, the log-loss compa
 smoothness, \emph{conditional on cited propositions that are listed explicitly}.
 \textbf{None of this resolves the Clay Millennium problem.} Plain Navier--Stokes is unchanged
 (Section~\ref{sec:open}).
+\emph{Build status:} \texttt{lake build} of the full \texttt{TetherMayForm} library succeeds, and the axiom report
+(\texttt{AxiomReport.lean}, listed in \texttt{AXIOMS.md}) finds 382 theorem declarations, none using \texttt{sorryAx}
+and none using an axiom beyond \texttt{propext}, \texttt{Classical.choice}, \texttt{Quot.sound}. ``Proved'' below
+means kernel-checked in that sense; ``conditional'' means the result takes a named \texttt{Prop} hypothesis
+that is not proved here.
 \end{abstract}
 
 \section{Physical motivation}\label{sec:motivation}
@@ -295,15 +300,13 @@ Each item below is a \texttt{Prop} hypothesis in Lean. No \texttt{axiom} or \tex
 The \lean{CurlRightInverse} extension needs density of trigonometric polynomials in the smooth admissible class with $C^\infty$ convergence of Biot--Savart. Mathlib has the $L^2$ density of Fourier modes, not the smooth-topology statement on $T^3$.
 
 \paragraph{Search of the author's own prior work for $H^1\to H^2$.}
-The author's earlier repositories were searched. \texttt{NS\_Millennium\_Proof} (\texttt{Blueprint.md}, June~19, 2026, and
-\texttt{Modules/AnalyticEstimates.lean}, Aug.~26, 2026), \texttt{fefferman-clay-navier-stokes}
-(\texttt{HighSetDepletionAndBKM.lean}, Oct.~25, 2026) and \texttt{Clay-} (\texttt{latex/section10\_gaps.tex}, Oct.~7, 2026)
-all invoke ``BKM + parabolic regularity bootstrap'' as a \emph{cited classical black box}
+The author's earlier work was searched: unpublished drafts and code from June--October 2026 and the
+\texttt{Clay-} repository (\texttt{latex/section10\_gaps.tex}, Oct.~7, 2026). All invoke ``BKM + parabolic regularity bootstrap'' as a \emph{cited classical black box}
 (in one case a \texttt{sorry}). None contains an independent proof of the $H^1\to H^2$ step, let alone the
 tether-specific one. These are cited as the provenance of the plan, not as a proof.
 
 \section{Riccati comparison: plain versus tethered, and its source}\label{sec:riccati}
-\emph{Provenance.} The comparison ODE $y'=Cy^2-\kappa''y^3$ was introduced by the author, B.~S.~Frohman. It appears in his ``PASS~2 --- Section~2.7 Canonicity Expansion + Riccati \& Jacobi Clarification (2026-05-21)'', which says: ``The cubic term arises naturally from the quartic absorption and yields a stronger uniform bound than the pure Riccati envelope.'' The earliest git timestamp for it is repository \texttt{NS\_Millennium\_Proof}, commit \texttt{236244d} (2026-06-19 16:29 CDT). Hashes and verbatim lines are listed in \texttt{paper/publication\_note\_riccati\_provenance.md}.
+\emph{Provenance.} The comparison ODE $y'=Cy^2-\kappa''y^3$ was introduced by the author, B.~S.~Frohman. It appears in his unpublished draft dated 2026-05-21; its earliest git timestamp is 2026-06-19 in an unpublished repository of the author. Details are in \texttt{paper/publication\_note\_riccati\_provenance.md}. The bound it gives applies only to the tethered comparison ODE below, not to plain Navier--Stokes.
 
 \emph{Plain Riccati.} For $C,y_0>0$, $y(t)=y_0/(1-Cy_0t)$ solves $y'=Cy^2$, $y(0)=y_0$. It exceeds every bound before $T^*=1/(Cy_0)$.
 \LeanRef{ricSol_hasDerivAt, riccati_blowup}
@@ -332,11 +335,11 @@ The nonzero mixed sums of Section~\ref{sec:model} ($\tfrac32\kappa w$ and $\tfra
 \item \textbf{Plain Navier--Stokes is unchanged.} For a velocity field that solves plain NS, nothing above adds a
 damping term. The author's October notes say so in these words:
 ``Because $B(F,H)=0$ by Proposition~[prop:degen], the tether does not add a damping term to the PDE (eq:vort) itself''
-(\texttt{NS\_Millennium\_Proof/main.tex}, section ``Scaling Analysis and Open Analytic Questions);
+(author's unpublished notes, October 2026);
 ``A degeneracy $B(F,H)\equiv 0$ on a kinetic-energy Hamiltonian leaves the energy field classical and does not insert
 $-\kappa M^2$ into the strain'' and ``Equation (eq:missing) is not an identity of the unmodified vorticity equation''
-(\texttt{certs/CubicSourceGap.tex}, 7 Oct.\ 2026);
-``Derivation of the rate from the unmodified vorticity equation remains open'' (\texttt{STATUS-2026-10-10.md}).
+(author's unpublished note, 7 Oct.\ 2026);
+``Derivation of the rate from the unmodified vorticity equation remains open'' (author's unpublished status note, 10 Oct.\ 2026).
 (Bracketed labels inside quotations are the cited files' own equation references.) The mechanism is therefore the \emph{degeneracy} $\Pi_uu=0$, not a
 statement that the Leray projection annihilates a velocity-level cubic source; those notes make no such claim. Here the
 cubic term is inserted by hand at vorticity level through $P$, which is why the results concern

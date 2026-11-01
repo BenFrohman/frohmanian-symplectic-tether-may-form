@@ -103,3 +103,6 @@ Apache-2.0 (`LICENSE`), with `NOTICE`. Grok assisted; it is not an author.
 Copyright 2026 Benjamin Stanley Frohman (ORCID [0009-0006-7068-3718](https://orcid.org/0009-0006-7068-3718)). Licensed under the Apache License, Version 2.0; see `LICENSE` and `NOTICE`.
 
 What is proved vs. conditional: Proved results and their hypotheses are listed in the sections above. The cubically damped model is a modified system, not unmodified Navier–Stokes. Every hypothesis is a named `Prop` passed as an explicit argument. Nothing in this repository claims to solve the Clay Millennium problem or global regularity for unmodified 3D Navier–Stokes.
+
+
+**PDF note:** the PDF in `paper/` predates the 2026-11-01 revision of the `.tex` source (no TeX toolchain was available when this revision was made). The `.tex` file is authoritative; rebuild the PDF from it.
