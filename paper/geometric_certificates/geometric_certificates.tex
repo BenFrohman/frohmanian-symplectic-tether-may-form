@@ -1,0 +1,22 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}\usepackage{amsmath,amssymb,hyperref}
+\title{Geometric certificates for the Frohmanian tether:\\ Lie--Poisson structure, the metriplectic tethered sum,\\ C2 degeneracy, and open items under C1--C3}
+\author{Benjamin Stanley Frohman\\ Independent Researcher, ORCID 0009-0006-7068-3718}
+\date{4 November 2026}
+\begin{document}\maketitle
+\begin{abstract}
+We list the Lean~4/Mathlib certificates in the repository \texttt{frohmanian-symplectic-tether-may-form} that bear on the geometry of the tethered bracket. Proved: the field-level classical bracket on finite Fourier sums is antisymmetric and satisfies the Jacobi identity, hence is a Poisson bracket; that its symplectic leaves are the coadjoint orbits is standard background and is not formalized. The tethered sum $\{\cdot,\cdot\}_{\mathrm{LP}}+T$ splits uniquely into the antisymmetric classical part and the symmetric tether $T$, which is degenerate in the energy direction and negative semidefinite: it is metriplectic, and its Jacobi identity fails on explicit divergence-free test fields. Condition C2 (degeneracy on the kinetic-energy gradient $u$) forces every symmetric correction to see only $\Pi_u$-components, separating the conservative skeleton (span of $u$, where the bracket is the classical one) from the dissipative directions $u^\perp$. Open under C1--C3 (matching the repository README): C3 enters the Lean only as an explicit hypothesis; the quartic weight is not forced by C1--C3; and no damping estimate is proved or claimed. No claim is made about Navier--Stokes regularity or the Clay Millennium Problem. All listed theorems build with no \texttt{sorry} and depend only on \texttt{propext}, \texttt{Classical.choice}, \texttt{Quot.sound}.
+\end{abstract}
+
+\section*{Setting}
+$T(F,G)=-\kappa w\langle \Pi_u F,\Pi_u G\rangle$, $\Pi_u x=x-\frac{\langle u,x\rangle}{\|u\|^2}u$ (\texttt{Basic.lean}: \texttt{frohmanianTether}, \texttt{piU}). Abstract model: real inner-product space $H$. Field model (\texttt{FieldJacobi.lean}): finite Fourier sums \texttt{Fld} on $\mathbb T^3$ with bracket \texttt{br}, pairing \texttt{pr}, tether \texttt{tetF}.
+
+\section*{Certificates}
+\begin{description}
+\item[G1. Classical part is Poisson.] \texttt{FieldJacobi.br\_antisymm} ($\mathrm{br}\,a\,b=-\mathrm{br}\,b\,a$), \texttt{FieldJacobi.jacF\_eq\_zero} (Jacobi for every $a,b,c$). Abstract: \texttt{jacobi\_classical\_cancel}. \emph{Background, not formalized:} symplectic leaves of the Lie--Poisson bracket are coadjoint orbits (Kirillov--Kostant--Souriau); C1 is modelled only by isometries fixing $u$ (\texttt{InvariantUnderCoadjointAction}).
+\item[G2. Tethered sum is metriplectic.] \texttt{Metriplectic.lean}: \texttt{split\_unique}, \texttt{antiPart\_frohmanianTether} ($T$ has no antisymmetric part), \texttt{metriplecticBracket\_split} (antisymmetric part $=P$, symmetric part $=T$), \texttt{metriplectic\_energy\_conserved}. \texttt{Basic.frohmanianTether\_self\_nonpos}. Field level (\texttt{FieldMetriplectic.lean}): \texttt{tetF\_symm}, \texttt{tetF\_energy\_left/right}, \texttt{dissF\_nonpos} (real fields, $\kappa w\ge0$). Jacobi fails: \texttt{jacobi\_iff\_mixed\_cancel}; \texttt{FieldJacobi.shearX\_jacobi\_fails}, \texttt{shearY\_jacobi\_fails\_transverse} ($\kappa w\neq0$); \texttt{shearY\_jacobi\_holds} on the shear class. Self-bracket $\{F,F\}=T(F,F)\neq0$: \texttt{TetheredSelfBracket.lean} (Zenodo draft 10.5281/zenodo.23965512).
+\item[G3. C2 separates skeleton from dissipative directions.] \texttt{projectionOrthogonalToU} ($\Pi_u u=0$), \texttt{frohmanianTether\_degenerate}, \texttt{degeneracy\_forces\_projection} (C2 $\Rightarrow B(F,G)=B(\Pi_uF,\Pi_uG)$ for symmetric $B$), \texttt{tetheredBracket\_kineticEnergy} ($\{F,H\}_{TF}=\{F,H\}_{\mathrm{classical}}$), \texttt{admissible\_eq\_smul\_frohmanianTether} (dim $\ge3$, symmetric + C1 + C2 $\Rightarrow B=T[c,1,u]$).
+\item[G4. Open under C1--C3.] C3 is the parameter of \texttt{IsAdmissibleCorrection}; Route~A (\texttt{RouteA.lean}, \texttt{frohmanian\_symplectic\_tether\_theorem}) fixes $\kappa=S$ by matching, with $S$ supplied. No theorem derives a damping term for the unmodified equation from C1--C3, and none refutes it; the quartic weight is not forced by C1--C3 (same open items as the repository README).
+\end{description}
+\noindent Not claimed: any damping estimate; Navier--Stokes regularity.
+\end{document}
