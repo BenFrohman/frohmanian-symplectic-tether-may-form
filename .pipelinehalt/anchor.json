@@ -1,0 +1,268 @@
+{
+  "title": "The Frohmanian Symplectic Tether $\\T$:\\\\ Written Proofs Companion to the Lean~4 Formalization",
+  "source": "paper/companion.tex",
+  "claims": [
+    {
+      "id": "definition-2.1",
+      "number": "Definition 2.1",
+      "statement": "$\\T[\\kappa,w,u](F,G):=-(\\kappa w)\\ip{\\Pi_uF}{\\Pi_uG}$. \\LeanRef{Frohman.Tether.frohmanianTether; frohmanianTether_apply}",
+      "kind": "definition",
+      "source": "paper/companion.tex:63"
+    },
+    {
+      "id": "lemma-2.2",
+      "number": "Lemma 2.2",
+      "statement": "(a) $\\T$ is symmetric. (b) $\\T(F,F)\\le0$ whenever $\\kappa w\\ge0$. (c) It is degenerate with respect to the kinetic-energy gradient: $\\T(F,u)=0$ for all $F$. (d) It is invariant under every isometry commuting with $\\Pi_u$.",
+      "kind": "lemma",
+      "source": "paper/companion.tex:67",
+      "title": "Basic properties"
+    },
+    {
+      "id": "thm:unique",
+      "number": "Theorem 2.3",
+      "statement": "Let $B$ be a symmetric bilinear form that is (C1) invariant under the coadjoint isometries fixing $u$ and (C2) degenerate with respect to $u$. Then $B=\\T[c,1,u]$ for some $c\\in\\mathbb R$. If, in addition, (C3) fixes the coefficient ($C3(\\T[c,1,u])\\Rightarrow c=\\kappa w$), then $B=\\T[\\kappa,w,u]$.",
+      "kind": "theorem",
+      "source": "paper/companion.tex:78",
+      "title": "Uniqueness up to scale"
+    },
+    {
+      "id": "thm:routeA",
+      "number": "Theorem 2.4",
+      "statement": "Let $\\omega\\perp u$, $\\|\\omega\\|=1$, $w\\neq0$. Suppose $\\T[\\kappa,w,u]$ matches the stretching coefficient $S$ in the sense $\\T[\\kappa,w,u](\\omega,\\omega)+S w=0$. Then $\\kappa=S$. Consequently, in $\\dim\\ge3$ with $S\\ge0$, $w>0$, a correction is admissible for Route~A iff $B=\\T[\\kappa,w,u]$ with $\\kappa=S$.",
+      "kind": "theorem",
+      "source": "paper/companion.tex:93",
+      "title": "Route A determines $\\kappa$"
+    },
+    {
+      "id": "thm:jacobi",
+      "number": "Theorem 2.5",
+      "statement": "For a classical (Jacobi) bracket $P$ and the tethered bracket $P+\\T$, the Jacobiator expands into nine terms. The three purely classical ones cancel by Jacobi of $P$, and the three purely tether terms vanish. So the Jacobiator equals the cyclic sum of the mixed terms, and Jacobi holds on a set $R$ iff that cyclic sum vanishes on $R$. It vanishes when $u$ is central for $P$, $P$ is homogeneous in its first slot, and $\\Pi_u P(a,b)=0$.",
+      "kind": "theorem",
+      "source": "paper/companion.tex:105",
+      "title": "Nine-term Jacobi"
+    },
+    {
+      "id": "theorem-2.6",
+      "number": "Theorem 2.6",
+      "statement": "Every bilinear form splits uniquely into symmetric and antisymmetric parts. $\\T$ is purely symmetric, and the metriplectic bracket $P+\\T$ with $P$ antisymmetric conserves kinetic energy: $\\{E,E\\}=0$ and $\\T(F,\\nabla E)=0$.",
+      "kind": "theorem",
+      "source": "paper/companion.tex:121",
+      "title": "Metriplectic split"
+    },
+    {
+      "id": "prop:ce",
+      "number": "Proposition 2.7",
+      "statement": "(a) $d_2\\circ d_1=0$ on 1-cochains of any Lie algebra. (b) Coboundaries are cocycles. (c) If $2$ is invertible and the symmetric part of $\\beta$ is alternating, it is zero. So a nonzero symmetric correction such as $\\T$ is never a CE 2-cochain.",
+      "kind": "proposition",
+      "source": "paper/companion.tex:132",
+      "title": "Chevalley--Eilenberg"
+    },
+    {
+      "id": "prop:shear",
+      "number": "Proposition 2.8",
+      "statement": "$\\mathrm{div}(\\sin y,0,0)\\equiv0$, whereas $\\mathrm{div}(\\sin x,0,0)=\\cos x$, which equals $1$ at the origin.",
+      "kind": "proposition",
+      "source": "paper/companion.tex:143",
+      "title": "$T^3$ shear"
+    },
+    {
+      "id": "thm:fieldjacobi",
+      "number": "Theorem 2.9",
+      "statement": "•[(a)] The field bracket satisfies Jacobi. So the Arnold (Lie--Poisson) bracket on linear functionals is classical. •[(b)] If $\\langle u,u\\rangle\\neq0$, the Jacobiator of the tethered bracket equals the cyclic sum of the mixed terms $[T(a,b),c]+T([a,b],c)$. •[(c)] Divergence-free fields along $e_x$ (parallel shears $f(y,z)e_x$) commute pairwise. Hence at $u=(\\sin y,0,0)$ the mixed terms cancel, and Jacobi holds, for every triple in that class. •[(d)] At $u=(\\sin x,0,0)$, which is not divergence-free, take the divergence-free triple $a=b=c=(1,0,0)$. The $e^{ix}$, $x$-component coefficient of the mixed sum is $\\tfrac32\\kappa w$. So Jacobi fails whenever $\\kappa w\\ne0$. •[(e)] At $u=(\\sin y,0,0)$ with the divergence-free triple $a=b=c=(0,0,\\sin x)$, the $e^{i(x+y)}$, $z$-component coefficient is $\\tfrac{3i}{8}\\kappa w\\neq0$. So Jacobi fails here too.",
+      "kind": "theorem",
+      "source": "paper/companion.tex:162",
+      "title": "Field-level Jacobi"
+    },
+    {
+      "id": "theorem-3.1",
+      "number": "Theorem 3.1",
+      "statement": "If $(u,p)$ is a classical smooth solution of $\\partial_tu+(u\\cdot\\nabla)u=-\\nabla p+\\nu\\Delta u+F$ with $\\mathrm{div}\\,u=0$, then $\\omega=\\mathrm{curl}\\,u$ satisfies $\\partial_t\\omega+(u\\cdot\\nabla)\\omega=(\\omega\\cdot\\nabla)u+\\nu\\Delta\\omega+\\mathrm{curl}\\,F$.",
+      "kind": "theorem",
+      "source": "paper/companion.tex:196",
+      "title": "Curl of forced NS"
+    },
+    {
+      "id": "theorem-3.2",
+      "number": "Theorem 3.2",
+      "statement": "For each nonzero wavevector $k$ and amplitude $a\\perp k$, the mode $b=\\frac{ik\\times a}{|k|^2}e^{ik\\cdot x}$ satisfies $\\mathrm{curl}\\,b=a\\,e^{ik\\cdot x}$ and $\\mathrm{div}\\,b=0$, and it is the unique such divergence-free mode. Summing gives a right inverse of curl on mean-zero divergence-free trigonometric polynomials.",
+      "kind": "theorem",
+      "source": "paper/companion.tex:208",
+      "title": "Biot--Savart on trigonometric polynomials"
+    },
+    {
+      "id": "corollary-3.3",
+      "number": "Corollary 3.3",
+      "statement": "If $\\mathrm{curl}^{-1}$ is a right inverse of curl on the admissible class containing $-\\kappa P(|\\omega|^2\\omega)$, then every velocity solution of the tethered NS solves \\eqref{eq:tv}.",
+      "kind": "corollary",
+      "source": "paper/companion.tex:218",
+      "title": "Velocity form $\\Rightarrow$ vorticity form"
+    },
+    {
+      "id": "lemma-3.4",
+      "number": "Lemma 3.4",
+      "statement": "If $P$ is a symmetric idempotent and $P\\omega=\\omega$, then $\\ip{\\omega}{-\\kappa Pg}=-\\kappa\\ip{\\omega}{g}$. With $g=|\\omega|^2\\omega$ this equals $-\\kappa\\|\\omega\\|_4^4$.",
+      "kind": "lemma",
+      "source": "paper/companion.tex:225"
+    },
+    {
+      "id": "thm:L2",
+      "number": "Theorem 3.5",
+      "statement": "Let $E=\\tfrac12\\|\\omega\\|_2^2$ and $Q=\\|\\omega\\|_4^4$. Assume $E'=S-\\nu D-\\kappa Q$ (Cited Prop.~\\ref{cp:EI}), $S\\le C\\sqrt{2E}\\sqrt Q$ (Cited Prop.~\\ref{cp:CZ}), and $(2E)^2\\le Q$ (Cited Prop.~\\ref{cp:Holder}). Then for $\\kappa>0$, $E(t)\\le\\max(E_0,\\,C^2/(2\\kappa^2))$ on $[0,T]$.",
+      "kind": "theorem",
+      "source": "paper/companion.tex:230"
+    },
+    {
+      "id": "lemma-3.6",
+      "number": "Lemma 3.6",
+      "statement": "For $\\omega\\in\\mathbb R^3$ and $D=\\nabla\\omega$, $\\sum_{ij}D_{ij}\\,\\partial_j(|\\omega|^2\\omega_i)=|\\omega|^2|D|^2+\\tfrac12\\sum_j(2\\sum_k\\omega_kD_{kj})^2\\ge0$, with no alignment assumption.",
+      "kind": "lemma",
+      "source": "paper/companion.tex:244",
+      "title": "Tether is sign-definite at $H^1$"
+    },
+    {
+      "id": "thm:H1",
+      "number": "Theorem 3.7",
+      "statement": "Let $G=\\|\\nabla\\omega\\|_2^2$, $L=\\|\\Delta\\omega\\|_2$. Assume $G'=2(-\\nu L^2-\\kappa J+N)$ with $J\\ge0$ (Cited Prop.~\\ref{cp:H1I}) and $N\\le A\\,G^{1/4}L^{3/2}$ (Cited Prop.~\\ref{cp:NL}). Then $G(t)\\le G(0)\\exp\\!\\big(\\tfrac{27A^4}{16\\nu^3}t\\big)$.",
+      "kind": "theorem",
+      "source": "paper/companion.tex:250"
+    },
+    {
+      "id": "theorem-3.8",
+      "number": "Theorem 3.8",
+      "statement": "Assume the tethered log inequality (Cited Prop.~\\ref{cp:NSlog}), higher-norm control, BKM continuation (Cited Prop.~\\ref{cp:BKM}) and local continuation (Cited Prop.~\\ref{cp:LC}). Then the solution is smooth on $[0,T]$ for every $T$. Higher-norm control is itself discharged by Theorems~\\ref{thm:L2} and \\ref{thm:H1} together with Cited Prop.~\\ref{cp:boot}.",
+      "kind": "theorem",
+      "source": "paper/companion.tex:269",
+      "title": "Global smoothness of the tethered system, conditional"
+    },
+    {
+      "id": "cp:EI",
+      "number": "Hypothesis 3.9",
+      "statement": "Integrated enstrophy identity for \\eqref{eq:tv}. It follows from multiplying by $\\omega$, integrating by parts on $T^3$, and the lemma above.",
+      "kind": "hypothesis",
+      "source": "paper/companion.tex:282",
+      "title": "\\lean{TetheredEnstrophyIdentity}"
+    },
+    {
+      "id": "cp:CZ",
+      "number": "Hypothesis 3.10",
+      "statement": "$\\int\\omega\\cdot S\\omega\\le C\\|\\omega\\|_2\\|\\omega\\|_4^2$: Calder\\'on--Zygmund / Biot--Savart, classical.",
+      "kind": "hypothesis",
+      "source": "paper/companion.tex:283",
+      "title": "\\lean{StrainL2Bound}"
+    },
+    {
+      "id": "cp:Holder",
+      "number": "Hypothesis 3.11",
+      "statement": "$\\|\\omega\\|_2^4\\le\\|\\omega\\|_4^4$ on the unit-volume torus (H\\\"older). \\textbf{Now proved} for every probability space with $E=\\tfrac12\\int g$, $Q=\\int g^2$, $g=|\\omega|^2\\in L^2$ (\\lean{l4l2Holder_of_prob}, via nonnegativity of variance).",
+      "kind": "hypothesis",
+      "source": "paper/companion.tex:284",
+      "title": "\\lean{L4L2Holder}"
+    },
+    {
+      "id": "cp:H1I",
+      "number": "Hypothesis 3.12",
+      "statement": "The $H^1$ energy identity (Majda--Bertozzi~\\cite{MB} \\S3.2 for the NS part).",
+      "kind": "hypothesis",
+      "source": "paper/companion.tex:285",
+      "title": "\\lean{TetheredH1Identity}"
+    },
+    {
+      "id": "cp:NL",
+      "number": "Hypothesis 3.13",
+      "statement": "Sobolev/Gagliardo--Nirenberg bound of the nonlinear term~\\cite{Temam,CF}.",
+      "kind": "hypothesis",
+      "source": "paper/companion.tex:286",
+      "title": "\\lean{NonlinH1Bound}"
+    },
+    {
+      "id": "cp:boot",
+      "number": "Hypothesis 3.14",
+      "statement": "$H^1$ bounds on $[0,T)$ imply $H^s$ bounds for all $s$. For plain NS this is classical parabolic regularity~\\cite{Temam,CF,MB}. \\textbf{The tether-specific step (controlling $\\kappa P(|\\omega|^2\\omega)$ in $H^s$, which is plausible since $H^2\\subset L^\\infty$ in 3D) is not in the literature and remains to be proved.}",
+      "kind": "hypothesis",
+      "source": "paper/companion.tex:287",
+      "title": "\\lean{H1ToHsBootstrap}"
+    },
+    {
+      "id": "cp:SbS",
+      "number": "Hypothesis 3.15",
+      "statement": "Pointwise evolution at the maximum, and stretching $\\le\\|S\\|_\\infty y^2$.",
+      "kind": "hypothesis",
+      "source": "paper/companion.tex:288",
+      "title": "\\lean{EnergyIdentity}, \\lean{StretchingByStrain}"
+    },
+    {
+      "id": "cp:BKMlog",
+      "number": "Hypothesis 3.16",
+      "statement": "$\\|S\\|_\\infty\\le C(1+\\|\\omega\\|_2+\\|\\omega\\|_\\infty\\log(e+\\|\\omega\\|_{H^s}))$~\\cite{BKM}; see also Brezis--Gallou\\\"et and Kozono--Taniuchi~\\cite{KT}.",
+      "kind": "hypothesis",
+      "source": "paper/companion.tex:289",
+      "title": "\\lean{BKMLogInequality}"
+    },
+    {
+      "id": "cp:cross",
+      "number": "Hypothesis 3.17",
+      "statement": "The cross term at the maximum is absorbed with constant $C_{abs}$.",
+      "kind": "hypothesis",
+      "source": "paper/companion.tex:290",
+      "title": "\\lean{CrossControlled}"
+    },
+    {
+      "id": "cp:NSlog",
+      "number": "Hypothesis 3.18",
+      "statement": "The integrated (time-continuous) form of the pointwise inequality along the solution.",
+      "kind": "hypothesis",
+      "source": "paper/companion.tex:291",
+      "title": "\\lean{NSTetherLogInequality}, \\lean{NSTetherEnstrophyInequality}"
+    },
+    {
+      "id": "cp:BKM",
+      "number": "Hypothesis 3.19",
+      "statement": "Beale--Kato--Majda~\\cite{BKM}: bounded $\\|\\omega\\|_\\infty$ on $[0,T)$ implies continuation. Stated for plain NS; its extension to \\eqref{eq:tv} is assumed.",
+      "kind": "hypothesis",
+      "source": "paper/companion.tex:292",
+      "title": "\\lean{BKMContinuation}"
+    },
+    {
+      "id": "cp:LC",
+      "number": "Hypothesis 3.20",
+      "statement": "Local existence for smooth periodic data (Fujita--Kato~\\cite{FK}, Kato~\\cite{Kato}).",
+      "kind": "hypothesis",
+      "source": "paper/companion.tex:293",
+      "title": "\\lean{LocalContinuation}"
+    },
+    {
+      "id": "cp:BS",
+      "number": "Hypothesis 3.21",
+      "statement": "Proved on trigonometric polynomials. The extension to the smooth admissible class requires a density/continuity argument not yet formalized.",
+      "kind": "hypothesis",
+      "source": "paper/companion.tex:294",
+      "title": "\\lean{CurlRightInverse} beyond trigonometric polynomials"
+    }
+  ],
+  "clarifications": {
+    "cd0bdcad3c76": {
+      "claimId": "cp:CZ",
+      "kind": "ambiguous",
+      "question": "Paper claim Hypothesis 3.10 (cp:CZ) states: “$\\int\\omega\\cdot S\\omega\\le C\\|\\omega\\|_2\\|\\omega\\|_4^2$: Calder\\'on--Zygmund / Biot--Savart, classical.”. Its title is “\\lean{StrainL2Bound}”, which does not appear to describe that statement. Is the title or the statement misworded?",
+      "answer": "harmless wording (strict, mechanical): the title cites Lean name(s) StrainL2Bound, each an existing declaration mapped to this claim; the title makes no further assertion.",
+      "verdict": "intentional",
+      "answeredAt": "2026-11-03T21:11:05.211Z"
+    },
+    "46d843337285": {
+      "claimId": "cp:boot",
+      "kind": "ambiguous",
+      "question": "Paper claim Hypothesis 3.14 (cp:boot) states: “$H^1$ bounds on $[0,T)$ imply $H^s$ bounds for all $s$. For plain NS this is classical parabolic regularity~\\cite{Temam,CF,MB}. \\textbf{The tether-specific step (controlling $\\kappa P(|\\omega|^2\\omeg…”. Its title is “\\lean{H1ToHsBootstrap}”, which does not appear to describe that statement. Is the title or the statement misworded?",
+      "answer": "harmless wording (strict, mechanical): the title cites Lean name(s) H1ToHsBootstrap, each an existing declaration mapped to this claim; the title makes no further assertion.",
+      "verdict": "intentional",
+      "answeredAt": "2026-11-03T21:11:05.250Z"
+    },
+    "a01c12ef4309": {
+      "claimId": "cp:BKMlog",
+      "kind": "ambiguous",
+      "question": "Paper claim Hypothesis 3.16 (cp:BKMlog) states: “$\\|S\\|_\\infty\\le C(1+\\|\\omega\\|_2+\\|\\omega\\|_\\infty\\log(e+\\|\\omega\\|_{H^s}))$~\\cite{BKM}; see also Brezis--Gallou\\\"et and Kozono--Taniuchi~\\cite{KT}.”. Its title is “\\lean{BKMLogInequality}”, which does not appear to describe that statement. Is the title or the statement misworded?",
+      "answer": "harmless wording (strict, mechanical): the title cites Lean name(s) BKMLogInequality, each an existing declaration mapped to this claim; the title makes no further assertion.",
+      "verdict": "intentional",
+      "answeredAt": "2026-11-03T21:11:05.292Z"
+    }
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "claims": {
+    "cp:EI": {
+      "lean": [
+        "TetheredEnstrophyIdentity"
+      ],
+      "note": "auto: \\lean/\\texttt names cited in the claim that exist as declarations"
+    },
+    "cp:CZ": {
+      "lean": [
+        "StrainL2Bound"
+      ],
+      "note": "auto: \\lean/\\texttt names cited in the claim that exist as declarations"
+    },
+    "cp:Holder": {
+      "lean": [
+        "L4L2Holder",
+        "l4l2Holder_of_prob"
+      ],
+      "note": "auto: \\lean/\\texttt names cited in the claim that exist as declarations"
+    },
+    "cp:H1I": {
+      "lean": [
+        "TetheredH1Identity"
+      ],
+      "note": "auto: \\lean/\\texttt names cited in the claim that exist as declarations"
+    },
+    "cp:NL": {
+      "lean": [
+        "NonlinH1Bound"
+      ],
+      "note": "auto: \\lean/\\texttt names cited in the claim that exist as declarations"
+    },
+    "cp:boot": {
+      "lean": [
+        "H1ToHsBootstrap"
+      ],
+      "note": "auto: \\lean/\\texttt names cited in the claim that exist as declarations"
+    },
+    "cp:SbS": {
+      "lean": [
+        "EnergyIdentity",
+        "StretchingByStrain"
+      ],
+      "note": "auto: \\lean/\\texttt names cited in the claim that exist as declarations"
+    },
+    "cp:BKMlog": {
+      "lean": [
+        "BKMLogInequality"
+      ],
+      "note": "auto: \\lean/\\texttt names cited in the claim that exist as declarations"
+    },
+    "cp:cross": {
+      "lean": [
+        "CrossControlled"
+      ],
+      "note": "auto: \\lean/\\texttt names cited in the claim that exist as declarations"
+    },
+    "cp:NSlog": {
+      "lean": [
+        "NSTetherLogInequality",
+        "NSTetherEnstrophyInequality"
+      ],
+      "note": "auto: \\lean/\\texttt names cited in the claim that exist as declarations"
+    },
+    "cp:BKM": {
+      "lean": [
+        "BKMContinuation"
+      ],
+      "note": "auto: \\lean/\\texttt names cited in the claim that exist as declarations"
+    },
+    "cp:LC": {
+      "lean": [
+        "LocalContinuation"
+      ],
+      "note": "auto: \\lean/\\texttt names cited in the claim that exist as declarations"
+    },
+    "cp:BS": {
+      "lean": [
+        "CurlRightInverse"
+      ],
+      "note": "auto: \\lean/\\texttt names cited in the claim that exist as declarations"
+    }
+  }
+}
