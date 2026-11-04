@@ -1,4 +1,4 @@
-# Verification certificate — frohmanian-symplectic-tether-may-form v1.0.0
+# Verification certificate — frohmanian-symplectic-tether-may-form v1.1.0
 
 Paper: [The Frohmanian Symplectic Tether T: Written Proofs Companion to the Lean 4 Formalization](paper/companion.pdf)  
 Author: Benjamin Stanley Frohman <frohmanbenjamin@gmail.com>
