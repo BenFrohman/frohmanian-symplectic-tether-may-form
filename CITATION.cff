@@ -1,10 +1,13 @@
 cff-version: 1.2.0
-message: "If you use this work, please cite it using the metadata below."
-title: "Frohmanian Symplectic Tether, May 2026 form — Lean 4 + Mathlib, Route A uniqueness, 0 sorry"
+message: If you use this work, please cite it using the metadata below.
+title: 'The Frohmanian Symplectic Tether T: Written Proofs Companion to the Lean 4
+  Formalization'
 authors:
-  - family-names: "Frohman"
-    given-names: "Benjamin Stanley"
-    orcid: "https://orcid.org/0009-0006-7068-3718"
-    email: "frohmanbenjamin@gmail.com"
-license: "Apache-2.0"
-repository-code: "https://github.com/BenFrohman/frohmanian-symplectic-tether"
+- family-names: Frohman
+  given-names: Benjamin Stanley
+  email: frohmanbenjamin@gmail.com
+  orcid: https://orcid.org/0009-0006-7068-3718
+license: Apache-2.0
+repository-code: https://github.com/BenFrohman/frohmanian-symplectic-tether
+version: v1.0.0
+date-released: '2026-11-04'

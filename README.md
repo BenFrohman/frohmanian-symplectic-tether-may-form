@@ -110,3 +110,7 @@ What is proved vs. conditional: Proved results and their hypotheses are listed i
 
 
 **PDF note:** the PDF in `paper/` predates the 2026-11-01 revision of the `.tex` source (no TeX toolchain was available when this revision was made). The `.tex` file is authoritative; rebuild the PDF from it.
+
+## Verification certificate
+
+See [CERTIFICATE.md](CERTIFICATE.md) and the paper in `paper/companion.pdf`.

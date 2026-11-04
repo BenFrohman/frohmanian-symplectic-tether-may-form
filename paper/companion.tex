@@ -16,8 +16,10 @@
 \newcommand{\lean}[1]{\texttt{\detokenize{#1}}}
 \newcommand{\LeanRef}[1]{\par\noindent\emph{Lean:} \lean{#1}.\par}
 \title{The Frohmanian Symplectic Tether $\T$:\\ Written Proofs Companion to the Lean~4 Formalization}
-\author{Benjamin Stanley Frohman\\ \small ORCID \href{https://orcid.org/0009-0006-7068-3718}{0009-0006-7068-3718}}
+\author{Benjamin Stanley Frohman\\ \small\href{mailto:frohmanbenjamin@gmail.com}{frohmanbenjamin@gmail.com}\\ \small\href{mailto:frohmanbenjamin@gmail.com}{frohmanbenjamin@gmail.com}\\ \small ORCID \href{https://orcid.org/0009-0006-7068-3718}{0009-0006-7068-3718}}
 \date{October 29, 2026; revised November 1, 2026. Not peer reviewed.}
+\usepackage{longtable}
+\usepackage{url}
 \begin{document}
 \maketitle
 \begin{abstract}
@@ -32,7 +34,7 @@ smoothness, \emph{conditional on cited propositions that are listed explicitly}.
 \textbf{None of this resolves the Clay Millennium problem.} Plain Navier--Stokes is unchanged
 (Section~\ref{sec:open}).
 \emph{Build status:} \texttt{lake build} of the full \texttt{TetherMayForm} library succeeds, and the axiom report
-(\texttt{AxiomReport.lean}, listed in \texttt{AXIOMS.md}) finds 382 theorem declarations, none using \texttt{sorryAx}
+(\texttt{AxiomAudit.lean}, run in CI; see the final appendix) checks 308 theorem declarations, none using \texttt{sorryAx}
 and none using an axiom beyond \texttt{propext}, \texttt{Classical.choice}, \texttt{Quot.sound}. ``Proved'' below
 means kernel-checked in that sense; ``conditional'' means the result takes a named \texttt{Prop} hypothesis
 that is not proved here.
@@ -350,6 +352,362 @@ cubic term is inserted by hand at vorticity level through $P$, which is why the 
 $-\kappa P(|\omega|^2\omega)$ from plain NS (none is known) or experimental/numerical evidence. Result~1 says
 that \emph{if} such a symmetric, invariant, energy-degenerate correction exists, it must be $\T$.
 \end{enumerate}
+
+\section*{Claim-to-Lean table}
+Status ``Conditional'' marks results whose Lean statement takes a cited proposition as an explicit hypothesis.
+{\small\begin{longtable}{p{0.3\linewidth}p{0.48\linewidth}l}\hline Claim & Lean declarations & Status\\\hline
+Basic properties & \texttt{frohmanianTether\_symm}, \texttt{frohmanianTether\_self\_nonpos}, \texttt{degeneracy\_verification}, \texttt{frohmanianTether\_invariant}, \texttt{piU\_comm\_isometry} & Proved\\
+Uniqueness up to scale & \texttt{admissible\_eq\_smul\_frohmanianTether}, \texttt{uniqueness\_of\_minimal\_metric\_tether}, \texttt{uniqueness\_of\_minimal\_metric\_tether\_iff} & Proved\\
+Route A determines $\kappa$ & \texttt{routeA\_determines\_kappa}, \texttt{frohmanian\_symplectic\_tether\_theorem}, \texttt{uniqueness\_routeA\_iff}, \texttt{frohmanianTether\_routeA} & Proved\\
+Nine-term Jacobi & \texttt{jacobiator\_eq\_mixed}, \texttt{jacobi\_iff\_mixed\_cancel}, \texttt{mixedTerm\_eq\_zero}, \texttt{jacobiator\_eq\_zero\_of\_central} & Proved\\
+Metriplectic split & \texttt{split\_unique}, \texttt{symPart\_frohmanianTether}, \texttt{antiPart\_frohmanianTether}, \texttt{metriplecticBracket\_split}, \texttt{metriplectic\_energy\_conserved} & Proved\\
+Chevalley--Eilenberg & \texttt{d2\_d1}, \texttt{cocycle\_of\_coboundary}, \texttt{antiCorr\_cocycle\_iff}, \texttt{symPart\_not\_cochain} & Proved\\
+$T^3$ shear & \texttt{shear\_divFree}, \texttt{shearBad\_div}, \texttt{shearBad\_not\_divFree} & Proved\\
+Field-level Jacobi & \texttt{jacF\_eq\_zero}, \texttt{jacT\_eq\_mixedSum}, \texttt{br\_eq\_zero\_of\_xOnly\_divFree}, \texttt{shearY\_mixed\_cancel}, \texttt{shearY\_jacobi\_holds}, \texttt{not\_divFree\_uX}, \texttt{shearX\_mixed\_coeff}, \texttt{shearX\_jacobi\_fails}, \texttt{shearY\_transverse\_coeff}, \texttt{shearY\_jacobi\_fails\_transverse} & Proved\\
+Curl of forced NS & \texttt{curlOfForcedNS}, \texttt{curl\_grad}, \texttt{curl\_laplacian}, \texttt{curl\_advection}, \texttt{hasDerivAt\_pd\_time} & Proved\\
+Biot--Savart on trigonometric polynomials & \texttt{curlC\_bsC}, \texttt{divC\_bsC}, \texttt{bsC\_unique}, \texttt{curl\_bsMode}, \texttt{div\_bsMode}, \texttt{curl\_bsSum}, \texttt{curlRightInverse\_trig} & Proved\\
+Velocity form $\Rightarrow$ vorticity form & \texttt{tetheredVorticity\_of\_velocity}, \texttt{curl\_lerayTetherForce} & Proved\\
+Lemma & \texttt{inner\_leray\_of\_divFree}, \texttt{tether\_L2\_term}, \texttt{inner\_cubic} & Proved\\
+Theorem & \texttt{young\_lam}, \texttt{stretch\_absorb}, \texttt{enstrophy\_deriv\_le}, \texttt{enstrophy\_deriv\_logistic}, \texttt{tethered\_enstrophy\_uniform}, \texttt{tethered\_L2\_vorticity\_bounded} & Conditional\\
+Tether is sign-definite at $H^1$ & \texttt{tether\_H1\_density\_eq}, \texttt{tether\_H1\_density\_nonneg}, \texttt{tether\_H1\_term} & Proved\\
+Theorem & \texttt{palin\_deriv\_le}, \texttt{tethered\_palinstrophy\_gronwall}, \texttt{higherNormControl\_tethered} & Conditional\\
+Global smoothness of the tethered system, conditional & \texttt{global\_regularity\_logloss}, \texttt{global\_regularity}, \texttt{lemma\_3\_1\_uniform\_bound\_and\_continuation}, \texttt{frohmanian\_symplectic\_tether\_theorem\_global} & Conditional\\
+\hline\end{longtable}}
+\appendix
+\section{Verification certificate}\label{app:verification-certificate}
+
+The formal development was machine-checked as follows.
+
+{\raggedright
+\begin{itemize}
+\item Repository:\\ {\footnotesize\url{https://github.com/BenFrohman/frohmanian-symplectic-tether-may-form}}
+\item Verified commit:\\ {\footnotesize\texttt{73c02e18d09a345859643a79ea5044b1e6488e22}}
+\item Lean toolchain: \texttt{leanprover/lean4:v4.30.0-rc1}
+\item Mathlib: tag \texttt{v4.30.0-rc1}, commit (from \texttt{lake-manifest.json})\\ {\footnotesize\texttt{0c154d67103f74be3a0f2c509f72ccbf5be9f2a7}}
+\item Continuous integration run (build, axiom audit, \texttt{sorry}/\texttt{axiom} scan; passed):\\ {\footnotesize\url{https://github.com/BenFrohman/frohmanian-symplectic-tether-may-form/actions/runs/41795570329}}
+\item SHA-256 of the GitHub source tarball of the verified commit, downloaded twice with identical result:\\ {\footnotesize\url{https://github.com/BenFrohman/frohmanian-symplectic-tether-may-form/archive/73c02e18d09a345859643a79ea5044b1e6488e22.tar.gz}}\\
+{\footnotesize\texttt{fab5334a8bc90ed43bc8411e4b63a5a8402b6d95146d60963e914e3ecf19c126}}
+\end{itemize}\par}
+
+The tarball hash refers to the verified commit rather than to a release tag, since a document cannot contain the hash of an archive that includes itself. The Lean sources are unchanged between that commit and the release tag.
+
+\textbf{The development contains no \texttt{sorry} and no user-declared axioms.} Every one of the 308 theorems and lemmas listed below depends only on Lean's standard axioms \texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound} (or on none). The table is the verbatim output of \texttt{lake env lean AxiomAudit.lean} (\texttt{\#print axioms}) on the verified commit.
+
+{\footnotesize
+\begin{longtable}{p{0.55\linewidth}p{0.38\linewidth}}
+\hline
+Lean declaration & \texttt{\#print axioms} \\
+\hline\endhead
+\path{Frohman.Tether.IsAdmissibleCorrection.c1} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.IsAdmissibleCorrection.c2} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.IsAdmissibleCorrection.c3} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.IsAdmissibleCorrection.symm} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.ProducesControllableNegativeFeedback.calibrated} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.ProducesControllableNegativeFeedback.nonpos} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.admissible_eq_smul_frohmanianTether} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.degeneracy_forces_projection} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.degeneracy_verification} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.degeneracy_verification_smul} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.diag_eq_of_norm_eq} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.exists_unit_orthogonal} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.feedback_fixes_coefficient} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.frohmanianTether_admissible} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.frohmanianTether_apply} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.frohmanianTether_degenerate} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.frohmanianTether_energy_neutral} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.frohmanianTether_feedback} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.frohmanianTether_invariant} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.frohmanianTether_self_nonpos} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.frohmanianTether_symm} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.frohmanian_symplectic_tether_theorem_calibrated} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.gauge_uniqueness_weak} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.inner_piU_left} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.inner_u_piU} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.piU_apply} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.piU_apply_eq_zero_iff} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.piU_comm_isometry} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.piU_eq_self_of_inner_eq_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.piU_smul_self} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.projectionOrthogonalToU} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.tetheredBracket_kineticEnergy} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.uniqueness_of_minimal_metric_tether} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.uniqueness_of_minimal_metric_tether_iff} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.BiotSavart.DFMode.hK} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.BiotSavart.DFMode.ha} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.BiotSavart.DFMode.hb} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.BiotSavart.bsC_unique} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.BiotSavart.bsSum_diff} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.BiotSavart.comp_mode} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.BiotSavart.curlC_bsC} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.BiotSavart.curlRightInverse_trig} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.BiotSavart.curl_bsMode} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.BiotSavart.curl_bsSum} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.BiotSavart.divC_bsC} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.BiotSavart.div_bsMode} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.BiotSavart.gradL2_mode} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.BiotSavart.kSq_ne_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.BiotSavart.mode_contDiff} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.BiotSavart.mode_diff} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.BiotSavart.pd_comp_mode} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.BiotSavart.pd_trig} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.BiotSavart.th_e} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.BiotSavart.toE_apply} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.CE.antiCorr_alt} & \texttt{[propext, Quot.sound]} \\
+\path{Frohman.Tether.CE.antiCorr_cocycle_iff} & \texttt{[propext, Quot.sound]} \\
+\path{Frohman.Tether.CE.cocycle_of_coboundary} & \texttt{[propext, Quot.sound]} \\
+\path{Frohman.Tether.CE.d2_d1} & \texttt{[propext, Quot.sound]} \\
+\path{Frohman.Tether.CE.symPart_not_cochain} & \texttt{[propext, Quot.sound]} \\
+\path{Frohman.Tether.Shear.div_mode} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.Shear.shearBad_div} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.Shear.shearBad_not_divFree} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.Shear.shear_divFree} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.CitedProps.instIsProbabilityMeasureForallFinOfNatNatRealTorusMeasure} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.CitedProps.l4l2Holder_of_prob} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.CitedProps.l4l2Holder_torus} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.CitedProps.sq_integral_le} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.CurlNS.comp_add_diff} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.CurlNS.comp_adv} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.CurlNS.comp_curl} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.CurlNS.comp_grad} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.CurlNS.comp_laplacian} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.CurlNS.curlOfForcedNS} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.CurlNS.curl_add} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.CurlNS.curl_advection} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.CurlNS.curl_apply} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.CurlNS.curl_grad} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.CurlNS.curl_laplacian} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.CurlNS.curl_lin} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.CurlNS.dif} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.CurlNS.fderiv_slice} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.CurlNS.hasDerivAt_pd_time} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.CurlNS.hasDerivAt_slice} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.CurlNS.hasDerivAt_vec3} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.CurlNS.lap_scalar_sub} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.CurlNS.pd3} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.CurlNS.pd_add} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.CurlNS.pd_comm} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.CurlNS.pd_comp} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.CurlNS.pd_comp'} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.CurlNS.pd_comp_adv} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.CurlNS.pd_const_smul} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.CurlNS.pd_lap} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.CurlNS.pd_mul} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.CurlNS.pd_sub} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.CurlNS.pd_sum} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.CurlNS.sm_comp} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.CurlNS.sm_curl} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.CurlNS.sm_pd} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.CurlNS.vec3_apply} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.CurlNS.vec3_eq} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.EnstrophyL2.enstrophy_deriv_le} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.EnstrophyL2.enstrophy_deriv_logistic} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.EnstrophyL2.stretch_absorb} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.EnstrophyL2.tethered_L2_vorticity_bounded} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.EnstrophyL2.tethered_enstrophy_gronwall} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.EnstrophyL2.tethered_enstrophy_uniform} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.EnstrophyL2.young_lam} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.frohmanianTether_orth_self} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.nsOnly_not_sufficient} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.tetherFeedback_of_frohmanianTether} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.tetherTerm_of_frohmanianTether} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.young_kappa_quarter} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.br_add_left} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.br_add_right} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.br_antisymm} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.br_eq_zero_of_xOnly_divFree} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.br_self} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.br_single} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.br_smul_left} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.br_uX_eX_coeff} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.br_uY_aZ_coeff} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.br_zero_left} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.br_zero_right} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.bvec_zero_left} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.bvec_zero_right} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.divFree_aZ} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.divFree_eX} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.divFree_smul} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.divFree_uY} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.jacF_add_left} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.jacF_cycle} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.jacF_eq_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.jacF_single} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.jacF_zero_left} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.jacT_eq_mixedSum} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.kx_ne} & \texttt{[propext]} \\
+\path{Frohman.Tether.FieldJacobi.mixedF_eq_zero_of_shear} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.mixedSumF_diag} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.mixedSumF_eq_zero_of_shear} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.ne_kx} & \texttt{[propext]} \\
+\path{Frohman.Tether.FieldJacobi.ne_ky} & \texttt{[propext]} \\
+\path{Frohman.Tether.FieldJacobi.not_divFree_uX} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.piF_add} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.piF_of_pr_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.piF_smul_self} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.piF_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.pr_aZ_aZ} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.pr_add_left} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.pr_add_right} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.pr_eX_eX} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.pr_single} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.pr_smul_right} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.pr_uX_eX} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.pr_uX_uX} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.pr_uY_aZ} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.pr_uY_uY} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.pr_zero_left} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.pr_zero_right} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.shearX_jacobi_fails} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.shearX_mixed_coeff} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.shearX_mixed_ne_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.shearY_jacobi_fails_transverse} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.shearY_jacobi_holds} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.shearY_mixed_cancel} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.shearY_transverse_coeff} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.shearY_transverse_ne_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.tetF_add_left} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.tetF_tetF} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.tetF_zero_left} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.xOnly_eX} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.xOnly_smul} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.xOnly_uX} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldJacobi.xOnly_uY} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldMetriplectic.IsRealF.neg'} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldMetriplectic.conj_pr} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldMetriplectic.dissF_energy_uX} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldMetriplectic.dissF_energy_uY} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldMetriplectic.dissF_nonpos} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldMetriplectic.dissF_shearX} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldMetriplectic.dissF_shearY} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldMetriplectic.dissF_shear_nonpos} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldMetriplectic.isRealF_piF} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldMetriplectic.isRealF_sub_smul} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldMetriplectic.mem_support_neg} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldMetriplectic.piF_self} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldMetriplectic.pr_comm} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldMetriplectic.pr_eq_sum} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldMetriplectic.pr_self_eq} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldMetriplectic.pr_self_re_nonneg} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldMetriplectic.pr_uX_uX} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldMetriplectic.pr_uY_uY} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldMetriplectic.tetF_energy_left} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldMetriplectic.tetF_energy_right} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.FieldMetriplectic.tetF_symm} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.inner_secondDeriv_le_of_isMaxOn} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.inner_secondDeriv_nonpos_of_isMaxOn} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.periodic_exists_max} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.periodic_int_shift} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.quarticTether_eq} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.quarticWeight_of_def} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.secondDeriv_nonpos_of_isLocalMax} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.tetherFeedback_of_quartic} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.viscousAtMax_of_max} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.viscous_nonpos_at_max} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.frohmanian_symplectic_tether_theorem_global} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.JacobiWitness.crossBr_isClassical} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.JacobiWitness.mixed_sum_eq} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.JacobiWitness.mixed_sum_ne_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.JacobiWitness.tethered_jacobiator_ne_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.IsClassicalBracket.add_left} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.IsClassicalBracket.jacobi} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.jacobi_classical_cancel} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.jacobi_iff_mixed_cancel} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.jacobi_term7} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.jacobi_term8} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.jacobi_term9} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.jacobiator_eq_mixed} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.jacobiator_eq_zero_of_central} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.jacobiator_nine_terms} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.mixedTerm_eq_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.tetherVec_tetherVec} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.tetheredBracket_nested} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.comparisonField_equilibrium} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.comparisonField_neg_above} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.comparisonField_pos_between} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.comparisonField_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.comparison_bound} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.comparison_bound_of_gt} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.layer2_bound} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.young_absorption} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.comparison_bound_logloss} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.global_regularity_logloss} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.logField_neg_above} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.logThreshold_nonneg} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.tether_pointwise_logloss} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.RouteAFeedback.leadingCoefficient_eq_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.frohmanian_symplectic_tether_theorem} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.kappa_eq_stretching_of_admissible} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.routeA_determines_kappa} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.routeA_layer2_bound} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.antiPart_antisymm} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.antiPart_apply} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.antiPart_frohmanianTether} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.antiPart_self} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.degenerate_of_parts} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.eq_zero_of_symm_of_antisymm} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.metriplecticBracket_split} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.metriplectic_energy_conserved} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.parts_degenerate} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.split_unique} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.symPart_add_antiPart} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.symPart_apply} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.symPart_frohmanianTether} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.symPart_self} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.symPart_symm} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.sym_anti_pairing_eq_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.symm_antisymm_pairing_eq_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.PalinstrophyH1.amgm_four} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.PalinstrophyH1.higherNormControl_tethered} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.PalinstrophyH1.lp_absorb} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.PalinstrophyH1.palin_deriv_le} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.PalinstrophyH1.tether_H1_density_eq} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.PalinstrophyH1.tether_H1_density_nonneg} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.PalinstrophyH1.tethered_palinstrophy_gronwall} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.PalinstrophyH1.young_43} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.Riccati.ricSol_hasDerivAt} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.Riccati.ricSol_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.Riccati.riccati_blowup} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.Riccati.tethered_ceiling} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.RouteAFeedback.jacobi_reduced} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.RouteAFeedback.matches_stretching} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.RouteAFeedback.maximizer_reduced} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.RouteAFeedback.maximizer_unit} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.RouteAFeedback.nonpos} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.RouteAFeedback.poisson_unchanged} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.RouteAFeedback.toControllable} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.frohmanianTether_routeA} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.routeA_fixes_coefficient} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.routeA_iff_controllable_on_tether} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.uniqueness_routeA_iff} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.NSTetherSolution.smoothOn_mono} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.NSTetherSolution.smoothOn_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.NSTetherSolution.y_zero_nonneg} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.comparison_majorant_global_bound} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.global_regularity} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.lemma_3_1_uniform_bound_and_continuation} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.Torus.classicalSolutionOn_mono} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.Torus.classicalSolutionOn_of_nonpos} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.Torus.classicalSolutionOn_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.Torus.not_tetherRealizesFeedback_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.Torus.tetheredNS_zero_iff} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.Torus.toNSTetherSolution_smoothOn_iff} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.Torus.toNSTetherSolution_y} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.Torus.toNSTetherSolution_y_nonneg} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.Torus.vortSup_nonneg} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.VorticityTether.LerayProj.idem} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.VorticityTether.LerayProj.symm} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.VorticityTether.curl_lerayTetherForce} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.VorticityTether.enstrophyIdentity_of_vorticityLevel} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.VorticityTether.inner_cubic} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.VorticityTether.inner_leray_of_divFree} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.VorticityTether.quarticTether_density} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.VorticityTether.tether_H1_density_nonneg'} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.VorticityTether.tether_H1_term} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.VorticityTether.tether_L2_term} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.VorticityTether.tetheredVorticity_of_velocity} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Frohman.Tether.VorticityTether.tetheredVorticity_zero_iff} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\hline
+\end{longtable}}
 
 \begin{thebibliography}{9}
 \bibitem{BKM} J.~T.~Beale, T.~Kato, A.~Majda, Remarks on the breakdown of smooth solutions for the 3-D Euler equations, \emph{Comm. Math. Phys.} 94 (1984) 61--66.
