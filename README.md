@@ -1,5 +1,7 @@
 # tether-may-form: the Frohmanian Symplectic Tether 𝔗_F and a cubically damped Navier–Stokes model
 
+[![Lean certificate](https://github.com/BenFrohman/frohmanian-symplectic-tether-may-form/actions/workflows/certify.yml/badge.svg)](https://github.com/BenFrohman/frohmanian-symplectic-tether-may-form/actions/workflows/certify.yml)
+
 [![Lean build and axiom audit](https://github.com/BenFrohman/frohmanian-symplectic-tether-may-form/actions/workflows/lean.yml/badge.svg?branch=fresh-public)](https://github.com/BenFrohman/frohmanian-symplectic-tether-may-form/actions/workflows/lean.yml)
 
 **Author:** Benjamin Stanley Frohman (ORCID 0009-0006-7068-3718), <frohmanbenjamin@gmail.com>. Prepared with assistance from Grok, which is not a co-author.
