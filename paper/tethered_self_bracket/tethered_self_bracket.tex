@@ -1,0 +1,51 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}\usepackage{amsmath,amssymb,amsthm,hyperref}
+\newtheorem{proposition}{Proposition}\theoremstyle{remark}\newtheorem{remark}{Remark}
+\title{The tethered bracket is metriplectic, not Poisson:\\ $\{F,F\}_{\mathrm{tethered}}=T(F,F)\neq 0$}
+\author{Benjamin Stanley Frohman\\ Independent Researcher, ORCID 0009-0006-7068-3718}
+\date{4 November 2026}
+\begin{document}\maketitle
+\begin{abstract}
+We record, with precise terminology, why the classical Lie--Poisson bracket is a Poisson bracket whose symplectic leaves are the coadjoint orbits, and why the tethered sum $\{F,G\}_{\mathrm{tethered}}=\{F,G\}_{\mathrm{LP}}+T(F,G)$, with $T$ the minimal metric (Frohmanian) tether, is a metriplectic bracket that is not Poisson and has no symplectic foliation in the Poisson sense. We give the verified identity $\{F,F\}_{\mathrm{tethered}}=T(F,F)=-\kappa w\|\Pi_u\delta F\|^2$, an explicit example where it equals $-\kappa w\neq 0$, a SymPy check, and a Lean~4/Mathlib proof using only the standard axioms. This note makes no claim about Navier--Stokes regularity or the Clay Millennium Problem.
+\end{abstract}
+
+\section{The classical Lie--Poisson bracket}
+For a Lie algebra $\mathfrak g$ and $F,G\in C^\infty(\mathfrak g^*)$, the (minus) Lie--Poisson bracket is
+$\{F,G\}_{\mathrm{LP}}(\mu)=-\langle\mu,[\delta F/\delta\mu,\delta G/\delta\mu]\rangle$.
+It is bilinear, antisymmetric, satisfies the Leibniz rule and the Jacobi identity (the latter inherited from the Jacobi identity of $[\cdot,\cdot]$). These properties are exactly what make it a Poisson bracket. For a Poisson bracket the Hamiltonian vector fields span an integrable generalized distribution whose leaves are symplectic; for the Lie--Poisson bracket these symplectic leaves are the coadjoint orbits, with the Kirillov--Kostant--Souriau form. Antisymmetry gives $\{F,F\}_{\mathrm{LP}}=0$; Casimirs (functions constant on coadjoint orbits) are central.
+
+Example: $\mathfrak g=\mathfrak{so}(3)$, $\mathfrak g^*\cong\mathbb R^3$, $\{F,G\}_{\mathrm{LP}}(m)=-m\cdot(\nabla F\times\nabla G)$. The leaves are the spheres $|m|=\text{const}$ (and the origin), and $C=|m|^2$ is a Casimir.
+
+\section{The tether and the tethered sum}
+The source definition (repository \texttt{frohmanian-symplectic-tether-may-form}, file \texttt{TetherMayForm/Basic.lean}, definitions \texttt{frohmanianTether}, \texttt{tetheredBracket}) is
+\[
+T(F,G)=-\kappa\,w\,\langle\Pi_u\,\delta F,\;\Pi_u\,\delta G\rangle,\qquad
+\Pi_u x=x-\frac{\langle u,x\rangle}{\|u\|^2}u,
+\]
+the $L^2$-orthogonal projection off $\operatorname{span}\{u\}$, with $u=\delta H$ the velocity (gradient of the kinetic energy), $w$ standing for $\int|\omega|^2$ (collapsed to a scalar $w\ge 0$ in the formal model) and $\kappa>0$. The tethered sum is
+$\{F,G\}_{\mathrm{tethered}}=\{F,G\}_{\mathrm{LP}}+T(F,G)$.
+$T$ is symmetric, negative semidefinite for $\kappa,w\ge0$, and degenerate on energy ($T(F,H)=0$ since $\Pi_u u=0$). A sum of an antisymmetric Poisson bracket and a symmetric, semidefinite bracket degenerate on the Hamiltonian is a \emph{metriplectic} bracket (in this model the entropy-type compatibility $\{S,\cdot\}_{\mathrm{LP}}=0$ is not part of the definition).
+
+\begin{proposition}[verified]
+For every $F$, $\{F,F\}_{\mathrm{tethered}}=\{F,F\}_{\mathrm{LP}}+T(F,F)=T(F,F)=-\kappa w\|\Pi_u\delta F\|^2$.
+In particular, on $\mathfrak{so}(3)^*$ with $u=e_1$ and $F(m)=m_2$ ($\delta F=e_2\perp u$),
+$\{F,F\}_{\mathrm{tethered}}=-\kappa w$, which is nonzero whenever $\kappa w\neq0$ (e.g.\ $\kappa=3/2$, $w=2$ gives $-3$).
+\end{proposition}
+\begin{proof}
+$\{F,F\}_{\mathrm{LP}}=0$ by antisymmetry; $\Pi_u e_2=e_2$, so $T(F,F)=-\kappa w\|e_2\|^2=-\kappa w$.
+\end{proof}
+
+\section{Consequences, stated carefully}
+\begin{itemize}
+\item Since $\{F,F\}_{\mathrm{tethered}}\neq0$, the tethered sum is not antisymmetric, hence not a Poisson bracket. Its generator $F\mapsto\{F,H\}_{\mathrm{tethered}}$ need not be a Hamiltonian vector field, and it does not define a symplectic foliation in the Poisson sense; in particular the coadjoint orbits are not its symplectic leaves.
+\item Casimirs of the Lie--Poisson part are not central for the tethered sum: with $C=|m|^2$, $\{m_2,C\}_{\mathrm{tethered}}=T(m_2,C)=-2\kappa w\,m_2\neq0$ in general. So the dissipative part can move states across coadjoint orbits.
+\item The Jacobi identity also fails for the tethered sum when $\kappa w\neq0$ (explicit witness \texttt{tethered\_jacobiator\_ne\_zero} in \texttt{JacobiWitness.lean} of the same repository).
+\end{itemize}
+\begin{remark}
+In the formal model, $u$ is a fixed vector and $w$ a scalar; the curl/Biot--Savart relation and the spatial weight $|\omega|^2$ are not modelled. Nothing here concerns regularity of Navier--Stokes.
+\end{remark}
+
+\section{Verification}
+\texttt{verify\_self\_bracket.py} (SymPy) checks antisymmetry and Jacobi of $\{\cdot,\cdot\}_{\mathrm{LP}}$ on $\mathfrak{so}(3)^*$, centrality of $|m|^2$, $\{m_2,m_2\}_{\mathrm{tethered}}=-\kappa w$, and $\{m_2,|m|^2\}_{\mathrm{tethered}}=-2\kappa w m_2$.
+\texttt{TetherMayForm/TetheredSelfBracket.lean} proves, for any alternating classical form $P$, \texttt{tetheredBracket\_self\_eq}: $\{F,F\}_{\mathrm{tethered}}=-\kappa w\|\Pi_uF\|^2$; \texttt{witness}: the $\mathbb R^3$ value $-\kappa w$; and \texttt{tetheredBracket\_not\_alternating} for $\kappa w\neq0$. \texttt{\#print axioms} reports only \texttt{propext}, \texttt{Classical.choice}, \texttt{Quot.sound}.
+\end{document}

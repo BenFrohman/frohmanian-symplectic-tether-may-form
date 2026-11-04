@@ -21,3 +21,4 @@ import TetherMayForm.FieldJacobi
 import TetherMayForm.RiccatiComparison
 import TetherMayForm.FieldMetriplectic
 import TetherMayForm.CitedProps
+import TetherMayForm.TetheredSelfBracket
