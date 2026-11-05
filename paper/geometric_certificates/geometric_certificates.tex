@@ -3,9 +3,16 @@
 \title{Geometric certificates for the Frohmanian tether:\\ Lie--Poisson structure, the metriplectic tethered sum,\\ C2 degeneracy, and open items under C1--C3}
 \author{Benjamin Stanley Frohman\\ Independent Researcher, ORCID 0009-0006-7068-3718}
 \date{4 November 2026}
+
+\usepackage{microtype}
+\setlength{\emergencystretch}{3em}
+\newcommand{\ttbreaks}{\hyphenchar\font=`\-\relax}
+\let\origtexttt\texttt
+\renewcommand{\texttt}[1]{{\ttfamily\hyphenchar\font=45\relax\textup{#1}}}
+\raggedright
 \begin{document}\maketitle
 \begin{abstract}
-We list the Lean~4/Mathlib certificates in the repository \texttt{frohmanian-symplectic-tether-may-form} that bear on the geometry of the tethered bracket. Proved: the field-level classical bracket on finite Fourier sums is antisymmetric and satisfies the Jacobi identity, hence is a Poisson bracket; that its symplectic leaves are the coadjoint orbits is standard background and is not formalized. The tethered sum $\{\cdot,\cdot\}_{\mathrm{LP}}+T$ splits uniquely into the antisymmetric classical part and the symmetric tether $T$, which is degenerate in the energy direction and negative semidefinite: it is metriplectic, and its Jacobi identity fails on explicit divergence-free test fields. Condition C2 (degeneracy on the kinetic-energy gradient $u$) forces every symmetric correction to see only $\Pi_u$-components, separating the conservative skeleton (span of $u$, where the bracket is the classical one) from the dissipative directions $u^\perp$. Open under C1--C3 (matching the repository README): C3 enters the Lean only as an explicit hypothesis; the quartic weight is not forced by C1--C3; and no damping estimate is proved or claimed. No claim is made about Navier--Stokes regularity or the Clay Millennium Problem. All listed theorems build with no \texttt{sorry} and depend only on \texttt{propext}, \texttt{Classical.choice}, \texttt{Quot.sound}.
+We list the Lean~4/Mathlib certificates in the repository \texttt{frohmanian-symplectic-tether-may-form} that bear on the geometry of the tethered bracket. Proved: the field-level classical bracket on finite Fourier sums is antisymmetric and satisfies the Jacobi identity, hence is a Poisson bracket. That its symplectic leaves are the coadjoint orbits is standard (Kirillov--Kostant--Souriau) background, not formalized here. The tethered sum $\{\cdot,\cdot\}_{\mathrm{LP}}+T$ splits uniquely into the antisymmetric classical part and the symmetric tether $T$, which is degenerate in the energy direction and negative semidefinite: it is metriplectic, and its Jacobi identity fails on explicit divergence-free test fields. Condition C2 (degeneracy on the kinetic-energy gradient $u$) forces every symmetric correction to see only $\Pi_u$-components, separating the conservative skeleton (span of $u$, where the bracket is the classical one) from the dissipative directions $u^\perp$. Open under C1--C3 (matching the repository README): C3 enters the Lean only as an explicit hypothesis; the quartic weight is not forced by C1--C3; and no damping estimate is proved or claimed. No claim is made about Navier--Stokes regularity or the Clay Millennium Problem. All listed theorems build with no \texttt{sorry} and depend only on \texttt{propext}, \texttt{Classical.choice}, \texttt{Quot.sound}.
 \end{abstract}
 
 \section*{Setting}

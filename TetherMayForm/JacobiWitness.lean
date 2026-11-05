@@ -33,7 +33,7 @@ noncomputable def crossBr (a b : E3) : E3 := WithLp.toLp 2 (a.ofLp ⨯₃ b.ofLp
 
 theorem crossBr_isClassical : IsClassicalBracket crossBr where
   add_left x y z := by
-    simp [crossBr, LinearMap.map_add₂]
+    simp [crossBr]
   jacobi a b c := by
     have h := jacobi_cross c.ofLp a.ofLp b.ofLp
     simp only [jacobiator, crossBr]
@@ -45,7 +45,7 @@ theorem crossBr_isClassical : IsClassicalBracket crossBr where
       by rw [← cross_anticomm]
     ext i
     have := congrFun h i
-    simp only [WithLp.ofLp_toLp, e1, e2, e3, PiLp.add_apply, PiLp.zero_apply] at *
+    simp only [e1, e2, e3, PiLp.add_apply, PiLp.zero_apply] at *
     simp only [Pi.neg_apply, Pi.add_apply, Pi.zero_apply] at *
     linarith
 
@@ -61,7 +61,7 @@ theorem mixed_sum_eq (κ w : ℝ) :
   ext i
   fin_cases i <;>
   simp [mixedTerm, tetherVec, frohmanianTether_apply, piU_apply, crossBr, e1, e2, e3,
-    cross_apply, EuclideanSpace.norm_eq, inner, Fin.sum_univ_three, EuclideanSpace.single_apply]
+    cross_apply, inner]
 
 theorem mixed_sum_ne_zero {κ w : ℝ} (h : κ * w ≠ 0) :
     mixedTerm crossBr κ w e1 e2 e2 e3 + mixedTerm crossBr κ w e1 e2 e3 e2 +
@@ -69,7 +69,7 @@ theorem mixed_sum_ne_zero {κ w : ℝ} (h : κ * w ≠ 0) :
   rw [mixed_sum_eq]
   intro h0
   have := congrArg (fun v : E3 => v 1) h0
-  simp [e2, EuclideanSpace.single_apply] at this
+  simp [e2] at this
   exact h (mul_eq_zero.2 this)
 
 /-- **The tethered bracket fails Jacobi** at an explicit triple (so it is not Poisson). -/

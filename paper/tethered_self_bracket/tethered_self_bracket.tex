@@ -4,6 +4,13 @@
 \title{The tethered bracket is metriplectic, not Poisson:\\ $\{F,F\}_{\mathrm{tethered}}=T(F,F)\neq 0$}
 \author{Benjamin Stanley Frohman\\ Independent Researcher, ORCID 0009-0006-7068-3718}
 \date{4 November 2026}
+
+\usepackage{microtype}
+\setlength{\emergencystretch}{3em}
+\newcommand{\ttbreaks}{\hyphenchar\font=`\-\relax}
+\let\origtexttt\texttt
+\renewcommand{\texttt}[1]{{\ttfamily\hyphenchar\font=45\relax\textup{#1}}}
+\raggedright
 \begin{document}\maketitle
 \begin{abstract}
 We record, with precise terminology, why the classical Lie--Poisson bracket is a Poisson bracket whose symplectic leaves are the coadjoint orbits, and why the tethered sum $\{F,G\}_{\mathrm{tethered}}=\{F,G\}_{\mathrm{LP}}+T(F,G)$, with $T$ the minimal metric (Frohmanian) tether, is a metriplectic bracket that is not Poisson and has no symplectic foliation in the Poisson sense. We give the verified identity $\{F,F\}_{\mathrm{tethered}}=T(F,F)=-\kappa w\|\Pi_u\delta F\|^2$, an explicit example where it equals $-\kappa w\neq 0$, a SymPy check, and a Lean~4/Mathlib proof using only the standard axioms. This note makes no claim about Navier--Stokes regularity or the Clay Millennium Problem.

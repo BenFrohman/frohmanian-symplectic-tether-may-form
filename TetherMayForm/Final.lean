@@ -172,7 +172,7 @@ theorem periodic_exists_max {g : R3 → ℝ} (hg : Continuous g) (hp : IsPeriodi
   have hyK : y ∈ K := by
     refine ⟨WithLp.ofLp y, fun j _ => ?_, by simp⟩
     have : y j = z j - ⌊z j⌋ := by
-      simp [y, Fin.sum_univ_three, EuclideanSpace.single_apply]
+      simp [y, Fin.sum_univ_three]
       fin_cases j <;> simp
     constructor
     · show 0 ≤ y j; rw [this]; linarith [Int.floor_le (z j)]
