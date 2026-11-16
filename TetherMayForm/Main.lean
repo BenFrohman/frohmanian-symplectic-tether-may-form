@@ -47,6 +47,23 @@ theorem routeA_determines_kappa {S w κ : ℝ} (hw : w ≠ 0) {u ω : H}
   · linarith
   · exact absurd h1 hw
 
+/-- **Route A determines `κ`, as stated in the companion paper (Theorem `thm:routeA`).**
+The hypotheses are exactly the paper's: its standing assumptions for Section 2 (`dim H ≥ 3`,
+`u ≠ 0`; not needed by the proof, kept so the statement is the paper's) and the theorem's own
+`ω ⟂ u`, `‖ω‖ = 1`, `w ≠ 0` and the matching `𝔗_F[κ, w, u](ω, ω) + S w = 0`. `routeA_determines_kappa` above assumes the full
+`RouteAFeedback` structure (which also contains nonpositivity and reduced Jacobi); this version
+drops those, so it certifies exactly the paper's sentence. -/
+theorem routeA_determines_kappa_of_matching (_hdim : 3 ≤ Module.rank ℝ H)
+    {S w κ : ℝ} (hw : w ≠ 0) {u ω : H} (_hu : u ≠ 0)
+    (hperp : ⟪u, ω⟫ = 0) (hunit : ‖ω‖ = 1) (hmatch : 𝔗_F[κ, w, u] ω ω + S * w = 0) :
+    κ = S := by
+  rw [frohmanianTether_apply, piU_eq_self_of_inner_eq_zero hperp,
+    real_inner_self_eq_norm_sq, hunit] at hmatch
+  have : (κ - S) * w = 0 := by linarith
+  rcases mul_eq_zero.1 this with h1 | h1
+  · linarith
+  · exact absurd h1 hw
+
 /-- **Frohmanian Symplectic Tether Theorem (Route A).** In dimension ≥ 3, let `u ≠ 0`,
 `ω ⟂ u` a unit maximizer direction, stretching coefficient `S ≥ 0`, weight `w > 0`.
 A bilinear correction `B` satisfies C1 (invariance), C2 (degeneracy) and Route A C3
