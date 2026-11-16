@@ -1,0 +1,30 @@
+checker: leanchecker source shipped with v4.30.0-rc1 (src/lean/LeanChecker.lean), prefix match -> exact match, run with lean --run
+  patch: 93c93
+  patch: <         if !fresh && target.isPrefixOf m || target == m then
+  patch: ---
+  patch: >         if !fresh && target == m || target == m then
+TetherMayForm: OK (1 module replayed)
+TetherMayForm.Basic: OK (1 module replayed)
+TetherMayForm.BiotSavart: OK (1 module replayed)
+TetherMayForm.ChevalleyEilenberg: OK (1 module replayed)
+TetherMayForm.CitedProps: OK (1 module replayed)
+TetherMayForm.CurlNS: OK (1 module replayed)
+TetherMayForm.Enstrophy: OK (1 module replayed)
+TetherMayForm.EnstrophyL2: OK (1 module replayed)
+TetherMayForm.FieldJacobi: OK (1 module replayed)
+TetherMayForm.FieldMetriplectic: OK (1 module replayed)
+TetherMayForm.Final: OK (1 module replayed)
+TetherMayForm.GlobalRegularity: OK (1 module replayed)
+TetherMayForm.Jacobi: OK (1 module replayed)
+TetherMayForm.JacobiWitness: OK (1 module replayed)
+TetherMayForm.Layer2: OK (1 module replayed)
+TetherMayForm.LogLoss: OK (1 module replayed)
+TetherMayForm.Main: OK (1 module replayed)
+TetherMayForm.Metriplectic: OK (1 module replayed)
+TetherMayForm.PalinstrophyH1: OK (1 module replayed)
+TetherMayForm.RiccatiComparison: OK (1 module replayed)
+TetherMayForm.RouteA: OK (1 module replayed)
+TetherMayForm.TetheredLyapunov: OK (1 module replayed)
+TetherMayForm.Torus: OK (1 module replayed)
+TetherMayForm.VorticityTether: OK (1 module replayed)
+RESULT: 24 of 24 modules replayed through the kernel, 0 failures
