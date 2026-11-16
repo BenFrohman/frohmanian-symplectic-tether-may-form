@@ -1,13 +1,19 @@
 /-
 Copyright (c) 2026 Benjamin Stanley Frohman. All rights reserved.
-Released under Apache 2.0 license.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Benjamin Stanley Frohman
+-/
+
+import TetherMayForm.Final
+
+/-!
+# historical.StretchingCZChain
 
 Not built (outside the `TetherMayForm` library). These theorems assume `StretchingCZ`
 (`ω·Sω ≤ C y³` at the maximizer), which is false as an `L∞` estimate (Calderón–Zygmund fails at
 `p = ∞`). They were removed from the build. The log-loss replacement is in
 `TetherMayForm/LogLoss.lean`.
 -/
-import TetherMayForm.Final
 
 namespace Frohman.Tether
 

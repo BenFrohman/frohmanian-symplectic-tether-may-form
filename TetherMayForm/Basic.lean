@@ -1,20 +1,24 @@
 /-
-Copyright (c) 2026 Benjamin Frohman. All rights reserved.
-Released under Apache 2.0 license.
+Copyright (c) 2026 Benjamin Stanley Frohman. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Benjamin Stanley Frohman
+-/
+
+import Mathlib.Analysis.InnerProductSpace.Projection.FiniteDimensional
+import Mathlib.Analysis.InnerProductSpace.Projection.Reflection
+
+/-!
+# TetherMayForm.Basic
+
 Author: Benjamin Frohman (prepared with assistance from Grok; not a co-author).
-
 # The minimal metric frohmanianTether — the April–May 2026 form
-
 This file formalizes, in an abstract real inner-product-space model, the
 "Uniqueness of the Minimal Metric Tether" as Benjamin Frohman stated it in May 2026:
 a degenerate, symmetric, bilinear minimal metric correction to the Arnold Lie–Poisson
 bracket,
-
   `B(F,G) = -κ ∫ |ω|² ⟨Π_u δF, Π_u δG⟩`,
-
 where `Π_u` is "the L²-orthogonal projection onto the complement of span{u}"
 (vFinal, May 21 2026).
-
 ## Abstract model (what is and is not modelled)
 * `H` — a real inner product space standing for the space of functional derivatives
   `δF/δω` (no completeness needed: `span{u}` is finite-dimensional).
@@ -26,9 +30,6 @@ where `Π_u` is "the L²-orthogonal projection onto the complement of span{u}"
   was introduced Aug 26 2026. Nothing below depends on its value.
 * No saturation and no polarization hypotheses appear anywhere in this file.
 -/
-
-import Mathlib.Analysis.InnerProductSpace.Projection.FiniteDimensional
-import Mathlib.Analysis.InnerProductSpace.Projection.Reflection
 
 namespace Frohman.Tether
 

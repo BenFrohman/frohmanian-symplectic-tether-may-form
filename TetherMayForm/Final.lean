@@ -1,10 +1,20 @@
 /-
 Copyright (c) 2026 Benjamin Stanley Frohman. All rights reserved.
-Released under Apache 2.0 license.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Benjamin Stanley Frohman
+-/
+
+import TetherMayForm.Enstrophy
+import TetherMayForm.Torus
+import Mathlib.Analysis.Calculus.DerivativeTest
+import Mathlib.Analysis.InnerProductSpace.Calculus
+import Mathlib.Analysis.Calculus.Deriv.MeanValue
+
+/-!
+# TetherMayForm.Final
+
 Author: Benjamin Stanley Frohman (prepared with assistance from Grok; not a co-author).
-
 # Advancing named assumptions (LOCAL)
-
 * `QuarticWeight` → DEFINITION. The May sources define the Layer-2 functional
   `S_ε = ∫ (½ ω_ε² − (κ/2) ω_ε⁴ ϕ_ε)`, "a quartic term weighted by |ω|²". So in the tethered
   system the scalar weight of 𝔗_F[κ,w,u] at the maximizer is *defined* as `w = ‖ω‖²`
@@ -15,11 +25,6 @@ Author: Benjamin Stanley Frohman (prepared with assistance from Grok; not a co-a
   `ω·Δω ≤ 0` (`viscous_nonpos_at_max`).
 * Vortex sup attained on the compact torus → PROVED (`periodic_exists_max`).
 -/
-import TetherMayForm.Enstrophy
-import TetherMayForm.Torus
-import Mathlib.Analysis.Calculus.DerivativeTest
-import Mathlib.Analysis.InnerProductSpace.Calculus
-import Mathlib.Analysis.Calculus.Deriv.MeanValue
 
 namespace Frohman.Tether
 

@@ -1,16 +1,21 @@
 /-
 Copyright (c) 2026 Benjamin Stanley Frohman. All rights reserved.
-Released under Apache 2.0 license.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Benjamin Stanley Frohman
+-/
+
+import TetherMayForm.EnstrophyL2
+import Mathlib.Probability.Moments.Variance
+
+/-!
+# TetherMayForm.CitedProps
+
 Author: Benjamin Stanley Frohman (prepared with assistance from Grok; not a co-author).
-
 # Discharging cited propositions
-
 `L4L2Holder` is proved for any probability space. This includes the normalized (unit-volume) torus,
 with `E = ½∫|ω|²` and `Q = ∫|ω|⁴`. The proof uses the nonnegativity of variance
 (Jensen for `t ↦ t²`) applied to `g = |ω|²`.
 -/
-import TetherMayForm.EnstrophyL2
-import Mathlib.Probability.Moments.Variance
 
 namespace Frohman.Tether.CitedProps
 open MeasureTheory ProbabilityTheory

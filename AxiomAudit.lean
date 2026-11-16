@@ -1,3 +1,9 @@
+/-
+Copyright (c) 2026 Benjamin Stanley Frohman. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Benjamin Stanley Frohman
+-/
+
 -- Axiom audit: prints the axioms of every theorem/lemma in the project.
 -- CI fails unless each depends only on propext, Classical.choice, Quot.sound (or none).
 import TetherMayForm
@@ -24,6 +30,12 @@ import TetherMayForm.RouteA
 import TetherMayForm.TetheredLyapunov
 import TetherMayForm.Torus
 import TetherMayForm.VorticityTether
+
+/-!
+# AxiomAudit
+
+Machine-checked Lean 4 module.
+-/
 
 #print axioms Frohman.Tether.IsAdmissibleCorrection.c1
 #print axioms Frohman.Tether.IsAdmissibleCorrection.c2

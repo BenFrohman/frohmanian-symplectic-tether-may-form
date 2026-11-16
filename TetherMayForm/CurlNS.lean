@@ -1,5 +1,17 @@
+/-
+Copyright (c) 2026 Benjamin Stanley Frohman. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Benjamin Stanley Frohman
+-/
+
 import TetherMayForm.VorticityTether
 import Mathlib.Analysis.Calculus.FDeriv.Symmetric
+
+/-!
+# TetherMayForm.CurlNS
+
+Machine-checked Lean 4 module.
+-/
 
 set_option linter.unusedSimpArgs false
 
