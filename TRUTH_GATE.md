@@ -98,8 +98,8 @@ def paper_claim : Prop :=
   ∀ (H : Type) [NormedAddCommGroup H] [InnerProductSpace ℝ H], 3 ≤ Module.rank ℝ H →
     ∀ (u : H), u ≠ 0 → ∀ (κ w S : ℝ) (ω : H),
       ⟪ω, u⟫ = 0 → ‖ω‖ = 1 → w ≠ 0 →
-      (let Pu : H → H := fun x => x - (⟪u, x⟫ / ‖u‖ ^ 2) • u
-       -(κ * w) * ⟪Pu ω, Pu ω⟫ + S * w = 0) →
+      (let Pu : H → H := fun x => x - (⟪u, x⟫ / ‖u‖ ^ 2) • u;
+        -(κ * w) * ⟪Pu ω, Pu ω⟫ + S * w = 0) →
       κ = S
 ```
 

@@ -62,8 +62,8 @@ def paper_claim : Prop :=
   ∀ (H : Type) [NormedAddCommGroup H] [InnerProductSpace ℝ H], 3 ≤ Module.rank ℝ H →
     ∀ (u : H), u ≠ 0 → ∀ (κ w S : ℝ) (ω : H),
       ⟪ω, u⟫ = 0 → ‖ω‖ = 1 → w ≠ 0 →
-      (let Pu : H → H := fun x => x - (⟪u, x⟫ / ‖u‖ ^ 2) • u
-       -(κ * w) * ⟪Pu ω, Pu ω⟫ + S * w = 0) →
+      (let Pu : H → H := fun x => x - (⟪u, x⟫ / ‖u‖ ^ 2) • u;
+        -(κ * w) * ⟪Pu ω, Pu ω⟫ + S * w = 0) →
       κ = S
 
 /-- The fixed correspondence between the formal statement and the paper's claim. -/
@@ -71,11 +71,11 @@ theorem intended_correspondence : formal_claim ↔ paper_claim := by
   constructor
   · intro h H _ _ hdim u hu κ w S ω hperp hunit hw hm
     refine h H hdim hw hu (by rw [real_inner_comm]; exact hperp) hunit ?_
-    rw [frohmanianTether_apply, piU_apply]
+    simp only [frohmanianTether_apply, piU_apply]
     exact hm
   · intro h H _ _ hdim S w κ hw u ω hu hperp hunit hm
     refine h H hdim u hu κ w S ω (by rw [real_inner_comm]; exact hperp) hunit hw ?_
-    rw [frohmanianTether_apply, piU_apply] at hm
+    simp only [frohmanianTether_apply, piU_apply] at hm
     exact hm
 -- TRUTH-GATE LOCK END
 
