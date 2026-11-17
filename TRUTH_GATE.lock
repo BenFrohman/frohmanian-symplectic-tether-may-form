@@ -13,5 +13,8 @@
   "lean_roots": [
     "TetherMayForm",
     "TetherMayForm.lean"
-  ]
+  ],
+  "certifying": false,
+  "reopened_reason": "Partial lock. Only the first two sentences of Theorem thm:routeA are locked. Its third sentence (\"Consequently, in dim ≥ 3 with S ≥ 0, w > 0, a correction is admissible for Route A iff B = T[κ,w,u] with κ = S.\") is not.",
+  "reopened_on": "2026-11-16"
 }
