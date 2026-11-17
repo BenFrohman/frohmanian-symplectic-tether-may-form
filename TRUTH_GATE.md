@@ -104,3 +104,26 @@ def paper_claim : Prop :=
 ```
 
 See the doc comment of `TetherMayForm/Semantics.lean` for the fixed reading of the paper's terms and the scope.
+
+## Re-audit (2026-11-16): this lock is NOT certifying
+
+Status: **REOPENED. The gate is red on purpose.** `TRUTH_GATE.lock` carries `"certifying": false`, and
+`scripts/truth_gate_check.py` fails while it does. Nothing was deleted: `Semantics.lean`, the quotes,
+the hashes and the history are unchanged.
+
+Rule applied (Benjamin Stanley Frohman, 2026-11-16):
+* There are no partial locks. A lock certifies only a step on the correct path to the full theorem
+  that is kernel-proved as the actual true answer, so that the next step can build on it.
+* Drifted, dummy, placeholder or stand-in types, names or categories are rejected.
+* Cross-ontology connections are not rejected for looking unrelated. The kernel check, and whether
+  the piece genuinely helps reach the full structured proof, decide.
+* `paper_claim` is an independent transcription of the verbatim paper quote, never an alias of
+  `formal_claim`, and the correspondence is never `rfl`/`Iff.rfl`.
+
+Locked claim under review: routeA_determines_kappa_of_matching (Theorem thm:routeA, first two sentences only)
+
+Why it is reopened:
+* Partial lock. Only the first two sentences of Theorem thm:routeA are locked. Its third sentence ("Consequently, in dim ≥ 3 with S ≥ 0, w > 0, a correction is admissible for Route A iff B = T[κ,w,u] with κ = S.") is not.
+* Not a certified step toward the paper's goal. The locked part is the one-line computation Π_u ω = ω ⇒ (S − κ)w = 0. The paper's proof itself says "κ is a free parameter … and S is supplied, not derived". The companion two-part paper (BenFrohman/frohmanian-tether-manuscript-2026-06-01, `two_part/tether_two_part.tex`) shows the tether does not modify the Navier–Stokes vector field. No step toward Navier–Stokes regularity is certified.
+
+What would re-certify it: A lock needs the complete Theorem thm:routeA, including the admissibility characterization. It also needs a stated reason why the matching premise is realized on the path to the paper's main result, if one exists.
