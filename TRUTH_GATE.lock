@@ -16,6 +16,6 @@
     "TetherMayForm.lean"
   ],
   "certifying": false,
-  "reopened_reason": "Not whole-paper. Theorem thm:routeA is now locked in full (all three sentences, with Definition def:routeA), but 15 other stated results of paper/companion.tex sit outside any lock: Lemma (Basic properties), thm:unique, thm:jacobi, Theorem (Metriplectic split), prop:ce, prop:shear, thm:fieldjacobi, Theorem (Curl of forced NS), Theorem (Biot-Savart on trigonometric polynomials), Corollary (Velocity form => vorticity form), the L2 tether-term Lemma, thm:L2, Lemma (Tether is sign-definite at H^1), thm:H1, Theorem (Global smoothness, conditional). No theorem stated in the paper may sit outside a lock.",
+  "reopened_reason": "Partial lock (not whole-paper). Theorem thm:routeA is now locked in full (all three sentences, with Definition def:routeA), but 15 other stated results of paper/companion.tex sit outside any lock: Lemma (Basic properties), thm:unique, thm:jacobi, Theorem (Metriplectic split), prop:ce, prop:shear, thm:fieldjacobi, Theorem (Curl of forced NS), Theorem (Biot-Savart on trigonometric polynomials), Corollary (Velocity form => vorticity form), the L2 tether-term Lemma, thm:L2, Lemma (Tether is sign-definite at H^1), thm:H1, Theorem (Global smoothness, conditional). No theorem stated in the paper may sit outside a lock.",
   "reopened_on": "2026-11-23"
 }
