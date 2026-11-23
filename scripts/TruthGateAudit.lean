@@ -26,7 +26,8 @@ open Lean Meta Elab Command
 namespace TruthGateAudit
 
 def standard : List Name := [``propext, ``Classical.choice, ``Quot.sound]
-def mains : List Name := [`Frohman.Tether.routeA_determines_kappa_of_matching]
+def mains : List Name := [`Frohman.Tether.routeA_determines_kappa_of_matching,
+  `Frohman.Tether.routeA_admissible_iff]
 
 partial def reach (env : Environment) (todo : List Name) (seen : NameSet) : NameSet :=
   match todo with
