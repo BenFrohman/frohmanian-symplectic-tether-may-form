@@ -2,7 +2,7 @@
   "semantics_file": "TetherMayForm/Semantics.lean",
   "semantics_module": "TetherMayForm.Semantics",
   "paper_path": "paper/companion.tex",
-  "paper_sha256": "fcac43d492be996335eb58bfaf77dfd47aa5ef750257b9fb2095e6a54ac8b9b1",
+  "paper_sha256": "c41c4bf8e7092056915bccceea2a26d1ecd148eeee57f1e557b0f4be731c4419",
   "main_theorems": [
     "Frohman.Tether.routeA_determines_kappa_of_matching",
     "Frohman.Tether.routeA_admissible_iff"

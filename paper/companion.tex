@@ -16,8 +16,8 @@
 \newcommand{\lean}[1]{\texttt{\detokenize{#1}}}
 \newcommand{\LeanRef}[1]{\par\noindent\emph{Lean:} \lean{#1}.\par}
 \title{The Frohmanian Symplectic Tether $\T$:\\ Written Proofs Companion to the Lean~4 Formalization}
-\author{Benjamin Stanley Frohman\\ \small\href{mailto:frohmanbenjamin@gmail.com}{frohmanbenjamin@gmail.com}\\ \small ORCID \href{https://orcid.org/0009-0006-7068-3718}{0009-0006-7068-3718}}
-\date{October 29, 2026; revised November 1, 2026. Not peer reviewed.}
+\author{Benjamin Stanley Frohman\\ Independent Researcher, Texas, United States\\ \small\href{mailto:frohmanbenjamin@gmail.com}{frohmanbenjamin@gmail.com}\\ \small ORCID \href{https://orcid.org/0009-0006-7068-3718}{0009-0006-7068-3718}}
+\date{October 29, 2026; revised 23 November 2026. Not peer reviewed.}
 \usepackage{longtable}
 \usepackage{url}
 \begin{document}
@@ -67,20 +67,19 @@ $\T[\kappa,w,u](F,G):=-(\kappa w)\ip{\Pi_uF}{\Pi_uG}$. \LeanRef{Frohman.Tether.f
 \end{definition}
 
 \begin{lemma}[Basic properties]
-(a) $\T$ is symmetric. (b) $\T(F,F)\le0$ whenever $\kappa w\ge0$. (c) It is degenerate with respect to the
-kinetic-energy gradient: $\T(F,u)=0$ for all $F$. (d) It is invariant under every isometry
-commuting with $\Pi_u$.
+(a) $\T$ is symmetric. (b) $\T(F,F)\le0$ whenever $\kappa w\ge0$ (\lean{frohmanianTether_self_nonpos_of_mul_nonneg}; the earlier \lean{frohmanianTether_self_nonpos} assumes the stronger $\kappa\ge0$ and $w\ge0$). (c) It is degenerate with respect to the
+kinetic-energy gradient: $\T(F,u)=0$ for all $F$. (d) It is invariant under every linear isometry that fixes $u$ (such an isometry commutes with $\Pi_u$). Lean proves invariance for this class, not for an arbitrary isometry that merely commutes with $\Pi_u$.
 \end{lemma}
 \begin{proof}
 (a) is symmetry of the inner product. (b) gives $-\kappa w\|\Pi_uF\|^2$. (c) holds because $\Pi_uu=0$.
-(d) If $A$ is an isometry with $A\Pi_u=\Pi_uA$, then $\ip{\Pi_uAF}{\Pi_uAG}=\ip{A\Pi_uF}{A\Pi_uG}=\ip{\Pi_uF}{\Pi_uG}$.
+(d) If $A$ is a linear isometry with $Au=u$, then $A\Pi_u=\Pi_uA$, so $\ip{\Pi_uAF}{\Pi_uAG}=\ip{A\Pi_uF}{A\Pi_uG}=\ip{\Pi_uF}{\Pi_uG}$.
 \end{proof}
-\LeanRef{frohmanianTether_symm, frohmanianTether_self_nonpos, degeneracy_verification, frohmanianTether_invariant, piU_comm_isometry}
+\LeanRef{frohmanianTether_symm, frohmanianTether_self_nonpos, frohmanianTether_self_nonpos_of_mul_nonneg, degeneracy_verification, frohmanianTether_invariant, piU_comm_isometry}
 
 \begin{theorem}[Uniqueness up to scale]\label{thm:unique}
-Let $B$ be a symmetric bilinear form that is (C1) invariant under the coadjoint isometries fixing
-$u$ and (C2) degenerate with respect to $u$. Then $B=\T[c,1,u]$ for some $c\in\mathbb R$.
-If, in addition, (C3) fixes the coefficient ($C3(\T[c,1,u])\Rightarrow c=\kappa w$), then $B=\T[\kappa,w,u]$.
+In a finite-dimensional real inner-product space of dimension at least $3$, with $u\neq0$, let $B$ be a symmetric bilinear form that is (C1) invariant under the coadjoint isometries fixing
+$u$ and (C2) degenerate with respect to $u$. Then $B=\T[c,1,u]$ for some $c\in\mathbb R$ (\lean{admissible_eq_smul_frohmanianTether}).
+If, in addition, (C3) fixes the coefficient ($C3(\T[c,1,u])\Rightarrow c=\kappa w$), then $B=\T[\kappa,w,u]$ (\lean{uniqueness_of_minimal_metric_tether}). The result is not proved in infinite dimension, and not proved for an arbitrary $C3$ that does not fix the coefficient.
 \end{theorem}
 \begin{proof}
 (C2) and symmetry give $B(x,y)=B(\Pi_ux,\Pi_uy)$ (\lean{degeneracy_forces_projection}).
