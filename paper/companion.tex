@@ -16,7 +16,7 @@
 \newcommand{\lean}[1]{\texttt{\detokenize{#1}}}
 \newcommand{\LeanRef}[1]{\par\noindent\emph{Lean:} \lean{#1}.\par}
 \title{The Frohmanian Symplectic Tether $\T$:\\ Written Proofs Companion to the Lean~4 Formalization}
-\author{Benjamin Stanley Frohman\\ \small\href{mailto:frohmanbenjamin@gmail.com}{frohmanbenjamin@gmail.com}\\ \small\href{mailto:frohmanbenjamin@gmail.com}{frohmanbenjamin@gmail.com}\\ \small ORCID \href{https://orcid.org/0009-0006-7068-3718}{0009-0006-7068-3718}}
+\author{Benjamin Stanley Frohman\\ \small\href{mailto:frohmanbenjamin@gmail.com}{frohmanbenjamin@gmail.com}\\ \small ORCID \href{https://orcid.org/0009-0006-7068-3718}{0009-0006-7068-3718}}
 \date{October 29, 2026; revised November 1, 2026. Not peer reviewed.}
 \usepackage{longtable}
 \usepackage{url}
@@ -92,17 +92,32 @@ that is, $B=\T[c,1,u]$ with $c=-B(e_0,e_0)$. The calibrated statement then follo
 \end{proof}
 \LeanRef{admissible_eq_smul_frohmanianTether, uniqueness_of_minimal_metric_tether, uniqueness_of_minimal_metric_tether_iff}
 
+\begin{definition}[Admissible for Route~A]\label{def:routeA}
+Let $\omega\perp u$ with $\|\omega\|=1$, and let $S,w\in\mathbb R$. A bilinear form $B$ on $H$ is a
+\emph{correction admissible for Route~A} if all of the following hold:
+$B(F,G)=B(G,F)$ for all $F,G$;
+(C1) $B(gF,gG)=B(F,G)$ for all $F,G$ and every linear isometry $g$ of $H$ onto $H$ with $gu=u$;
+(C2) $B(F,u)=0$ for all $F$;
+(C3-A) $B(F,F)\le0$ for all $F$, $B(\omega,\omega)+Sw=0$, and $\tfrac12\bigl(B(F,G)-B(G,F)\bigr)=0$ for all $F,G\perp u$.
+\end{definition}
+\LeanRef{IsAdmissibleCorrection, RouteAFeedback}
+
 \begin{theorem}[Route A determines $\kappa$]\label{thm:routeA}
 Let $\omega\perp u$, $\|\omega\|=1$, $w\neq0$. Suppose $\T[\kappa,w,u]$ matches the stretching
 coefficient $S$ in the sense $\T[\kappa,w,u](\omega,\omega)+S w=0$. Then $\kappa=S$.
-Consequently, in $\dim\ge3$ with $S\ge0$, $w>0$, a correction is admissible for Route~A iff
-$B=\T[\kappa,w,u]$ with $\kappa=S$.
+Consequently, in $\dim\ge3$ with $S\ge0$, $w>0$, and $\omega$ as above, a bilinear form $B$ is a
+correction admissible for Route~A (Definition~\ref{def:routeA}) iff $B=\T[\kappa,w,u]$ with $\kappa=S$.
 \end{theorem}
 \begin{proof}
 Since $\omega\perp u$, $\Pi_u\omega=\omega$, so $\T(\omega,\omega)=-\kappa w\|\omega\|^2=-\kappa w$. The matching gives
-$(S-\kappa)w=0$, and $w\ne0$ yields $\kappa=S$. The equivalence combines this with Theorem~\ref{thm:unique}.
+$(S-\kappa)w=0$, and $w\ne0$ yields $\kappa=S$. Here $S$ is supplied, not derived.
+For the equivalence, let $B$ be admissible for Route~A. The argument of Theorem~\ref{thm:unique}, run
+with $e_0=\omega$ (so no finite dimension is needed: the only isometries used are reflections fixing $u$),
+gives $B=\T[c,1,u]$ with $c=-B(\omega,\omega)$; the matching condition gives $c=Sw$, so $B=\T[S,w,u]$.
+Conversely, $\T[S,w,u]$ is symmetric and satisfies (C1) and (C2) by the Lemma above; (C3-A) holds because
+$\T(F,F)=-Sw\|\Pi_uF\|^2\le0$ for $S\ge0$, $w>0$, $\T(\omega,\omega)=-Sw$, and $\T$ is symmetric.
 \end{proof}
-\LeanRef{routeA_determines_kappa, frohmanian_symplectic_tether_theorem, uniqueness_routeA_iff, frohmanianTether_routeA}
+\LeanRef{routeA_determines_kappa_of_matching, routeA_admissible_iff, admissible_eq_frohmanianTether_of_unit, routeA_determines_kappa, frohmanian_symplectic_tether_theorem, uniqueness_routeA_iff, frohmanianTether_routeA}
 
 \begin{theorem}[Nine-term Jacobi]\label{thm:jacobi}
 For a classical (Jacobi) bracket $P$ and the tethered bracket $P+\T$, the Jacobiator expands into

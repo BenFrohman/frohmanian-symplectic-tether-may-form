@@ -2,11 +2,12 @@
   "semantics_file": "TetherMayForm/Semantics.lean",
   "semantics_module": "TetherMayForm.Semantics",
   "paper_path": "paper/companion.tex",
-  "paper_sha256": "8e09c73f68a0779dd97cb479f322276352910a64ceff5e8def6c0a0529a77edd",
+  "paper_sha256": "fcac43d492be996335eb58bfaf77dfd47aa5ef750257b9fb2095e6a54ac8b9b1",
   "main_theorems": [
-    "Frohman.Tether.routeA_determines_kappa_of_matching"
+    "Frohman.Tether.routeA_determines_kappa_of_matching",
+    "Frohman.Tether.routeA_admissible_iff"
   ],
-  "lock_region_sha256": "38413bc91cd7be3cde904076f95b59aa1121f291d00bf00b3f85b371ab5d1108",
+  "lock_region_sha256": "4f31e2fbd3f507f9fe2dbd43a40d3bf88a699bf587d4fd9b0a05edb43aa5b52f",
   "draft_dirs": [
     "TetherMayForm/Draft"
   ],
@@ -15,6 +16,6 @@
     "TetherMayForm.lean"
   ],
   "certifying": false,
-  "reopened_reason": "Partial lock. Only the first two sentences of Theorem thm:routeA are locked. Its third sentence (\"Consequently, in dim ≥ 3 with S ≥ 0, w > 0, a correction is admissible for Route A iff B = T[κ,w,u] with κ = S.\") is not.",
-  "reopened_on": "2026-11-16"
+  "reopened_reason": "Not whole-paper. Theorem thm:routeA is now locked in full (all three sentences, with Definition def:routeA), but 15 other stated results of paper/companion.tex sit outside any lock: Lemma (Basic properties), thm:unique, thm:jacobi, Theorem (Metriplectic split), prop:ce, prop:shear, thm:fieldjacobi, Theorem (Curl of forced NS), Theorem (Biot-Savart on trigonometric polynomials), Corollary (Velocity form => vorticity form), the L2 tether-term Lemma, thm:L2, Lemma (Tether is sign-definite at H^1), thm:H1, Theorem (Global smoothness, conditional). No theorem stated in the paper may sit outside a lock.",
+  "reopened_on": "2026-11-23"
 }

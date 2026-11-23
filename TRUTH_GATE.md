@@ -140,9 +140,9 @@ python3 -m unittest discover -s scripts/tests -p 'test_truth_gate_classify.py' -
 ## The locked claim of this repository
 
 * Paper: `paper/companion.tex`
-* sha256: `8e09c73f68a0779dd97cb479f322276352910a64ceff5e8def6c0a0529a77edd`
-* Section: Section "Result 1: geometric uniqueness" (sec:geom), standing assumptions and Theorem thm:routeA ("Route A determines κ"), first two sentences
-* Main theorem(s): `Frohman.Tether.routeA_determines_kappa_of_matching`
+* sha256: `fcac43d492be996335eb58bfaf77dfd47aa5ef750257b9fb2095e6a54ac8b9b1`
+* Section: Section "Result 1: geometric uniqueness" (sec:geom), standing assumptions, Definition def:routeA and Theorem thm:routeA, all three sentences
+* Main theorem(s): `Frohman.Tether.routeA_determines_kappa_of_matching`, `Frohman.Tether.routeA_admissible_iff`
 * Lock file: `TRUTH_GATE.lock`; semantics: `TetherMayForm/Semantics.lean`
 
 Verbatim quote:
@@ -151,46 +151,71 @@ Verbatim quote:
 Throughout, $H$ is a real inner-product space with $\dim H\ge 3$, $u\in H$, $u\neq0$, and
 $\Pi_u x = x-\frac{\ip{u}{x}}{\|u\|^2}u$.
 
+Let $\omega\perp u$ with $\|\omega\|=1$, and let $S,w\in\mathbb R$. A bilinear form $B$ on $H$ is a
+\emph{correction admissible for Route~A} if all of the following hold:
+$B(F,G)=B(G,F)$ for all $F,G$;
+(C1) $B(gF,gG)=B(F,G)$ for all $F,G$ and every linear isometry $g$ of $H$ onto $H$ with $gu=u$;
+(C2) $B(F,u)=0$ for all $F$;
+(C3-A) $B(F,F)\le0$ for all $F$, $B(\omega,\omega)+Sw=0$, and $\tfrac12\bigl(B(F,G)-B(G,F)\bigr)=0$ for all $F,G\perp u$.
+
 Let $\omega\perp u$, $\|\omega\|=1$, $w\neq0$. Suppose $\T[\kappa,w,u]$ matches the stretching
 coefficient $S$ in the sense $\T[\kappa,w,u](\omega,\omega)+S w=0$. Then $\kappa=S$.
+Consequently, in $\dim\ge3$ with $S\ge0$, $w>0$, and $\omega$ as above, a bilinear form $B$ is a
+correction admissible for Route~A (Definition~\ref{def:routeA}) iff $B=\T[\kappa,w,u]$ with $\kappa=S$.
 ```
 
 ```lean
 def formal_claim : Prop :=
-  ∀ (H : Type) [NormedAddCommGroup H] [InnerProductSpace ℝ H], 3 ≤ Module.rank ℝ H →
+  (∀ (H : Type) [NormedAddCommGroup H] [InnerProductSpace ℝ H], 3 ≤ Module.rank ℝ H →
     ∀ {S w κ : ℝ}, w ≠ 0 → ∀ {u ω : H}, u ≠ 0 →
-      ⟪u, ω⟫ = 0 → ‖ω‖ = 1 → 𝔗_F[κ, w, u] ω ω + S * w = 0 → κ = S
+      ⟪u, ω⟫ = 0 → ‖ω‖ = 1 → 𝔗_F[κ, w, u] ω ω + S * w = 0 → κ = S) ∧
+  (∀ (H : Type) [NormedAddCommGroup H] [InnerProductSpace ℝ H], 3 ≤ Module.rank ℝ H →
+    ∀ {S w : ℝ}, 0 ≤ S → 0 < w → ∀ {u ω : H}, u ≠ 0 → ⟪u, ω⟫ = 0 → ‖ω‖ = 1 →
+      ∀ B : LinearMap.BilinForm ℝ H,
+        IsAdmissibleCorrection u (RouteAFeedback S w u ω) B ↔ ∃ κ, κ = S ∧ B = 𝔗_F[κ, w, u])
 
 def paper_claim : Prop :=
-  ∀ (H : Type) [NormedAddCommGroup H] [InnerProductSpace ℝ H], 3 ≤ Module.rank ℝ H →
+  (∀ (H : Type) [NormedAddCommGroup H] [InnerProductSpace ℝ H], 3 ≤ Module.rank ℝ H →
     ∀ (u : H), u ≠ 0 → ∀ (κ w S : ℝ) (ω : H),
       ⟪ω, u⟫ = 0 → ‖ω‖ = 1 → w ≠ 0 →
       (let Pu : H → H := fun x => x - (⟪u, x⟫ / ‖u‖ ^ 2) • u;
         -(κ * w) * ⟪Pu ω, Pu ω⟫ + S * w = 0) →
-      κ = S
+      κ = S) ∧
+  (∀ (H : Type) [NormedAddCommGroup H] [InnerProductSpace ℝ H], 3 ≤ Module.rank ℝ H →
+    ∀ (u : H), u ≠ 0 → ∀ (S w : ℝ) (ω : H),
+      ⟪ω, u⟫ = 0 → ‖ω‖ = 1 → 0 ≤ S → 0 < w →
+      ∀ B : LinearMap.BilinForm ℝ H,
+        ((∀ F G, B F G = B G F) ∧
+          (∀ g : H ≃ₗᵢ[ℝ] H, g u = u → ∀ F G, B (g F) (g G) = B F G) ∧
+          (∀ F, B F u = 0) ∧
+          ((∀ F, B F F ≤ 0) ∧ B ω ω + S * w = 0 ∧
+            ∀ F G, ⟪F, u⟫ = 0 → ⟪G, u⟫ = 0 → (B F G - B G F) / 2 = 0)) ↔
+        ∃ κ : ℝ, κ = S ∧
+          let Pu : H → H := fun x => x - (⟪u, x⟫ / ‖u‖ ^ 2) • u;
+          ∀ F G, B F G = -(κ * w) * ⟪Pu F, Pu G⟫)
 ```
 
 See the doc comment of `TetherMayForm/Semantics.lean` for the fixed reading of the paper's terms and the scope.
 
-## Re-audit (2026-11-16): this lock is NOT certifying
+## Status (2026-11-23): still NOT certifying
 
-Status: **REOPENED. The gate is red on purpose.** `TRUTH_GATE.lock` carries `"certifying": false`, and
-`scripts/truth_gate_check.py` fails while it does. Nothing was deleted: `Semantics.lean`, the quotes,
-the hashes and the history are unchanged.
+`TRUTH_GATE.lock` keeps `"certifying": false`, so the gate stays red on purpose.
 
-Rule applied (Benjamin Stanley Frohman, 2026-11-16):
-* There are no partial locks. A lock certifies only a step on the correct path to the full theorem
-  that is kernel-proved as the actual true answer, so that the next step can build on it.
-* Drifted, dummy, placeholder or stand-in types, names or categories are rejected.
-* Cross-ontology connections are not rejected for looking unrelated. The kernel check, and whether
-  the piece genuinely helps reach the full structured proof, decide.
-* `paper_claim` is an independent transcription of the verbatim paper quote, never an alias of
-  `formal_claim`, and the correspondence is never `rfl`/`Iff.rfl`.
+Fixed on 2026-11-23: the 2026-11-16 re-audit's named gap. The third sentence of Theorem thm:routeA was
+not locked and used the undefined phrase "admissible for Route A". The paper now defines it
+(Definition def:routeA, exactly the Lean `IsAdmissibleCorrection u (RouteAFeedback S w u ω)`), and the
+new theorem `routeA_admissible_iff` proves the equivalence in any dimension (the given unit `ω ⊥ u`
+replaces the finite-dimensional choice of `e₀`). The lock now covers all of thm:routeA.
 
-Locked claim under review: routeA_determines_kappa_of_matching (Theorem thm:routeA, first two sentences only)
+On the re-audit's second point: no reason is given in this repository why the matching premise
+`T(ω,ω) + S w = 0` is realized for Navier–Stokes. `S` is supplied, not derived. The lock certifies an
+exact statement about the abstract model and no step toward Navier–Stokes regularity.
 
-Why it is reopened:
-* Partial lock. Only the first two sentences of Theorem thm:routeA are locked. Its third sentence ("Consequently, in dim ≥ 3 with S ≥ 0, w > 0, a correction is admissible for Route A iff B = T[κ,w,u] with κ = S.") is not.
-* Not a certified step toward the paper's goal. The locked part is the one-line computation Π_u ω = ω ⇒ (S − κ)w = 0. The paper's proof itself says "κ is a free parameter … and S is supplied, not derived". The companion two-part paper (BenFrohman/frohmanian-tether-manuscript-2026-06-01, `two_part/tether_two_part.tex`) shows the tether does not modify the Navier–Stokes vector field. No step toward Navier–Stokes regularity is certified.
+Still open (why the gate is red): no theorem stated in a paper may sit outside a lock, and 15 stated
+results of `paper/companion.tex` are not yet locked: Lemma (Basic properties), thm:unique, thm:jacobi,
+Theorem (Metriplectic split), prop:ce, prop:shear, thm:fieldjacobi, Theorem (Curl of forced NS),
+Theorem (Biot–Savart on trigonometric polynomials), Corollary (Velocity form ⇒ vorticity form), the
+`L^2` tether-term Lemma, thm:L2, Lemma (Tether is sign-definite at `H^1`), thm:H1, Theorem (Global
+smoothness of the tethered system, conditional).
 
-What would re-certify it: A lock needs the complete Theorem thm:routeA, including the admissibility characterization. It also needs a stated reason why the matching premise is realized on the path to the paper's main result, if one exists.
+The history of the 2026-11-16 re-audit is in git (`git log -p TRUTH_GATE.md`).
