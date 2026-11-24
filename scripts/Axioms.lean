@@ -1,4 +1,17 @@
+/-
+Copyright (c) 2026 Benjamin Stanley Frohman. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Benjamin Stanley Frohman
+-/
+
 import TetherMayForm
+
+/-!
+# scripts.Axioms
+
+Machine-checked Lean 4 module.
+-/
+
 open Frohman.Tether
 #print axioms piU_apply
 #print axioms projectionOrthogonalToU
